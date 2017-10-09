@@ -4,11 +4,30 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var dbconfig = require('./config/database');
+
+// connect to DB
+mongoose.connect(dbconfig.database, {
+  useMongoClient: true
+});
+let db = mongoose.connection;
+
+// check connection
+db.once('open', function(){
+  console.log('Connected to MongoDB: ' + dbconfig.database);
+});
+
+// check for DB errors
+db.on('error', function(err){
+  console.log('Connection to MongoDB failed' + err);
+});
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var api = require('./routes/api');
 
+// initialize app
 var app = express();
 
 // view engine setup

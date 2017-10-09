@@ -1,22 +1,36 @@
 let Note = require('../models/Note');
 
-//CREATE
+// Create
+function create () {
 
-//READ ALL
+}
+
+// Read All
 function find (params, callback) {
   Note.find(params, function(err, notes){
     if(err){
       callback(err, null);
       return;
     }
+
+    callback(null, notes);
   });
 }
 
-//READ ONE
+// Read One
+function findById () {
 
-//UPDATE
+}
 
-//DELETE
+// Update
+function update () {
+
+}
+
+// Delete
+function _delete () {
+
+}
 
 module.exports = {
   create: create,
