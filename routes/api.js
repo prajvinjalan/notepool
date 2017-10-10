@@ -89,7 +89,7 @@ router.post('/:resource', function(req, res, next){
 });
 
 // PUT resource
-router.put(':/resource/:id', function(req, res, next){
+router.put('/:resource/:id', function(req, res, next){
 
   let resource = req.params.resource;
   let id = req.params.id;
@@ -115,6 +115,35 @@ router.put(':/resource/:id', function(req, res, next){
       result: result
     });
   });
+});
+
+// DELETE resource by id
+router.delete('/:resource/:id', function(req, res, next){
+
+  let resource = req.params.resource;
+  let id = req.params.id;
+  let controller = controllers[resource];
+
+  if(controller == null){
+    res.json({
+      confirmation: 'fail',
+      message: 'Invalid Resource Request: ' + resource
+    });
+  }
+
+  controller.delete(id, function(err, result){
+    if(err){
+      res.json({
+        confirmation: 'fail',
+        message: 'Invalid Resource ID: ' + id + ', Resource: ' + resource
+      });
+      return;
+    }
+    res.json({
+      confirmation: 'success',
+      result: result
+    });
+  })
 });
 
 module.exports = router;

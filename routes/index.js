@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/createnote', function(req, res, next) {
-  res.render('createNote');
+  res.render('createNote', { title: 'Notepool' });
 });
 
 module.exports = router;
