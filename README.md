@@ -6,16 +6,13 @@
 git clone https://github.com/rkanjani/notepool.git
 cd notepool
 ```
-2. Install dependencies:
+2. Install dependencies and bundle using webpack:
 ```
 npm install
-```
-3. Bundle using webpack:
-```
 webpack
 ```
-4. Start the app:
+3. Start the app:
 ```
 npm run devStart
 ```
-5. App will be running at: http://localhost:3000.
+**App will be running at: http://localhost:3000.**

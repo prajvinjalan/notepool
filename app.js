@@ -23,9 +23,9 @@ db.on('error', function(err){
   console.log('Connection to MongoDB failed' + err);
 });
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var api = require('./routes/api');
+var index = require('./server/routes/index');
+var users = require('./server/routes/users');
+var api = require('./server/routes/api');
 
 // initialize app
 var app = express();
