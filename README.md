@@ -16,3 +16,6 @@ webpack
 npm run devStart
 ```
 **App will be running at: http://localhost:3000.**
+
+## Notes
++ **/views** will be removed once client side React app is working
