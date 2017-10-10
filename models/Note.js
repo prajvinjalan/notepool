@@ -8,6 +8,10 @@ const NoteSchema = new mongoose.Schema({
   body: {
     type: String,
     default: ''
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now
   }
 });
 

@@ -1,8 +1,14 @@
 let Note = require('../models/Note');
 
 // Create
-function create () {
-
+function create (params, callback) {
+  Note.create(params, function(err, note){
+    if(err){
+      callback(err, null);
+      return;
+    }
+    callback(null, note);
+  });
 }
 
 // Read All
@@ -12,24 +18,41 @@ function find (params, callback) {
       callback(err, null);
       return;
     }
-
     callback(null, notes);
   });
 }
 
 // Read One
-function findById () {
-
+function findById (id, callback) {
+  Note.findById(id, function(err, note){
+    if(err){
+      callback(err, null);
+      return;
+    }
+    callback(null, note);
+  });
 }
 
 // Update
-function update () {
-
+function update (id, params, callback) {
+  Note.findByIdAndUpdate(id, prarams, {new:true}, function(err, note){
+    if(err){
+      callback(err, null);
+      return;
+    }
+    callback(null, note);
+  });
 }
 
 // Delete
-function _delete () {
-
+function _delete (id, callback) {
+  Note.findByIdAndRemove(id, function(err){
+    if(err){
+      callback(err, null);
+      return;
+    }
+    callback(null, null);
+  });
 }
 
 module.exports = {

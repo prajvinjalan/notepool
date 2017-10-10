@@ -6,4 +6,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Notepool' });
 });
 
+router.get('/createnote', function(req, res, next) {
+  res.render('createNote');
+});
+
 module.exports = router;
