@@ -18,4 +18,4 @@ webpack
 ```
 npm run devStart
 ```
-3. App will be running at http://localhost:3000.
+5. App will be running at: http://localhost:3000.
