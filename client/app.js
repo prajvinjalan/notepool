@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-import Notes from './components/Notes'
+import Home from './components/Home'
 
 class App extends Component {
   render(){
     return(
       <div>
-        Hello React!
-        <Notes />
+        Notepool
+        <Home />
       </div>
     )
   }

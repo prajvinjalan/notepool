@@ -3,13 +3,29 @@ import React, { Component } from 'react'
 import Note from './Note'
 
 class Notes extends Component {
+  constructor(){
+    super()
+
+    this.state = {
+      list: [
+        {title: "Note Uno", body: "this is the first one", author: "Prajvin"},
+        {title: "Note Dos", body: "this be the silver medal", author: "Andre Degrasse"},
+        {title: "Note Tres", body: "this is the 3rd 1", author: "Pdawg"}
+      ]
+    }
+  }
   render(){
+
+    const listItems = this.state.list.map((note, i) => {
+      return(
+        <li><Note currentNote={note} /></li>
+      )
+    })
+
     return(
       <div>
         <ol>
-          <li><Note /></li>
-          <li><Note /></li>
-          <li><Note /></li>
+          {listItems}
         </ol>
       </div>
     )

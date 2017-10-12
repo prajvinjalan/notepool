@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 
+import styles from './styles.js'
+
 class Note extends Component {
   render(){
+    const noteStyle = styles.note
+
     return(
-      <div>
-        <h2><a href="#">Note 1</a></h2>
-        <span>written notes</span><br />
-        <span>Prajvin Jalan</span>
+      <div style={noteStyle.container}>
+        <h2 style={noteStyle.header}>
+          <a style={noteStyle.title} href="#">{this.props.currentNote.title}</a>
+        </h2>
+        <span>{this.props.currentNote.body}</span><br />
+        <span>{this.props.currentNote.author}</span>
       </div>
     )
   }
