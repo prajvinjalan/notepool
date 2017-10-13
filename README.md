@@ -13,9 +13,17 @@ webpack
 ```
 3. Start the app:
 ```
-npm run devStart
+npm start
 ```
-**App will be running at: http://localhost:3000.**
+**App will be running on: http://localhost:3000** (can also specify port using ```PORT=<port> npm start```)
+
+### Alternative Options:
+
+To have the build refresh on code changes:
+```
+webpack -w
+npm run devstart
+```
 
 ## Notes
 + **/views** will be removed once client side React app is working
