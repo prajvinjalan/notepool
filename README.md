@@ -19,7 +19,7 @@ npm start
 
 ### Alternative Options:
 
-To have the build refresh on code changes:
+To have the build refresh on code changes, run the following commands on separate terminals:
 ```
 webpack -w
 npm run devstart
