@@ -7,13 +7,31 @@ class Notes extends Component {
     super()
 
     this.state = {
-      list: [
-        {title: "Note Uno", body: "this is the first one", author: "Prajvin"},
-        {title: "Note Dos", body: "this be the silver medal", author: "Andre Degrasse"},
-        {title: "Note Tres", body: "this is the 3rd 1", author: "Pdawg"}
-      ]
+      list: [],
+      newNote: {
+        title: "",
+        body: "",
+        author: ""
+      }
     }
   }
+
+  updateNote(event){
+    let updatedNote = Object.assign({}, this.state.newNote)
+    updatedNote[event.target.id] = event.target.value
+    this.setState({
+      newNote: updatedNote
+    })
+  }
+
+  addNote(){
+    let updatedList = Object.assign([], this.state.list)
+    updatedList.push(this.state.newNote)
+    this.setState({
+      list: updatedList
+    })
+  }
+
   render(){
 
     const listItems = this.state.list.map((note, i) => {
@@ -27,6 +45,10 @@ class Notes extends Component {
         <ol>
           {listItems}
         </ol>
+        <input id="title" onChange={this.updateNote.bind(this)} className="form-control" type="text" placeholder="Title"></input><br />
+        <input id="body" onChange={this.updateNote.bind(this)} className="form-control" type="text" placeholder="Body"></input><br />
+        <input id="author" onChange={this.updateNote.bind(this)} className="form-control" type="text" placeholder="Author"></input><br />
+        <button onClick={this.addNote.bind(this)} className="btn btn-danger">Add Note</button>
       </div>
     )
   }

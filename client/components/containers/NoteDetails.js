@@ -81,7 +81,7 @@ class NoteDetails extends Component {
         <input onChange={this.updateTitle.bind(this)} className="form-control" type="text" placeholder="Title"></input><br />
         <input onChange={this.updateBody.bind(this)} className="form-control" type="text" placeholder="Body"></input><br />
         <input onChange={this.updateAuthor.bind(this)} className="form-control" type="text" placeholder="Author"></input><br />
-        <button onClick={this.submitInfo.bind(this)} className="btn btn-info" style={{marginRight: '10px'}}>Submit Information</button>
+        <button onClick={this.submitInfo.bind(this)} className="btn btn-info" style={{marginRight: '10px'}}>Update Information</button>
         <button onClick={this.submitBody.bind(this)} className="btn btn-info">Add line to body</button>
       </div>
     )
