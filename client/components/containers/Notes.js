@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Note from './Note'
+import Note from '../presentation/Note'
 
 class Notes extends Component {
   constructor(){
@@ -18,7 +18,7 @@ class Notes extends Component {
 
     const listItems = this.state.list.map((note, i) => {
       return(
-        <li><Note currentNote={note} /></li>
+        <li key={i}><Note currentNote={note}></Note></li>
       )
     })
 

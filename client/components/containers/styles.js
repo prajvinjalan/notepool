@@ -16,6 +16,9 @@ export default {
     title: {
       textDecoration: 'none',
       color: 'red'
+    },
+    list: {
+      listStyleType: 'none'
     }
   }
 }
