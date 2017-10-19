@@ -8,12 +8,7 @@ class NotesLayout extends Component {
     return(
       <div className="container">
         <div className="row">
-          <div className="col-md-4">
-            <Notes></Notes>
-          </div>
-          <div className="col-md-8">
-            <NoteDetails></NoteDetails>
-          </div>
+          <Notes></Notes>
         </div>
       </div>
     )

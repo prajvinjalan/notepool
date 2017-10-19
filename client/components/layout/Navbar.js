@@ -9,6 +9,7 @@ class Navbar extends Component {
           <li><Link to="/">Home</Link></li>
           <li><Link to="/notes">Notes</Link></li>
           <li><Link to="/users">Users</Link></li>
+          <li><Link onClick={this.props.history.goBack}></Link></li>
         </ul>
       </div>
     )

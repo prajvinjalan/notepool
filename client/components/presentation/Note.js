@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 import styles from '../../styles.js'
 
@@ -9,7 +10,7 @@ class Note extends Component {
     return(
       <div style={noteStyle.container}>
         <h2 style={noteStyle.header}>
-          <a style={noteStyle.title} href="#">{this.props.currentNote.title}</a>
+          <Link style={noteStyle.title} to={`/notes/${this.props.currentNote._id}`}>{this.props.currentNote.title}</Link>
         </h2>
         <span>{this.props.currentNote.body}</span><br />
         <span>{this.props.currentNote.author}</span>

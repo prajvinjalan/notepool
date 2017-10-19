@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 
 import Note from '../presentation/Note'
 
@@ -14,6 +15,22 @@ class Notes extends Component {
         author: ""
       }
     }
+  }
+
+  componentDidMount(){
+    this.getNotes();
+  }
+
+  getNotes(){
+    axios.get('/api/notes')
+      .then(response => {
+        this.setState({
+          list: response.data.results
+        })
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   updateNote(event){
@@ -33,10 +50,9 @@ class Notes extends Component {
   }
 
   render(){
-
     const listItems = this.state.list.map((note, i) => {
       return(
-        <li key={i}><Note currentNote={note}></Note></li>
+        <li key={note._id}><Note currentNote={note}></Note></li>
       )
     })
 
