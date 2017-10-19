@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import styles from './styles.js'
+import styles from '../../styles.js'
 
 class Note extends Component {
   render(){

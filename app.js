@@ -23,8 +23,6 @@ db.on('error', function(err){
   console.log('Connection to MongoDB failed' + err);
 });
 
-const index = require('./server/routes/index');
-const users = require('./server/routes/users');
 const api = require('./server/routes/api');
 
 // initialize app
@@ -42,15 +40,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
 app.use('/api', api);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  let err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.get('*', function(req, res, nex) {
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
 
 // error handler

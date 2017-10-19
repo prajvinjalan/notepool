@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Notes from '../containers/Notes'
 import NoteDetails from '../containers/NoteDetails'
 
-class Home extends Component {
+class NotesLayout extends Component {
   render(){
     return(
       <div className="container">
@@ -20,4 +20,4 @@ class Home extends Component {
   }
 }
 
-export default Home
+export default NotesLayout
