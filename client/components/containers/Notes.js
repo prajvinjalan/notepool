@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
+import { APIManager } from '../../utils'
 import Note from '../presentation/Note'
 
 class Notes extends Component {
@@ -21,15 +22,15 @@ class Notes extends Component {
   }
 
   getNotes(){
-    axios.get('/api/notes')
-      .then(response => {
-        this.setState({
-          list: response.data.results
-        });
-      })
-      .catch(error => {
-        console.log(error);
+    APIManager.get('/api/notes', null, (error, response) => {
+      if (error){
+        console.log(error.message);
+        return;
+      }
+      this.setState({
+        list: response.results
       });
+    });
   }
 
   handleInputChange(event){
@@ -41,27 +42,23 @@ class Notes extends Component {
   }
 
   addNote(){
-    axios.request({
-      method: 'post',
-      url: '/api/notes',
-      data: this.state.newNote
-    })
-    .then(response => {
+    APIManager.post('/api/notes', this.state.newNote, (error, response) => {
+      if (error){
+        console.log(error.message);
+        return;
+      }
       this.getNotes();
-    })
-    .catch(error => {
-      console.log(error);
     });
   }
 
   deleteNote(id){
-    axios.delete(`/api/notes/${id}`)
-      .then(response => {
-        this.getNotes();
-      })
-      .catch(error => {
-        console.log(error);
-      })
+    APIManager.delete(`/api/notes/${id}`, (error, response) => {
+      if (error){
+        console.log(error.message);
+        return;
+      }
+      this.getNotes();
+    });
   }
 
   render(){

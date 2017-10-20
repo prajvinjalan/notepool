@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
+import { APIManager } from '../../utils'
+
 class NoteDetails extends Component {
   constructor(){
     super();
@@ -20,22 +22,20 @@ class NoteDetails extends Component {
 
   getNote(){
     let noteId = this.props.match.params.id;
-    axios.get(`/api/notes/${noteId}`)
-      .then(response => {
-        console.log(response.data.result);
-        let originalItem = {
-          id: response.data.result._id,
-          title: response.data.result.title,
-          body: response.data.result.body
-        }
-        this.setState({
-          item: originalItem
-        });
-        console.log(this.state.item);
-      })
-      .catch(error => {
-        console.log(error);
+    APIManager.get(`/api/notes/${noteId}`, null, (error, response) => {
+      if(error){
+        console.log(error.message);
+        return;
+      }
+      let originalItem = {
+        id: response.result._id,
+        title: response.result.title,
+        body: response.result.body
+      }
+      this.setState({
+        item: originalItem
       });
+    });
   }
 
   handleInputChange(event){
@@ -47,23 +47,13 @@ class NoteDetails extends Component {
   }
 
   editNote(){
-    let editedNote = Object.assign({}, this.state.item);
-    this.setState({
-      item: editedNote
-    });
-    console.log(this.state.item);
-
-    axios.request({
-      method: 'put',
-      url: `/api/notes/${this.state.item.id}`,
-      data: this.state.item
-    })
-    .then(response => {
+    APIManager.put(`/api/notes/${this.state.item.id}`, {data: this.state.item}, (error, response) => {
+      if(error){
+        console.log(error.message);
+        return;
+      }
       this.props.history.push('/notes');
-    })
-    .catch(error => {
-      console.log(error);
-    })
+    });
   }
 
   render(){
