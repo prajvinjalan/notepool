@@ -5,14 +5,13 @@ import Note from '../presentation/Note'
 
 class Notes extends Component {
   constructor(){
-    super()
+    super();
 
     this.state = {
       list: [],
       newNote: {
         title: "",
-        body: "",
-        author: ""
+        body: ""
       }
     }
   }
@@ -26,33 +25,49 @@ class Notes extends Component {
       .then(response => {
         this.setState({
           list: response.data.results
-        })
+        });
       })
       .catch(error => {
         console.log(error);
       });
   }
 
-  updateNote(event){
-    let updatedNote = Object.assign({}, this.state.newNote)
-    updatedNote[event.target.id] = event.target.value
+  handleInputChange(event){
+    let updatedNote = Object.assign({}, this.state.newNote);
+    updatedNote[event.target.id] = event.target.value;
     this.setState({
       newNote: updatedNote
-    })
+    });
   }
 
   addNote(){
-    let updatedList = Object.assign([], this.state.list)
-    updatedList.push(this.state.newNote)
-    this.setState({
-      list: updatedList
+    axios.request({
+      method: 'post',
+      url: '/api/notes',
+      data: this.state.newNote
     })
+    .then(response => {
+      this.getNotes();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
+  deleteNote(id){
+    axios.delete(`/api/notes/${id}`)
+      .then(response => {
+        this.getNotes();
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   render(){
     const listItems = this.state.list.map((note, i) => {
       return(
-        <li key={note._id}><Note currentNote={note}></Note></li>
+        <li key={note._id}><Note currentNote={note} deleteNote={this.deleteNote.bind(this)}></Note></li>
       )
     })
 
@@ -61,10 +76,9 @@ class Notes extends Component {
         <ol>
           {listItems}
         </ol>
-        <input id="title" onChange={this.updateNote.bind(this)} className="form-control" type="text" placeholder="Title"></input><br />
-        <input id="body" onChange={this.updateNote.bind(this)} className="form-control" type="text" placeholder="Body"></input><br />
-        <input id="author" onChange={this.updateNote.bind(this)} className="form-control" type="text" placeholder="Author"></input><br />
-        <button onClick={this.addNote.bind(this)} className="btn btn-danger">Add Note</button>
+        <input id="title" onChange={this.handleInputChange.bind(this)} className="form-control" type="text" placeholder="Title"></input><br />
+        <input id="body" onChange={this.handleInputChange.bind(this)} className="form-control" type="text" placeholder="Body"></input><br />
+        <button onClick={this.addNote.bind(this)} className="btn btn-info">Add Note</button>
       </div>
     )
   }

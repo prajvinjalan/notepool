@@ -35,7 +35,7 @@ function findById (id, callback) {
 
 // Update
 function update (id, params, callback) {
-  Note.findByIdAndUpdate(id, prarams, {new:true}, function(err, note){
+  Note.findByIdAndUpdate(id, params, {new:true}, function(err, note){
     if(err){
       callback(err, null);
       return;

@@ -6,7 +6,7 @@ import Navbar from './Navbar'
 import NoteDetails from '../containers/NoteDetails'
 import NotesLayout from './NotesLayout'
 import NotFound from '../presentation/NotFound'
-import UsersLayout from './UsersLayout'
+import Profile from '../containers/Profile'
 
 class Main extends Component {
   render(){
@@ -18,7 +18,7 @@ class Main extends Component {
             <Route exact path='/' component={Home}/>
             <Route exact path='/notes' component={NotesLayout}/>
             <Route exact path='/notes/:id' component={NoteDetails}/>
-            <Route exact path='/users' component={UsersLayout}/>
+            <Route path='/profile' component={Profile}/>
             <Route component={NotFound} />
           </Switch>
         </main>

@@ -28,10 +28,6 @@ const api = require('./server/routes/api');
 // initialize app
 const app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -46,7 +42,7 @@ app.get('*', function(req, res, nex) {
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
 
-// error handler
+// error handler: FIX THIS
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
@@ -54,7 +50,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  console.log(err);
 });
 
 module.exports = app;

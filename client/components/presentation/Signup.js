@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-class UsersLayout extends Component {
+class Signup extends Component {
   render(){
     return(
       <div>
-        Users Page!
+        Sign up!
       </div>
     )
   }
 }
 
-export default UsersLayout
+export default Signup

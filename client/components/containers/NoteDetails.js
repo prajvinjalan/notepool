@@ -1,22 +1,15 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
-import Note from '../presentation/Note'
-
 class NoteDetails extends Component {
   constructor(){
-    super()
+    super();
 
     this.state = {
       item: {
-        title: "Note Uno",
-        body: "this is the first one",
-        author: "Prajvin"
-      },
-      updatedNote: {
+        id: "",
         title: "",
-        body: "",
-        author: ""
+        body: ""
       }
     }
   }
@@ -30,38 +23,57 @@ class NoteDetails extends Component {
     axios.get(`/api/notes/${noteId}`)
       .then(response => {
         console.log(response.data.result);
+        let originalItem = {
+          id: response.data.result._id,
+          title: response.data.result.title,
+          body: response.data.result.body
+        }
         this.setState({
-          item: response.data.result
-        })
+          item: originalItem
+        });
+        console.log(this.state.item);
       })
       .catch(error => {
         console.log(error);
       });
   }
 
-  updateNote(event){
-    let updatedNote = Object.assign({}, this.state.updatedNote)
-    updatedNote[event.target.id] = event.target.value
+  handleInputChange(event){
+    let editedNote = Object.assign({}, this.state.item);
+    editedNote[event.target.id] = event.target.value;
     this.setState({
-      updatedNote: updatedNote
-    })
+      item: editedNote
+    });
   }
 
-  submitInfo(){
-    let updatedInfo = Object.assign({}, this.state.updatedNote)
+  editNote(){
+    let editedNote = Object.assign({}, this.state.item);
     this.setState({
-      item: updatedInfo
+      item: editedNote
+    });
+    console.log(this.state.item);
+
+    axios.request({
+      method: 'put',
+      url: `/api/notes/${this.state.item.id}`,
+      data: this.state.item
+    })
+    .then(response => {
+      this.props.history.push('/notes');
+    })
+    .catch(error => {
+      console.log(error);
     })
   }
 
   render(){
     return(
-      <div>
-        <Note currentNote={this.state.item}></Note>
-        <input id="title" onChange={this.updateNote.bind(this)} className="form-control" type="text" placeholder="Title"></input><br />
-        <input id="body" onChange={this.updateNote.bind(this)} className="form-control" type="text" placeholder="Body"></input><br />
-        <input id="author" onChange={this.updateNote.bind(this)} className="form-control" type="text" placeholder="Author"></input><br />
-        <button onClick={this.submitInfo.bind(this)} className="btn btn-info" style={{marginRight: '10px'}}>Update Information</button>
+      <div className="container">
+        <label htmlFor="title">Title</label>
+        <input id="title" onChange={this.handleInputChange.bind(this)} className="form-control" type="text" ref="title" value={this.state.item.title}></input><br />
+        <label htmlFor="body">Body</label>
+        <input id="body" onChange={this.handleInputChange.bind(this)} className="form-control" type="text" ref="body" value={this.state.item.body}></input><br />
+        <button onClick={this.editNote.bind(this)} className="btn btn-info" style={{marginRight: '10px'}}>Update Note</button>
       </div>
     )
   }
