@@ -3,6 +3,7 @@ import axios from 'axios'
 
 import { APIManager } from '../../utils'
 import Note from '../presentation/Note'
+import styles from '../../styles.js'
 
 class Notes extends Component {
   constructor(){
@@ -69,12 +70,19 @@ class Notes extends Component {
     })
 
     return(
-      <div>
+      <div className="container" style={{padding: '15px'}}>
         <ol>
           {listItems}
         </ol>
-        <input id="title" onChange={this.handleInputChange.bind(this)} className="form-control" type="text" placeholder="Title"></input><br />
-        <input id="body" onChange={this.handleInputChange.bind(this)} className="form-control" type="text" placeholder="Body"></input><br />
+        <h1>Add a new note</h1>
+        <fieldset className="form-group" style={styles.universal.formGroup}>
+          <label htmlFor="title" style={styles.universal.formLabel}>Title</label>
+          <input id="title" onChange={this.handleInputChange.bind(this)} className="form-control"  style={styles.note.formInput} type="text" ref="title"></input>
+        </fieldset>
+        <fieldset className="form-group" style={styles.universal.formGroup}>
+          <label htmlFor="body" style={styles.universal.formLabel}>Body</label>
+          <input id="body" onChange={this.handleInputChange.bind(this)} className="form-control" style={styles.note.formInput} type="text" ref="body"></input>
+        </fieldset>
         <button onClick={this.addNote.bind(this)} className="btn btn-info">Add Note</button>
       </div>
     )

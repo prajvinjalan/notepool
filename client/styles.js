@@ -1,6 +1,41 @@
 export default {
   universal: {
-
+    formGroup: {
+      position: 'relative'
+    },
+    formLabel: {
+      position: 'absolute',
+      margin: '10px'
+    }
+  },
+  logreg: {
+    container: {
+      margin: '0 auto',
+      padding: '0 40px 30px 40px',
+      maxWidth: '400px'
+    },
+    formInput: {
+      paddingLeft: '85px',
+      height: '40px'
+    },
+    header: {
+      margin: '18px 0',
+      textAlign: 'center'
+    },
+    paragraph: {
+      textAlign: 'center'
+    },
+    socialWrapper: {
+      margin: '15px 0',
+      textAlign: 'center',
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr 1fr'
+    }
+  },
+  navbar: {
+    width: '100%',
+    borderBottom: '1px solid #ddd',
+    borderTop: '1px solid #ddd'
   },
   note: {
     container: {
@@ -8,6 +43,10 @@ export default {
       background: '#f9f9f9',
       marginTop: 12,
       border: '1px solid #ddd'
+    },
+    formInput: {
+      paddingLeft: '55px',
+      height: '40px'
     },
     header: {
       marginTop: 0,
@@ -19,6 +58,16 @@ export default {
     },
     list: {
       listStyleType: 'none'
+    }
+  },
+  pageHeader: {
+    container: {
+      padding: 16,
+      background: '#f9f9f9'
+    },
+    title: {
+      margin: 0,
+      fontWeight: 500
     }
   }
 }
