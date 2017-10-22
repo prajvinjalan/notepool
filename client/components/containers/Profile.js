@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 import LogReg from '../presentation/LogReg'
+import { RouteNotFound } from '../layout/RouteHandler'
 
 class Profile extends Component {
   constructor(props){
@@ -23,21 +24,22 @@ class Profile extends Component {
   render(){
     const LoginPage = (props) => {
       return(
-        <LogReg title={this.state.login.title} description={this.state.login.description} displayName={false}></LogReg>
+        <LogReg title={this.state.login.title} description={this.state.login.description} displayName={false} />
       )
     }
 
     const RegisterPage = (props) => {
       return(
-        <LogReg title={this.state.register.title} description={this.state.register.description} displayName={true}></LogReg>
+        <LogReg title={this.state.register.title} description={this.state.register.description} displayName={true} />
       )
     }
 
     return(
-      <div>
+      <Switch>
         <Route exact path={`${this.state.path}/login`} component={LoginPage}/>
         <Route exact path={`${this.state.path}/register`} component={RegisterPage}/>
-      </div>
+        <RouteNotFound />
+      </Switch>
     )
   }
 }

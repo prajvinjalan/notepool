@@ -59,7 +59,7 @@ class NoteDetails extends Component {
 
   render(){
     return(
-      <div className="container">
+      <div className="container" style={{padding: '15px'}}>
         <fieldset className="form-group" style={styles.universal.formGroup}>
           <label htmlFor="title" style={styles.universal.formLabel}>Title</label>
           <input id="title" onChange={this.handleInputChange.bind(this)} className="form-control"  style={styles.note.formInput} type="text" ref="title" value={this.state.item.title}></input>

@@ -1,11 +1,24 @@
 export default {
   universal: {
+    container: {
+      padding: 16,
+      background: '#f9f9f9',
+      textAlign: 'center'
+    },
+    footer: {
+      bottom: '0',
+      width: '100%'
+    },
     formGroup: {
       position: 'relative'
     },
     formLabel: {
       position: 'absolute',
       margin: '10px'
+    },
+    title: {
+      margin: 0,
+      fontWeight: 500
     }
   },
   logreg: {
@@ -58,16 +71,6 @@ export default {
     },
     list: {
       listStyleType: 'none'
-    }
-  },
-  pageHeader: {
-    container: {
-      padding: 16,
-      background: '#f9f9f9'
-    },
-    title: {
-      margin: 0,
-      fontWeight: 500
     }
   }
 }

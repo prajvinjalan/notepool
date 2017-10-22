@@ -5,8 +5,8 @@ import styles from '../../styles.js'
 class Header extends Component {
   render(){
     return(
-      <div style={styles.pageHeader.container}>
-        <h1 style={styles.pageHeader.title}>Notepool</h1>
+      <div style={styles.universal.container}>
+        <h1 style={styles.universal.title}>Notepool</h1>
       </div>
     )
   }
