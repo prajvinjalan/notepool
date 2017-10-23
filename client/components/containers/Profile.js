@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import LogReg from '../presentation/LogReg'
+import { LogReg } from '../presentation'
 import { RouteNotFound } from '../layout/RouteHandler'
 
 class Profile extends Component {

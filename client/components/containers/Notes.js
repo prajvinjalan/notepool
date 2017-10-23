@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 
 import { APIManager } from '../../utils'
-import Note from '../presentation/Note'
+import { Note } from '../presentation'
 import styles from '../../styles.js'
 
 class Notes extends Component {

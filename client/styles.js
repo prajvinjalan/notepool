@@ -18,7 +18,10 @@ export default {
     },
     title: {
       margin: 0,
-      fontWeight: 500
+      fontWeight: 500,
+      fontSize: '3.5rem',
+      textDecoration: 'none',
+      color: 'black',
     }
   },
   logreg: {

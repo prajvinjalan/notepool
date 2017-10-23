@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 import Footer from './Footer'
 import Header from './Header'
-import Home from '../presentation/Home'
+import { Home } from '../presentation'
 import Navbar from './Navbar'
 import NoteDetails from '../containers/NoteDetails'
 import Notes from '../containers/Notes'
