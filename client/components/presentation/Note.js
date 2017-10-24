@@ -13,12 +13,10 @@ class Note extends Component {
   }
 
   render(){
-    const noteStyle = styles.note
-
     return(
-      <div style={noteStyle.container}>
-        <h2 style={noteStyle.header}>
-          <Link style={noteStyle.title} to={`/notes/${this.props.currentNote._id}`}>{this.props.currentNote.title}</Link>
+      <div style={styles.note.container}>
+        <h2 style={styles.note.header}>
+          <Link style={styles.note.title} to={`/notes/${this.props.currentNote._id}`}>{this.props.currentNote.title}</Link>
         </h2>
         <span>{this.props.currentNote.body}</span><br />
         <div className="text-right">

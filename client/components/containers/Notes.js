@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 
 import { APIManager } from '../../utils'
-import { Note } from '../presentation'
-import styles from '../../styles.js'
+import { Note, NoteForm, NoteList } from '../presentation'
 
 class Notes extends Component {
   constructor(){
@@ -63,28 +62,10 @@ class Notes extends Component {
   }
 
   render(){
-    const listItems = this.state.list.map((note, i) => {
-      return(
-        <li key={note._id}><Note currentNote={note} deleteNote={this.deleteNote.bind(this)}></Note></li>
-      )
-    })
+    const noteForm = <NoteForm header="Add a note" item={{title: "", body: ""}} handleInputChange={this.handleInputChange.bind(this)} buttonClick={this.addNote.bind(this)} buttonText="Add Note"/>
 
     return(
-      <div className="container" style={{padding: '15px'}}>
-        <ol>
-          {listItems}
-        </ol>
-        <h1>Add a new note</h1>
-        <fieldset className="form-group" style={styles.universal.formGroup}>
-          <label htmlFor="title" style={styles.universal.formLabel}>Title</label>
-          <input id="title" onChange={this.handleInputChange.bind(this)} className="form-control"  style={styles.note.formInput} type="text" ref="title"></input>
-        </fieldset>
-        <fieldset className="form-group" style={styles.universal.formGroup}>
-          <label htmlFor="body" style={styles.universal.formLabel}>Body</label>
-          <input id="body" onChange={this.handleInputChange.bind(this)} className="form-control" style={styles.note.formInput} type="text" ref="body"></input>
-        </fieldset>
-        <button onClick={this.addNote.bind(this)} className="btn btn-info">Add Note</button>
-      </div>
+      <NoteList listItems={this.state.list} deleteNote={this.deleteNote.bind(this)} noteForm={noteForm}/>
     )
   }
 }

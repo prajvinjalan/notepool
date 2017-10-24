@@ -14,21 +14,27 @@ class LogReg extends Component {
             <button className="btn btn-primary">Facebook</button>
             <button className="btn btn-info">Twitter</button>
           </div>
-          {this.props.displayName &&
+          {this.props.isRegister &&
             <fieldset className="form-group" style={styles.universal.formGroup}>
               <label htmlFor="name" style={styles.universal.formLabel}>Name</label>
               <input id="name" className="form-control" type="text" style={styles.logreg.formInput}></input>
             </fieldset>
           }
+          {this.props.isRegister &&
+            <fieldset className="form-group" style={styles.universal.formGroup}>
+              <label htmlFor="email" style={styles.universal.formLabel}>Email</label>
+              <input id="email" className="form-control" type="text" style={styles.logreg.formInput}></input>
+            </fieldset>
+          }
           <fieldset className="form-group" style={styles.universal.formGroup}>
-            <label htmlFor="email" style={styles.universal.formLabel}>Email</label>
-            <input id="email" className="form-control" type="text" style={styles.logreg.formInput}></input>
+            <label htmlFor="username" style={styles.universal.formLabel}>Username</label>
+            <input id="username" className="form-control" type="text" style={styles.logreg.formInput}></input>
           </fieldset>
           <fieldset className="form-group" style={styles.universal.formGroup}>
             <label htmlFor="password" style={styles.universal.formLabel}>Password</label>
             <input id="password" className="form-control" type="password" style={styles.logreg.formInput}></input>
           </fieldset>
-          <button className="btn btn-success btn-block">Register</button>
+          <button className="btn btn-success btn-block">{this.props.title}</button>
         </div>
       </div>
     )

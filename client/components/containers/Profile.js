@@ -24,13 +24,13 @@ class Profile extends Component {
   render(){
     const LoginPage = (props) => {
       return(
-        <LogReg title={this.state.login.title} description={this.state.login.description} displayName={false} />
+        <LogReg title={this.state.login.title} description={this.state.login.description} isRegister={false} />
       )
     }
 
     const RegisterPage = (props) => {
       return(
-        <LogReg title={this.state.register.title} description={this.state.register.description} displayName={true} />
+        <LogReg title={this.state.register.title} description={this.state.register.description} isRegister={true} />
       )
     }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 
 import { APIManager } from '../../utils'
-import styles from '../../styles.js'
+import { NoteForm } from '../presentation'
 
 class NoteDetails extends Component {
   constructor(){
@@ -59,17 +59,7 @@ class NoteDetails extends Component {
 
   render(){
     return(
-      <div className="container" style={{padding: '15px'}}>
-        <fieldset className="form-group" style={styles.universal.formGroup}>
-          <label htmlFor="title" style={styles.universal.formLabel}>Title</label>
-          <input id="title" onChange={this.handleInputChange.bind(this)} className="form-control"  style={styles.note.formInput} type="text" ref="title" value={this.state.item.title}></input>
-        </fieldset>
-        <fieldset className="form-group" style={styles.universal.formGroup}>
-          <label htmlFor="body" style={styles.universal.formLabel}>Body</label>
-          <input id="body" onChange={this.handleInputChange.bind(this)} className="form-control" style={styles.note.formInput} type="text" ref="body" value={this.state.item.body}></input>
-        </fieldset>
-        <button onClick={this.editNote.bind(this)} className="btn btn-info">Update Note</button>
-      </div>
+      <NoteForm header="Edit this note" item={this.state.item} handleInputChange={this.handleInputChange.bind(this)} buttonClick={this.editNote.bind(this)} buttonText="Update Note"/>
     )
   }
 }
