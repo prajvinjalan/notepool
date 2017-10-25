@@ -17,20 +17,33 @@ class Profile extends Component {
       register: {
         title: 'Register',
         description: 'Register for a free account!'
+      },
+      user: {
+        name: "",
+        email: "",
+        password: ""
       }
     }
+  }
+
+  registerUser(newUser){
+    console.log(newUser);
+  }
+
+  loginUser(){
+    console.log(1);
   }
 
   render(){
     const LoginPage = (props) => {
       return(
-        <LogReg title={this.state.login.title} description={this.state.login.description} isRegister={false} />
+        <LogReg title={this.state.login.title} description={this.state.login.description} isRegister={false} buttonClick={this.loginUser.bind(this)} />
       )
     }
 
     const RegisterPage = (props) => {
       return(
-        <LogReg title={this.state.register.title} description={this.state.register.description} isRegister={true} />
+        <LogReg title={this.state.register.title} description={this.state.register.description} isRegister={true} buttonClick={this.registerUser.bind(this)} />
       )
     }
 

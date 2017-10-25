@@ -5,15 +5,11 @@ import { APIManager } from '../../utils'
 import { Note, NoteForm, NoteList } from '../presentation'
 
 class Notes extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
 
     this.state = {
-      list: [],
-      newNote: {
-        title: "",
-        body: ""
-      }
+      list: []
     }
   }
 
@@ -33,16 +29,8 @@ class Notes extends Component {
     });
   }
 
-  handleInputChange(event){
-    let updatedNote = Object.assign({}, this.state.newNote);
-    updatedNote[event.target.id] = event.target.value;
-    this.setState({
-      newNote: updatedNote
-    });
-  }
-
-  addNote(){
-    APIManager.post('/api/notes', this.state.newNote, (error, response) => {
+  addNote(newNote){
+    APIManager.post('/api/notes', newNote, (error, response) => {
       if (error){
         console.log(error.message);
         return;
@@ -62,7 +50,7 @@ class Notes extends Component {
   }
 
   render(){
-    const noteForm = <NoteForm header="Add a note" item={{title: "", body: ""}} handleInputChange={this.handleInputChange.bind(this)} buttonClick={this.addNote.bind(this)} buttonText="Add Note"/>
+    const noteForm = <NoteForm header="Add a note" item={{title: "", body: ""}} buttonClick={this.addNote.bind(this)} buttonText="Add Note"/>
 
     return(
       <NoteList listItems={this.state.list} deleteNote={this.deleteNote.bind(this)} noteForm={noteForm}/>

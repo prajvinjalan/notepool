@@ -3,6 +3,31 @@ import React, { Component } from 'react'
 import styles from '../../styles.js'
 
 class LogReg extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      newUser: {
+        name: '',
+        email: '',
+        password: ''
+      }
+    }
+  }
+
+  handleInputChange(event){
+    console.log(event.target.id + ":" + event.target.value);
+    let updatedUser = Object.assign({}, this.state.newUser);
+    updatedUser[event.target.id] = event.target.value;
+    this.setState({
+      newUser: updatedUser
+    });
+  }
+
+  buttonClick(){
+    this.props.buttonClick(this.state.newUser);
+  }
+
   render(){
     return(
       <div className="container">
@@ -17,24 +42,18 @@ class LogReg extends Component {
           {this.props.isRegister &&
             <fieldset className="form-group" style={styles.universal.formGroup}>
               <label htmlFor="name" style={styles.universal.formLabel}>Name</label>
-              <input id="name" className="form-control" type="text" style={styles.logreg.formInput}></input>
-            </fieldset>
-          }
-          {this.props.isRegister &&
-            <fieldset className="form-group" style={styles.universal.formGroup}>
-              <label htmlFor="email" style={styles.universal.formLabel}>Email</label>
-              <input id="email" className="form-control" type="text" style={styles.logreg.formInput}></input>
+              <input id="name" className="form-control" type="text" style={styles.logreg.formInput} onChange={this.handleInputChange.bind(this)}></input>
             </fieldset>
           }
           <fieldset className="form-group" style={styles.universal.formGroup}>
-            <label htmlFor="username" style={styles.universal.formLabel}>Username</label>
-            <input id="username" className="form-control" type="text" style={styles.logreg.formInput}></input>
+            <label htmlFor="email" style={styles.universal.formLabel}>Email</label>
+            <input id="email" className="form-control" type="text" style={styles.logreg.formInput} onChange={this.handleInputChange.bind(this)}></input>
           </fieldset>
           <fieldset className="form-group" style={styles.universal.formGroup}>
             <label htmlFor="password" style={styles.universal.formLabel}>Password</label>
-            <input id="password" className="form-control" type="password" style={styles.logreg.formInput}></input>
+            <input id="password" className="form-control" type="password" style={styles.logreg.formInput} onChange={this.handleInputChange.bind(this)}></input>
           </fieldset>
-          <button className="btn btn-success btn-block">{this.props.title}</button>
+          <button className="btn btn-success btn-block" onClick={this.buttonClick.bind(this)}>{this.props.title}</button>
         </div>
       </div>
     )

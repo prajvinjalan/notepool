@@ -5,14 +5,14 @@ import { APIManager } from '../../utils'
 import { NoteForm } from '../presentation'
 
 class NoteDetails extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
 
     this.state = {
       item: {
-        id: "",
-        title: "",
-        body: ""
+        id: '',
+        title: '',
+        body: ''
       }
     }
   }
@@ -39,16 +39,8 @@ class NoteDetails extends Component {
     });
   }
 
-  handleInputChange(event){
-    let editedNote = Object.assign({}, this.state.item);
-    editedNote[event.target.id] = event.target.value;
-    this.setState({
-      item: editedNote
-    });
-  }
-
-  editNote(){
-    APIManager.put(`/api/notes/${this.state.item.id}`, {data: this.state.item}, (error, response) => {
+  editNote(updatedNote){
+    APIManager.put(`/api/notes/${this.state.item.id}`, {data: updatedNote}, (error, response) => {
       if(error){
         console.log(error.message);
         return;
@@ -59,7 +51,7 @@ class NoteDetails extends Component {
 
   render(){
     return(
-      <NoteForm header="Edit this note" item={this.state.item} handleInputChange={this.handleInputChange.bind(this)} buttonClick={this.editNote.bind(this)} buttonText="Update Note"/>
+      <NoteForm header="Edit this note" item={this.state.item} buttonClick={this.editNote.bind(this)} buttonText="Update Note"/>
     )
   }
 }
