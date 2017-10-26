@@ -35,7 +35,6 @@ class NoteForm extends Component {
   }
 
   render(){
-    let val = this.props.item.title;
     return(
       <div className="container" style={{padding: '15px'}}>
         <h1>{this.props.header}</h1>

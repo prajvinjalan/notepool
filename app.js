@@ -2,9 +2,12 @@ const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const passport = require('passport');
+const expressValidator = require('express-validator');
+const session = require('express-session');
+
 const dbconfig = require('./server/config/database');
 
 // connect to DB
@@ -24,6 +27,7 @@ db.on('error', function(err){
 });
 
 const api = require('./server/routes/api');
+const auth = require('./server/routes/auth');
 
 // initialize app
 const app = express();
@@ -33,10 +37,41 @@ const app = express();
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Express Session Middleware
+app.use(session({
+  secret: 'notepoolsessionsecret',
+  resave: true,
+  saveUninitialized: true
+}));
+
+// Express Validator Middleware
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
+
+// Passport Config and Middleware
+require('./server/config/passport')(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Route files
 app.use('/api', api);
+app.use('/auth', auth);
 
 app.get('*', function(req, res, nex) {
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));

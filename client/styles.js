@@ -26,9 +26,13 @@ export default {
   },
   logreg: {
     container: {
-      margin: '0 auto',
-      padding: '0 40px 30px 40px',
-      maxWidth: '400px'
+      margin: '30px auto',
+      padding: '30px 40px',
+      maxWidth: '400px',
+      border: '1px solid #ddd',
+      bottom: {
+        textAlign: 'center'
+      }
     },
     formInput: {
       paddingLeft: '85px',
