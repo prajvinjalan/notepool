@@ -40,8 +40,14 @@ class Profile extends Component {
     });
   }
 
-  loginUser(){
-    console.log(1);
+  loginUser(user){
+    APIManager.post('/auth/login', user, (error, response) => {
+      if(error){
+        console.log(error.message);
+        return;
+      }
+      console.log(response.message);
+    });
   }
 
   render(){

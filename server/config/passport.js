@@ -37,7 +37,6 @@ module.exports = function(passport){
               password: req.body.password
             }
           });
-          console.log(newUser);
           bcrypt.genSalt(10, function(err, salt){
             if(err){
               return done(err);
@@ -46,7 +45,6 @@ module.exports = function(passport){
               if(err){
                 return done(err);
               }
-              console.log(email, hash);
               newUser.local.email = email;
               newUser.local.password = hash;
               newUser.save(function(err){
@@ -58,6 +56,33 @@ module.exports = function(passport){
             });
           });
         }
+      });
+    });
+  }));
+
+  // LOCAL LOGIN
+  passport.use('local-login', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true
+  }, function(req, email, password, done){
+    process.nextTick(function(){
+      User.findOne({'local.email' : email}, function(err, user){
+        if(err){
+          return done(err);
+        }
+        if(!user){
+          return done(null, false, {message: 'That user was not found.'})
+        }
+        bcrypt.compare(password, user.local.password, function(err, isMatch){
+          if(err){
+            return done(err);
+          }
+          if(!isMatch){
+            return done(null, false, {message: 'Your password is incorrect.'});
+          }
+          return done(null, user);
+        });
       });
     });
   }));
