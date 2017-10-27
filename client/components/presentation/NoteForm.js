@@ -21,8 +21,6 @@ class NoteForm extends Component {
   }
 
   handleInputChange(event){
-    console.log(this.props.item);
-    console.log(event.target.id + event.target.value);
     let updatedNote = Object.assign({}, this.state.newNote);
     updatedNote[event.target.id] = event.target.value;
     this.setState({
@@ -31,7 +29,8 @@ class NoteForm extends Component {
   }
 
   buttonClick(){
-    this.props.buttonClick(this.state.newNote);
+    let note = Object.assign({}, this.state.newNote);
+    this.props.buttonClick(note);
   }
 
   render(){

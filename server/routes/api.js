@@ -10,23 +10,23 @@ router.get('/:resource', function(req, res, next){
   let controller = controllers[resource];
 
   if(controller == null){
-    res.json({
+    return res.json({
       confirmation: 'fail',
       message: 'Invalid Resource Request: ' + resource
     });
   }
 
-  controller.find(query, function(err, results){
-    if(err){
-      res.json({
-        confirmation: 'fail',
-        message: err
-      });
-      return;
-    }
+  controller.find(query)
+  .then(result => {
     res.json({
       confirmation: 'success',
-      results: results
+      result: result
+    });
+  })
+  .catch(err => {
+    res.json({
+      confirmation: 'fail',
+      message: err
     });
   });
 });
@@ -39,25 +39,25 @@ router.get('/:resource/:id', function(req, res, next){
   let controller = controllers[resource];
 
   if(controller == null){
-    res.json({
+    return res.json({
       confirmation: 'fail',
       message: 'Invalid Resource Request: ' + resource
     });
   }
 
-  controller.findById(id, function(err, result){
-    if(err){
-      res.json({
-        confirmation: 'fail',
-        message: 'Invalid Resource ID: ' + id + ', Resource: ' + resource
-      });
-      return;
-    }
+  controller.findById(id)
+  .then(result => {
     res.json({
       confirmation: 'success',
       result: result
     });
   })
+  .catch(err => {
+    res.json({
+      confirmation: 'fail',
+      message: 'Invalid Resource ID: ' + id + ', Resource: ' + resource
+    });
+  });
 });
 
 // POST resource
@@ -67,23 +67,23 @@ router.post('/:resource', function(req, res, next){
   let controller = controllers[resource];
 
   if(controller == null){
-    res.json({
+    return res.json({
       confirmation: 'fail',
       message: 'Invalid Resource Request: ' + resource
     });
   }
 
-  controller.create(req.body, function(err, result){
-    if(err){
-      res.json({
-        confirmation: 'fail',
-        message: err
-      });
-      return;
-    }
+  controller.create(req.body)
+  .then(result => {
     res.json({
       confirmation: 'success',
       result: result
+    });
+  })
+  .catch(err => {
+    res.json({
+      confirmation: 'fail',
+      message: err
     });
   });
 });
@@ -96,23 +96,23 @@ router.put('/:resource/:id', function(req, res, next){
   let controller = controllers[resource];
 
   if(controller == null){
-    res.json({
+    return res.json({
       confirmation: 'fail',
       message: 'Invalid Resource Request: ' + resource
     });
   }
 
-  controller.update(id, req.body, function(err, result){
-    if(err){
-      res.json({
-        confirmation: 'fail',
-        message: 'Invalid Resource ID: ' + id + ', Resource: ' + resource
-      });
-      return;
-    }
+  controller.update(id, req.body)
+  .then(result => {
     res.json({
       confirmation: 'success',
       result: result
+    });
+  })
+  .catch(err => {
+    res.json({
+      confirmation: 'fail',
+      message: 'Invalid Resource ID: ' + id + ', Resource: ' + resource
     });
   });
 });
@@ -125,25 +125,25 @@ router.delete('/:resource/:id', function(req, res, next){
   let controller = controllers[resource];
 
   if(controller == null){
-    res.json({
+    return res.json({
       confirmation: 'fail',
       message: 'Invalid Resource Request: ' + resource
     });
   }
 
-  controller.delete(id, function(err, result){
-    if(err){
-      res.json({
-        confirmation: 'fail',
-        message: 'Invalid Resource ID: ' + id + ', Resource: ' + resource
-      });
-      return;
-    }
+  controller.delete(id)
+  .then(result => {
     res.json({
       confirmation: 'success',
       result: result
     });
   })
+  .catch(err => {
+    res.json({
+      confirmation: 'fail',
+      message: 'Invalid Resource ID: ' + id + ', Resource: ' + resource
+    });
+  });
 });
 
 module.exports = router;

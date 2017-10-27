@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
+// Register route
 router.post('/register', function(req, res, next){
   const validationResult = validateRegisterForm(req);
   if(!validationResult.success){
@@ -31,6 +32,7 @@ router.post('/register', function(req, res, next){
   })(req, res, next);
 });
 
+// Login route
 router.post('/login', function(req, res, next){
   const validationResult = validateLoginForm(req);
   if(!validationResult.success){
@@ -60,6 +62,7 @@ router.post('/login', function(req, res, next){
   })(req, res, next);
 });
 
+// Validate user inputs for registering
 function validateRegisterForm(req){
   let isFormValid = true;
 
@@ -82,6 +85,7 @@ function validateRegisterForm(req){
   }
 }
 
+// Validate user inputs for logging in
 function validateLoginForm(req){
   let isFormValid = true;
 

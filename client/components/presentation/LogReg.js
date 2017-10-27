@@ -17,7 +17,6 @@ class LogReg extends Component {
   }
 
   handleInputChange(event){
-    console.log(event.target.id + ":" + event.target.value);
     let updatedUser = Object.assign({}, this.state.newUser);
     updatedUser[event.target.id] = event.target.value;
     this.setState({
@@ -26,7 +25,8 @@ class LogReg extends Component {
   }
 
   buttonClick(){
-    this.props.buttonClick(this.state.newUser);
+    let user = Object.assign({}, this.state.newUser);
+    this.props.buttonClick(user);
   }
 
   render(){

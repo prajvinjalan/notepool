@@ -30,23 +30,22 @@ class Profile extends Component {
   }
 
   registerUser(newUser){
-    console.log(newUser);
-    APIManager.post('/auth/register', newUser, (error, response) => {
-      if(error){
-        console.log(error.message);
-        return;
-      }
+    APIManager.post('/auth/register', newUser)
+    .then(response => {
       console.log(response.message);
+    })
+    .catch(error => {
+      console.log(error.message);
     });
   }
 
   loginUser(user){
-    APIManager.post('/auth/login', user, (error, response) => {
-      if(error){
-        console.log(error.message);
-        return;
-      }
+    APIManager.post('/auth/login', user)
+    .then(response => {
       console.log(response.message);
+    })
+    .catch(error => {
+      console.log(error.message);
     });
   }
 

@@ -9,6 +9,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.1",
     "body-parser": "~1.17.1",
     "debug": "~2.6.3",
     "express": "~4.15.2",

@@ -18,34 +18,36 @@ class Notes extends Component {
   }
 
   getNotes(){
-    APIManager.get('/api/notes', null, (error, response) => {
-      if (error){
-        console.log(error.message);
-        return;
-      }
+    APIManager.get('/api/notes', null)
+    .then(response => {
       this.setState({
-        list: response.results
+        list: response.result
       });
+    })
+    .catch(error => {
+      console.log(error.message);
     });
   }
 
   addNote(newNote){
-    APIManager.post('/api/notes', newNote, (error, response) => {
-      if (error){
-        console.log(error.message);
-        return;
-      }
+    APIManager.post('/api/notes', newNote)
+    .then(response => {
       this.getNotes();
+      return null;
+    })
+    .catch(error => {
+      console.log(error.message)
     });
   }
 
   deleteNote(id){
-    APIManager.delete(`/api/notes/${id}`, (error, response) => {
-      if (error){
-        console.log(error.message);
-        return;
-      }
+    APIManager.delete(`/api/notes/${id}`)
+    .then(response => {
       this.getNotes();
+      return null;
+    })
+    .catch(error => {
+      console.log(error.message);
     });
   }
 

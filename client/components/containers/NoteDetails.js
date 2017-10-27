@@ -23,11 +23,8 @@ class NoteDetails extends Component {
 
   getNote(){
     let noteId = this.props.match.params.id;
-    APIManager.get(`/api/notes/${noteId}`, null, (error, response) => {
-      if(error){
-        console.log(error.message);
-        return;
-      }
+    APIManager.get(`/api/notes/${noteId}`)
+    .then(response => {
       let originalItem = {
         id: response.result._id,
         title: response.result.title,
@@ -36,16 +33,21 @@ class NoteDetails extends Component {
       this.setState({
         item: originalItem
       });
+      return null;
+    })
+    .catch(error => {
+      console.log(error.message);
     });
   }
 
   editNote(updatedNote){
-    APIManager.put(`/api/notes/${this.state.item.id}`, {data: updatedNote}, (error, response) => {
-      if(error){
-        console.log(error.message);
-        return;
-      }
+    APIManager.put(`/api/notes/${this.state.item.id}`, {data: updatedNote})
+    .then(response => {
       this.props.history.push('/notes');
+      return null;
+    })
+    .catch(error => {
+      console.log(error.message);
     });
   }
 

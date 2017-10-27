@@ -1,57 +1,68 @@
 const User = require('../models/User');
+const Promise = require('bluebird');
 
 // Create
-function create (params, callback) {
-  User.create(params, function(err, user){
-    if(err){
-      callback(err, null);
-      return;
-    }
-    callback(null, user);
+function create (params) {
+  return new Promise(function(resolve, reject) {
+    User.create(params, function(err, user){
+      if(err){
+        reject(err);
+        return;
+      }
+      resolve(user);
+    });
   });
 }
 
 // Read All
-function find (params, callback) {
-  User.find(params, function(err, users){
-    if(err){
-      callback(err, null);
-      return;
-    }
-    callback(null, users);
+function find (params) {
+  return new Promise(function(resolve, reject) {
+    User.find(params, function(err, users){
+      if(err){
+        reject(err);
+        return;
+      }
+      resolve(users)
+    });
   });
 }
 
 // Read One
 function findById (id, callback) {
-  User.findById(id, function(err, user){
-    if(err){
-      callback(err, null);
-      return;
-    }
-    callback(null, user);
+  return new Promise(function(resolve, reject) {
+    User.findById(id, function(err, user){
+      if(err){
+        reject(err);
+        return;
+      }
+      resolve(user);
+    });
   });
 }
 
 // Update
-function update (id, params, callback) {
-  User.findByIdAndUpdate(id, params, {new:true}, function(err, user){
-    if(err){
-      callback(err, null);
-      return;
-    }
-    callback(null, user);
+function update (id, params) {
+  return new Promise(function(resolve, reject) {
+    User.findByIdAndUpdate(id, params, {new:true}, function(err, user){
+      if(err){
+        reject(err);
+        return;
+      }
+      resolve(user);
+    });
   });
 }
 
 // Delete
 function _delete (id, callback) {
-  User.findByIdAndRemove(id, function(err){
-    if(err){
-      callback(err, null);
-      return;
-    }
-    callback(null, null);
+  return new Promise(function(resolve, reject) {
+    User.findByIdAndRemove(id, function(err){
+      if(err){
+        reject(err);
+        return;
+      }
+      resolve(null);
+    });
   });
 }
 

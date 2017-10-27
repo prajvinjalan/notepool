@@ -26,4 +26,5 @@ npm run devstart
 ```
 
 ## Notes
-+ **/views** will be removed once client side React app is working
++ integrate Redux?
++ use different styling (switch from Bootstrap to Semantic-UI?)
