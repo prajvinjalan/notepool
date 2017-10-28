@@ -68,6 +68,14 @@ export default {
       paddingLeft: '55px',
       height: '40px'
     },
+    bodyInput: {
+      paddingLeft: '55px',
+      paddingTop: '10px',
+      minHeight: '100px',
+      maxHeight: '200px',
+      minWidth: '100%',
+      maxWidth: '100%'
+    },
     header: {
       marginTop: 0,
       marginBottom: 0
@@ -78,6 +86,18 @@ export default {
     },
     list: {
       listStyleType: 'none'
+    },
+    body: {
+      whiteSpace: 'pre-wrap',
+      wordWrap: 'break-word'
+    },
+    colourButton: {
+      borderRadius: '50%',
+      border: '1px solid #888',
+      width: '30px',
+      height: '30px',
+      margin: '4px',
+      outline: 'none'
     }
   }
 }

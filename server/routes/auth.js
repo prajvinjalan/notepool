@@ -57,9 +57,19 @@ router.post('/login', function(req, res, next){
 
     return res.json({
       confirmation: 'success',
-      message: 'You have successfully logged in!'
+      message: 'You have successfully logged in!',
+      user: user
     });
   })(req, res, next);
+});
+
+// Logout route
+router.get('/logout', function(req, res, next){
+  req.logout();
+  return res.json({
+    confirmation: 'success',
+    message: 'You have successfully logged out!'
+  });
 });
 
 // Validate user inputs for registering

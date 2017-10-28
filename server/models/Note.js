@@ -8,6 +8,10 @@ const NoteSchema = new mongoose.Schema({
   body: {
     type: String,
     default: ''
+  },
+  colour: {
+    type: String,
+    default: ''
   }
 });
 

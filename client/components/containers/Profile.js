@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
-import { APIManager } from '../../utils'
-import { LogReg } from '../presentation'
+import { APIManager, Auth } from '../../utils'
+import { LogReg, ProfileDetails } from '../presentation'
 import { RouteNotFound } from '../layout/RouteHandler'
 
 class Profile extends Component {
@@ -43,6 +43,8 @@ class Profile extends Component {
     APIManager.post('/auth/login', user)
     .then(response => {
       console.log(response.message);
+      Auth.authenticateUser(response.user._id);
+      this.props.history.push('/notes');
     })
     .catch(error => {
       console.log(error.message);
@@ -63,11 +65,23 @@ class Profile extends Component {
     }
 
     return(
-      <Switch>
-        <Route exact path={`${this.state.path}/login`} component={LoginPage}/>
-        <Route exact path={`${this.state.path}/register`} component={RegisterPage}/>
-        <RouteNotFound />
-      </Switch>
+      <div>
+        {Auth.isUserAuthenticated() ?
+          <Switch>
+            <Route exact path={this.state.path} component={ProfileDetails}/>
+            <Redirect exact from={`${this.state.path}/login`} to={this.state.path} />
+            <Redirect exact from={`${this.state.path}/register`} to={this.state.path} />
+            <RouteNotFound />
+          </Switch>
+          :
+          <Switch>
+            <Route exact path={`${this.state.path}/login`} component={LoginPage}/>
+            <Route exact path={`${this.state.path}/register`} component={RegisterPage}/>
+            <Redirect exact from={this.state.path} to={`${this.state.path}/login`} />
+            <RouteNotFound />
+          </Switch>
+        }
+      </div>
     )
   }
 }

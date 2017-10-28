@@ -51,11 +51,22 @@ class Notes extends Component {
     });
   }
 
+  updateColour(updatedNote){
+    APIManager.put(`/api/notes/${updatedNote.id}`, {data: updatedNote})
+    .then(response => {
+      this.getNotes();
+      return null;
+    })
+    .catch(error => {
+      console.log(error.message);
+    });
+  }
+
   render(){
-    const noteForm = <NoteForm header="Add a note" item={{title: "", body: ""}} buttonClick={this.addNote.bind(this)} buttonText="Add Note"/>
+    const noteForm = <NoteForm header="Add a note" item={{title: '', body: '', colour: ''}} buttonClick={this.addNote.bind(this)} buttonText="Add Note"/>
 
     return(
-      <NoteList listItems={this.state.list} deleteNote={this.deleteNote.bind(this)} noteForm={noteForm}/>
+      <NoteList listItems={this.state.list} deleteNote={this.deleteNote.bind(this)} updateColour={this.updateColour.bind(this)} noteForm={noteForm}/>
     )
   }
 }

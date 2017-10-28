@@ -43,7 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: 'notepoolsessionsecret',
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
 }));
 
 // Express Validator Middleware
@@ -73,7 +73,7 @@ app.use(passport.session());
 app.use('/api', api);
 app.use('/auth', auth);
 
-app.get('*', function(req, res, nex) {
+app.get('*', function(req, res, next) {
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
 

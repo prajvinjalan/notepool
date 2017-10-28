@@ -4,6 +4,7 @@ import Note from './Note'
 import NoteForm from './NoteForm'
 import NoteList from './NoteList'
 import NotFound from './NotFound'
+import ProfileDetails from './ProfileDetails'
 
 export {
   Home,
@@ -11,5 +12,6 @@ export {
   Note,
   NoteForm,
   NoteList,
-  NotFound
+  NotFound,
+  ProfileDetails
 }

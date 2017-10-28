@@ -9,7 +9,8 @@ class NoteForm extends Component {
     this.state = {
       newNote: {
         title: '',
-        body: ''
+        body: '',
+        colour: ''
       }
     }
   }
@@ -43,7 +44,7 @@ class NoteForm extends Component {
         </fieldset>
         <fieldset className="form-group" style={styles.universal.formGroup}>
           <label htmlFor="body" style={styles.universal.formLabel}>Body</label>
-          <input id="body" className="form-control" style={styles.note.formInput} type="text" value={this.state.newNote.body} onChange={this.handleInputChange.bind(this)}></input>
+          <textarea id="body" className="form-control" style={styles.note.bodyInput} type="text" value={this.state.newNote.body} onChange={this.handleInputChange.bind(this)}></textarea>
         </fieldset>
         <button className="btn btn-info" onClick={this.buttonClick.bind(this)}>{this.props.buttonText}</button>
       </div>
