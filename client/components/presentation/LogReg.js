@@ -31,7 +31,7 @@ class LogReg extends Component {
   }
 
   check(){
-    console.log(Auth.getUser());
+    console.log(Auth.getUserId());
   }
 
   render(){
@@ -60,7 +60,6 @@ class LogReg extends Component {
             <input id="password" className="form-control" type="password" style={styles.logreg.formInput} onChange={this.handleInputChange.bind(this)}></input>
           </fieldset>
           <button className="btn btn-success btn-block" onClick={this.buttonClick.bind(this)}>{this.props.title}</button>
-          <button className="btn btn-success btn-block" onClick={this.check.bind(this)}>check</button>
         </div>
         <div style={Object.assign({}, styles.logreg.container, styles.logreg.container.bottom)}>
           {this.props.switchDescription} <Link to={this.props.isRegister ? '/profile/login' : '/profile/register'}>{(this.props.title == 'Login' ? 'Register' : 'Login')}</Link>

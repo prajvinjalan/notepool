@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 import { APIManager, Auth } from '../../utils'
 import { LogReg, ProfileDetails } from '../presentation'
-import { RouteNotFound } from '../layout/RouteHandler'
+import { PrivateRoute, RouteNotFound } from '../layout/RouteHandler'
 
 class Profile extends Component {
   constructor(props){
@@ -45,6 +45,7 @@ class Profile extends Component {
       console.log(response.message);
       Auth.authenticateUser(response.user._id);
       this.props.history.push('/notes');
+      return null;
     })
     .catch(error => {
       console.log(error.message);
@@ -77,7 +78,7 @@ class Profile extends Component {
           <Switch>
             <Route exact path={`${this.state.path}/login`} component={LoginPage}/>
             <Route exact path={`${this.state.path}/register`} component={RegisterPage}/>
-            <Redirect exact from={this.state.path} to={`${this.state.path}/login`} />
+            <PrivateRoute exact path={this.state.path} />
             <RouteNotFound />
           </Switch>
         }

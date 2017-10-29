@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
-import { APIManager } from '../../utils'
+import { APIManager, Auth } from '../../utils'
 import { Note, NoteForm, NoteList } from '../presentation'
 
 class Notes extends Component {
@@ -18,11 +18,22 @@ class Notes extends Component {
   }
 
   getNotes(){
-    APIManager.get('/api/notes', null)
+    let id = Auth.getUserId();
+    APIManager.get(`/api/users/${id}`, null)
     .then(response => {
-      this.setState({
-        list: response.result
+      console.log(response);
+      let params = { params: { collaborators: response.result.local.email }}
+      APIManager.get('/api/notes', params)
+      .then(response => {
+        this.setState({
+          list: response.result
+        });
+        return null;
+      })
+      .catch(error => {
+        console.log(error.message);
       });
+      return null;
     })
     .catch(error => {
       console.log(error.message);
@@ -30,13 +41,22 @@ class Notes extends Component {
   }
 
   addNote(newNote){
-    APIManager.post('/api/notes', newNote)
+    let id = Auth.getUserId();
+    APIManager.get(`/api/users/${id}`, null)
     .then(response => {
-      this.getNotes();
+      newNote.collaborators.push(response.result.local.email);
+      APIManager.post('/api/notes', newNote)
+      .then(response => {
+        this.getNotes();
+        return null;
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
       return null;
     })
     .catch(error => {
-      console.log(error.message)
+      console.log(error.message);
     });
   }
 
@@ -51,7 +71,7 @@ class Notes extends Component {
     });
   }
 
-  updateColour(updatedNote){
+  updateNote(updatedNote){
     APIManager.put(`/api/notes/${updatedNote.id}`, {data: updatedNote})
     .then(response => {
       this.getNotes();
@@ -63,10 +83,10 @@ class Notes extends Component {
   }
 
   render(){
-    const noteForm = <NoteForm header="Add a note" item={{title: '', body: '', colour: ''}} buttonClick={this.addNote.bind(this)} buttonText="Add Note"/>
+    const noteForm = <NoteForm header="Add a note" item={{title: '', body: '', colour: '', collaborators: []}} buttonClick={this.addNote.bind(this)} buttonText="Add Note"/>
 
     return(
-      <NoteList listItems={this.state.list} deleteNote={this.deleteNote.bind(this)} updateColour={this.updateColour.bind(this)} noteForm={noteForm}/>
+      <NoteList listItems={this.state.list} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)} noteForm={noteForm}/>
     )
   }
 }

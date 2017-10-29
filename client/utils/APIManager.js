@@ -9,6 +9,7 @@ export default {
         const confirmation = response.data.confirmation;
         if (confirmation != 'success'){
           reject(getErrors(response.data.message));
+          return;
         }
         resolve(response.data);
       })
@@ -42,6 +43,7 @@ export default {
         const confirmation = response.data.confirmation;
         if (confirmation != 'success'){
           reject(getErrors(response.data.message));
+          return;
         }
         resolve(response.data);
       })
@@ -58,6 +60,7 @@ export default {
         const confirmation = response.data.confirmation;
         if (confirmation != 'success'){
           reject(getErrors(response.data.message));
+          return;
         }
         resolve(response.data);
       })

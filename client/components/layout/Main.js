@@ -8,7 +8,7 @@ import Navbar from '../containers/Navbar'
 import NoteDetails from '../containers/NoteDetails'
 import Notes from '../containers/Notes'
 import Profile from '../containers/Profile'
-import { RouteNotFound } from './RouteHandler'
+import { PrivateRoute, RouteNotFound } from './RouteHandler'
 
 class Main extends Component {
   render(){
@@ -19,8 +19,8 @@ class Main extends Component {
         <main style={{minHeight: '435px'}}>
           <Switch>
             <Route exact path='/' component={Home}/>
-            <Route exact path='/notes' component={Notes}/>
-            <Route exact path='/notes/:id' component={NoteDetails}/>
+            <PrivateRoute exact path='/notes' component={Notes}/>
+            <PrivateRoute exact path='/notes/:id' component={NoteDetails}/>
             <Route path='/profile' component={Profile}/>
             <RouteNotFound />
           </Switch>

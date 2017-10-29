@@ -11,14 +11,14 @@ class NoteList extends Component {
     this.props.deleteNote(id);
   }
 
-  updateColour(updatedNote){
-    this.props.updateColour(updatedNote);
+  updateNote(updatedNote){
+    this.props.updateNote(updatedNote);
   }
 
   render(){
     const listItems = this.props.listItems.map((note, i) => {
       return(
-        <li key={note._id}><Note currentNote={note} deleteNote={this.deleteNote.bind(this)} updateColour={this.updateColour.bind(this)}></Note></li>
+        <li key={note._id}><Note currentNote={note} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)}></Note></li>
       )
     })
 

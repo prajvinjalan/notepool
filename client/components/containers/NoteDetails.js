@@ -10,7 +10,6 @@ class NoteDetails extends Component {
 
     this.state = {
       item: {
-        id: '',
         title: '',
         body: ''
       }
@@ -26,7 +25,6 @@ class NoteDetails extends Component {
     APIManager.get(`/api/notes/${noteId}`)
     .then(response => {
       let originalItem = {
-        id: response.result._id,
         title: response.result.title,
         body: response.result.body
       }
@@ -41,7 +39,8 @@ class NoteDetails extends Component {
   }
 
   editNote(updatedNote){
-    APIManager.put(`/api/notes/${this.state.item.id}`, {data: updatedNote})
+    let noteId = this.props.match.params.id;
+    APIManager.put(`/api/notes/${noteId}`, {data: updatedNote})
     .then(response => {
       this.props.history.push('/notes');
       return null;

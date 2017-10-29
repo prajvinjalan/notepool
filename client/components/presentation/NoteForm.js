@@ -10,7 +10,8 @@ class NoteForm extends Component {
       newNote: {
         title: '',
         body: '',
-        colour: ''
+        colour: '',
+        collaborators: []
       }
     }
   }

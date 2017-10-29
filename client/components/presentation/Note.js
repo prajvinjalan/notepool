@@ -12,14 +12,37 @@ class Note extends Component {
     this.props.deleteNote(this.props.currentNote._id);
   }
 
-  updateColour(event){
+  addCollaborator(){
     const updatedNote = {
       id: this.props.currentNote._id,
       title: this.props.currentNote.title,
       body: this.props.currentNote.body,
-      colour: event.target.id
+      colour: this.props.currentNote.colour,
+      collaborators: this.props.currentNote.collaborators
     }
-    this.props.updateColour(updatedNote);
+    let alreadyAdded = false;
+    for(let i = 0; i < updatedNote.collaborators.length; i++){
+      if(updatedNote.collaborators[i] === 'test@abcd.com'){
+        alreadyAdded = true;
+      }
+    }
+    if(!alreadyAdded){
+      updatedNote.collaborators.push('test@abcd.com');
+      this.props.updateNote(updatedNote);
+    }
+  }
+
+  updateColour(event){
+    if(this.props.currentNote.colour !== event.target.id){
+      const updatedNote = {
+        id: this.props.currentNote._id,
+        title: this.props.currentNote.title,
+        body: this.props.currentNote.body,
+        colour: event.target.id,
+        collaborators: this.props.currentNote.collaborators
+      }
+      this.props.updateNote(updatedNote);
+    }
   }
 
   render(){
@@ -29,13 +52,17 @@ class Note extends Component {
           <Link style={styles.note.title} to={`/notes/${this.props.currentNote._id}`}>{this.props.currentNote.title}</Link>
         </h2>
         <span style={styles.note.body}>{this.props.currentNote.body}</span><br />
-        <div style={{paddingTop: '30px', display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
-          <div className="text-left">
+        <div style={styles.note.bottomContainer}>
+          <div style={{gridColumn: 'first-column / column-end', justifySelf: 'left'}}>
             <button id="yellow" style={Object.assign({}, styles.note.colourButton, {background: 'yellow'})} onClick={this.updateColour.bind(this)} className="btn"></button>
             <button id="lightgreen" style={Object.assign({}, styles.note.colourButton, {background: 'lightgreen'})} onClick={this.updateColour.bind(this)} className="btn"></button>
             <button id="lightskyblue" style={Object.assign({}, styles.note.colourButton, {background: 'lightskyblue'})} onClick={this.updateColour.bind(this)} className="btn"></button>
           </div>
-          <div className="text-right">
+          <div style={{alignSelf: 'center'}}>
+            Collaborators: {this.props.currentNote.collaborators}
+          </div>
+          <button style={{justifySelf: 'left'}} onClick={this.addCollaborator.bind(this)} className="btn btn-primary">Add Collaborator</button>
+          <div style={{justifySelf: 'right'}}>
             <button onClick={this.callDelete.bind(this)} className="btn btn-danger">Delete</button>
           </div>
         </div>

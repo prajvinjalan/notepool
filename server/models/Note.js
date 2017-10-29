@@ -12,6 +12,10 @@ const NoteSchema = new mongoose.Schema({
   colour: {
     type: String,
     default: ''
+  },
+  collaborators: {
+    type: Array,
+    default: []
   }
 });
 

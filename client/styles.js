@@ -64,6 +64,12 @@ export default {
       marginTop: 12,
       border: '1px solid #ddd'
     },
+    bottomContainer: {
+      paddingTop: '30px',
+      display: 'grid',
+      gridTemplateRows: '[first-row] 1fr [second-row] 1fr [row-end]',
+      gridTemplateColumns: '[first-column] 1fr [second-column] 1fr [third-column] 1fr [column-end]'
+    },
     formInput: {
       paddingLeft: '55px',
       height: '40px'

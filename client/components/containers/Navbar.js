@@ -44,7 +44,7 @@ class Navbar extends Component {
       <div className="container navbar" style={styles.navbar}>
         <ul className="nav navbar-nav">
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/notes">Notes</Link></li>
+          {Auth.isUserAuthenticated() && <li><Link to="/notes">Notes</Link></li>}
         </ul>
         {Auth.isUserAuthenticated() ? <LogoutLink /> : <LogRegLinks />}
       </div>
