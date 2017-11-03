@@ -61,14 +61,10 @@ export default {
     container: {
       padding: 16,
       background: '#f9f9f9',
-      marginTop: 12,
-      border: '1px solid #ddd'
-    },
-    bottomContainer: {
-      paddingTop: '30px',
+      border: '1px solid #ddd',
       display: 'grid',
-      gridTemplateRows: '[first-row] 1fr [second-row] 1fr [row-end]',
-      gridTemplateColumns: '[first-column] 1fr [second-column] 1fr [third-column] 1fr [column-end]'
+      gridTemplateRows: '[row-start] 2fr [row-2] 1fr [row-end]',
+      gridTemplateColumns: '[column-start] 3fr [column-2] 1fr [column-end]'
     },
     formInput: {
       paddingLeft: '55px',
@@ -104,6 +100,14 @@ export default {
       height: '30px',
       margin: '4px',
       outline: 'none'
+    },
+    roundedButton: {
+      borderRadius: '50%',
+      border: '1px solid #888',
+      width: '20px',
+      height: '20px',
+      outline: 'none',
+      padding: '0'
     }
   }
 }

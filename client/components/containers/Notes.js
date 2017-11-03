@@ -21,7 +21,6 @@ class Notes extends Component {
     let id = Auth.getUserId();
     APIManager.get(`/api/users/${id}`, null)
     .then(response => {
-      console.log(response);
       let params = { params: { collaborators: response.result.local.email }}
       APIManager.get('/api/notes', params)
       .then(response => {
@@ -82,11 +81,15 @@ class Notes extends Component {
     });
   }
 
+  addCollaborator(){
+
+  }
+
   render(){
     const noteForm = <NoteForm header="Add a note" item={{title: '', body: '', colour: '', collaborators: []}} buttonClick={this.addNote.bind(this)} buttonText="Add Note"/>
 
     return(
-      <NoteList listItems={this.state.list} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)} noteForm={noteForm}/>
+      <NoteList listItems={this.state.list} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)} addCollaborator={this.addCollaborator.bind(this)} noteForm={noteForm}/>
     )
   }
 }
