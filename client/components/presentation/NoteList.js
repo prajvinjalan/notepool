@@ -22,7 +22,7 @@ class NoteList extends Component {
   render(){
     const listItems = this.props.listItems.map((note, i) => {
       return(
-        <li key={note._id}><Note currentNote={note} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)} addCollaborator={this.addCollaborator.bind(this)}></Note></li>
+        <li key={note.id}><Note currentNote={note} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)} addCollaborator={this.addCollaborator.bind(this)} /></li>
       )
     })
 

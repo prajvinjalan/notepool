@@ -14,14 +14,14 @@ class Note extends Component {
   }
 
   callDelete(){
-    this.props.deleteNote(this.props.currentNote._id);
+    this.props.deleteNote(this.props.currentNote.id);
   }
 
   addCollaborator(email){
     this.toggleCollaboratorForm();
 
     const updatedNote = {
-      id: this.props.currentNote._id,
+      id: this.props.currentNote.id,
       title: this.props.currentNote.title,
       body: this.props.currentNote.body,
       colour: this.props.currentNote.colour,
@@ -53,7 +53,7 @@ class Note extends Component {
       }
     }
     const updatedNote = {
-      id: this.props.currentNote._id,
+      id: this.props.currentNote.id,
       title: this.props.currentNote.title,
       body: this.props.currentNote.body,
       colour: this.props.currentNote.colour,
@@ -65,7 +65,7 @@ class Note extends Component {
   updateColour(event){
     if(this.props.currentNote.colour !== event.target.id){
       const updatedNote = {
-        id: this.props.currentNote._id,
+        id: this.props.currentNote.id,
         title: this.props.currentNote.title,
         body: this.props.currentNote.body,
         colour: event.target.id,
@@ -86,7 +86,7 @@ class Note extends Component {
       <div style={{...styles.note.container, ...{background: this.props.currentNote.colour}}}>
         <div style={{gridColumn: 'column-start / column-2', gridRow: 'row-start / row-2'}}>
           <h2 style={styles.note.header}>
-            <Link style={styles.note.title} to={`/notes/${this.props.currentNote._id}`}>{this.props.currentNote.title}</Link>
+            <Link style={styles.note.title} to={`/notes/${this.props.currentNote.id}`}>{this.props.currentNote.title}</Link>
           </h2>
           <span style={styles.note.body}>{this.props.currentNote.body}</span>
         </div>

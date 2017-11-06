@@ -16,7 +16,7 @@ router.get('/:resource', function(req, res, next){
     });
   }
 
-  controller.find(query)
+  controller.find(query, false)
   .then(result => {
     res.json({
       confirmation: 'success',
@@ -45,7 +45,7 @@ router.get('/:resource/:id', function(req, res, next){
     });
   }
 
-  controller.findById(id)
+  controller.findById(id, false)
   .then(result => {
     res.json({
       confirmation: 'success',
@@ -73,7 +73,7 @@ router.post('/:resource', function(req, res, next){
     });
   }
 
-  controller.create(req.body)
+  controller.create(req.body, false)
   .then(result => {
     res.json({
       confirmation: 'success',
@@ -102,7 +102,7 @@ router.put('/:resource/:id', function(req, res, next){
     });
   }
 
-  controller.update(id, req.body)
+  controller.update(id, req.body, false)
   .then(result => {
     res.json({
       confirmation: 'success',
