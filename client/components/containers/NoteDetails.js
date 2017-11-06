@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { connect } from 'react-redux'
+import * as actions from '../../redux/actions'
+import { getNoteById } from '../../redux/reducers'
 
 import { APIManager } from '../../utils'
 import { NoteForm } from '../presentation'
@@ -17,25 +20,8 @@ class NoteDetails extends Component {
   }
 
   componentDidMount(){
-    this.getNote();
-  }
-
-  getNote(){
-    let noteId = this.props.match.params.id;
-    APIManager.get(`/api/notes/${noteId}`)
-    .then(response => {
-      let originalItem = {
-        title: response.result.title,
-        body: response.result.body
-      }
-      this.setState({
-        item: originalItem
-      });
-      return null;
-    })
-    .catch(error => {
-      console.log(error.message);
-    });
+    // let noteId = this.props.match.params.id;
+    // this.props.fetchNote(noteId);
   }
 
   editNote(updatedNote){
@@ -52,9 +38,17 @@ class NoteDetails extends Component {
 
   render(){
     return(
-      <NoteForm header="Edit this note" item={this.state.item} buttonClick={this.editNote.bind(this)} buttonText="Update Note"/>
+      <NoteForm header="Edit this note" item={this.props.notes} buttonClick={this.editNote.bind(this)} buttonText="Update Note"/>
     )
   }
 }
 
-export default NoteDetails
+const stateToProps = (state, ownProps) => ({
+  notes: getNoteById(state.note, ownProps.match.params.id)
+});
+
+const dispatchToProps = (dispatch) => ({
+  updateNote: (params) => dispatch(actions.updateNote(params))
+});
+
+export default connect(stateToProps, dispatchToProps)(NoteDetails)

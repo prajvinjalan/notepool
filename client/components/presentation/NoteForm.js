@@ -8,6 +8,7 @@ class NoteForm extends Component {
 
     this.state = {
       newNote: {
+        id: '',
         title: '',
         body: '',
         colour: '',

@@ -2,11 +2,14 @@ import constants from '../constants'
 
 let initialState = [];
 
-export default (state = initialState, action) => {
+const notes = (state = initialState, action) => {
 
   switch (action.type){
     case constants.RECEIVE_NOTES:
       return action.payload;
+
+    case constants.RECEIVE_NOTE:
+      return [action.payload];
 
     case constants.ADD_NOTE:
       return [...state, action.payload];
@@ -16,6 +19,7 @@ export default (state = initialState, action) => {
         if(note.id === action.payload.id){
           return action.payload;
         }
+        return note;
       });
 
     case constants.DELETE_NOTE:
@@ -24,4 +28,10 @@ export default (state = initialState, action) => {
     default:
       return state;
   }
+}
+
+export default notes;
+
+export const getNoteById = (state, id) => {
+  return state.filter(note => note.id === id);
 }

@@ -3,7 +3,6 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import * as actions from '../../redux/actions'
 
-import { APIManager, Auth } from '../../utils'
 import { Note, NoteForm, NoteList } from '../presentation'
 
 class Notes extends Component {

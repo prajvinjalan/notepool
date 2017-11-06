@@ -23,6 +23,17 @@ export const fetchNotes = () => (dispatch) => {
   });
 }
 
+export const fetchNote = (id) => (dispatch) => {
+  APIManager.get(`/api/notes/${id}`)
+  .then(response => {
+    dispatch(fetchNoteAction(response.result));
+    return null;
+  })
+  .catch(error => {
+    console.log(error.message);
+  });
+}
+
 export const addNote = (note) => (dispatch) => {
   let id = Auth.getUserId();
   APIManager.get(`/api/users/${id}`, null)
@@ -44,9 +55,9 @@ export const addNote = (note) => (dispatch) => {
 }
 
 export const updateNote = (note) => (dispatch) => {
-  APIManager.put(`/api/notes/${updatedNote.id}`, {data: updatedNote})
+  APIManager.put(`/api/notes/${note.id}`, {data: note})
   .then(response => {
-    dispatch(updateNoteAction(note));
+    dispatch(updateNoteAction(response.result));
     return null;
   })
   .catch(error => {
@@ -72,6 +83,11 @@ const fetchNotesAction = (notes) => ({
   type: constants.RECEIVE_NOTES,
   payload: notes
 });
+
+const fetchNoteAction = (note) => ({
+  type: constants.RECEIVE_NOTE,
+  payload: note
+})
 
 const addNoteAction = (note) => ({
   type: constants.ADD_NOTE,
