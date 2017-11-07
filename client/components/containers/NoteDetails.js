@@ -19,7 +19,7 @@ class NoteDetails extends Component {
 
   render(){
     return(
-      <NoteForm header="Edit this note" item={this.props.notes[0]} buttonClick={this.editNote.bind(this)} buttonText="Update Note"/>
+      <NoteForm header="Edit this note" item={this.props.notes} buttonClick={this.editNote.bind(this)} buttonText="Update Note"/>
     )
   }
 }

@@ -27,27 +27,11 @@ class Notes extends Component {
   }
 
   addCollaborator(params){
-    let selectedNote = this.props.notes.filter(note => note.id === params.id)[0];
-    let alreadyAdded = false;
-    for(let i = 0; i < selectedNote.collaborators.length; i++){
-      if(selectedNote.collaborators[i] === params.email){
-        alreadyAdded = true;
-      }
-    }
-    if(!alreadyAdded){
-      selectedNote.collaborators.push(params.email);
-      this.props.updateNote(selectedNote);
-    }
+    this.props.addCollaborator(params);
   }
 
   removeCollaborator(params){
-    let selectedNote = this.props.notes.filter(note => note.id === params.id)[0];
-    for(let i = 0; i < selectedNote.collaborators.length; i++){
-      if(selectedNote.collaborators[i] === params.email){
-        selectedNote.collaborators.splice(i, 1);
-      }
-    }
-    this.props.updateNote(selectedNote);
+    this.props.removeCollaborator(params);
   }
 
   render(){
@@ -60,14 +44,16 @@ class Notes extends Component {
 }
 
 const stateToProps = (state) => ({
-  notes: state.note
+  notes: state.note.notes
 })
 
 const dispatchToProps = (dispatch) => ({
   fetchNotes: (params) => dispatch(actions.fetchNotes(params)),
   addNote: (params) => dispatch(actions.addNote(params)),
   updateNote: (params) => dispatch(actions.updateNote(params)),
-  deleteNote: (params) => dispatch(actions.deleteNote(params))
+  deleteNote: (params) => dispatch(actions.deleteNote(params)),
+  addCollaborator: (params) => dispatch(actions.addCollaborator(params)),
+  removeCollaborator: (params) => dispatch(actions.removeCollaborator(params))
 })
 
 export default connect(stateToProps, dispatchToProps)(Notes)

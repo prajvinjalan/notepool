@@ -65,6 +65,28 @@ export const deleteNote = (id) => (dispatch) => {
   });
 }
 
+export const addCollaborator = (params) => (dispatch, getState) => {
+  dispatch(addCollaboratorAction(params));
+  dispatch(updateCollaborator(params));
+}
+
+export const removeCollaborator = (params) => (dispatch, getState) => {
+  dispatch(removeCollaboratorAction(params));
+  dispatch(updateCollaborator(params));
+}
+
+const updateCollaborator = (params) => (dispatch, getState) => {
+  const note = getState().note.notesById[params.id];
+  APIManager.put(`/api/notes/${note.id}`, {data: note})
+  .then(response => {
+    dispatch(updatedCollaboratorAction(response.result));
+    return null;
+  })
+  .catch(error => {
+    console.log(error.message);
+  });
+}
+
 // ACTIONS
 // can also be "... => { return { ... } } "
 
@@ -87,3 +109,18 @@ const deleteNoteAction = (id) => ({
   type: constants.DELETE_NOTE,
   payload: id
 });
+
+const addCollaboratorAction = (params) => ({
+  type: constants.ADD_COLLABORATOR,
+  payload: params
+});
+
+const removeCollaboratorAction = (params) => ({
+  type: constants.REMOVE_COLLABORATOR,
+  payload: params
+});
+
+const updatedCollaboratorAction = (note) => ({
+  type: constants.UPDATE_COLLABORATORS,
+  payload: note
+})
