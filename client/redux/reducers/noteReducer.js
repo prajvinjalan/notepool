@@ -8,9 +8,6 @@ const notes = (state = initialState, action) => {
     case constants.RECEIVE_NOTES:
       return action.payload;
 
-    case constants.RECEIVE_NOTE:
-      return [action.payload];
-
     case constants.ADD_NOTE:
       return [...state, action.payload];
 
@@ -26,12 +23,14 @@ const notes = (state = initialState, action) => {
       return state.filter(note => note.id !== action.payload);
 
     default:
+      const noteId = action;
+      if (noteId) {
+        return state.filter(note => note.id === noteId);
+      }
       return state;
   }
 }
 
 export default notes;
 
-export const getNoteById = (state, id) => {
-  return state.filter(note => note.id === id);
-}
+export const getNoteById = (state, id) => notes(state, id);

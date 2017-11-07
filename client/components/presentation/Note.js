@@ -17,59 +17,34 @@ class Note extends Component {
     this.props.deleteNote(this.props.currentNote.id);
   }
 
-  addCollaborator(email){
-    this.toggleCollaboratorForm();
-
-    const updatedNote = {
-      id: this.props.currentNote.id,
-      title: this.props.currentNote.title,
-      body: this.props.currentNote.body,
-      colour: this.props.currentNote.colour,
-      collaborators: this.props.currentNote.collaborators
-    }
-    let alreadyAdded = false;
-    for(let i = 0; i < updatedNote.collaborators.length; i++){
-      if(updatedNote.collaborators[i] === email){
-        alreadyAdded = true;
-      }
-    }
-    if(!alreadyAdded){
-      updatedNote.collaborators.push(email);
-      this.props.updateNote(updatedNote);
-    }
-  }
-
   toggleCollaboratorForm(){
     this.setState({
       showCollabForm: !this.state.showCollabForm
-    })
+    });
+  }
+
+  addCollaborator(email){
+    this.toggleCollaboratorForm();
+    const updatedCollaborators = {
+      id: this.props.currentNote.id,
+      email: email
+    }
+    this.props.addCollaborator(updatedCollaborators);
   }
 
   removeCollaborator(event){
-    let collaborators = this.props.currentNote.collaborators;
-    for(let i = 0; i < collaborators.length; i++){
-      if(collaborators[i] === event.target.id){
-        collaborators.splice(i, 1);
-      }
-    }
-    const updatedNote = {
+    const updatedCollaborators = {
       id: this.props.currentNote.id,
-      title: this.props.currentNote.title,
-      body: this.props.currentNote.body,
-      colour: this.props.currentNote.colour,
-      collaborators: collaborators
+      email: event.target.id
     }
-    this.props.updateNote(updatedNote);
+    this.props.removeCollaborator(updatedCollaborators);
   }
 
   updateColour(event){
     if(this.props.currentNote.colour !== event.target.id){
       const updatedNote = {
         id: this.props.currentNote.id,
-        title: this.props.currentNote.title,
-        body: this.props.currentNote.body,
-        colour: event.target.id,
-        collaborators: this.props.currentNote.collaborators
+        colour: event.target.id
       }
       this.props.updateNote(updatedNote);
     }

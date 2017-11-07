@@ -17,14 +17,16 @@ class NoteForm extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      newNote: nextProps.item
-    });
+  componentDidMount(){
+    if(this.props.item){
+      this.setState({
+        newNote: this.props.item
+      });
+    }
   }
 
   handleInputChange(event){
-    let updatedNote = Object.assign({}, this.state.newNote);
+    let updatedNote = {...this.state.newNote};
     updatedNote[event.target.id] = event.target.value;
     this.setState({
       newNote: updatedNote
@@ -32,8 +34,7 @@ class NoteForm extends Component {
   }
 
   buttonClick(){
-    let note = Object.assign({}, this.state.newNote);
-    this.props.buttonClick(note);
+    this.props.buttonClick({...this.state.newNote});
   }
 
   render(){
