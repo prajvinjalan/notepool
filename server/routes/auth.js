@@ -27,7 +27,8 @@ router.post('/register', function(req, res, next){
 
     return res.json({
       confirmation: 'success',
-      message: 'You have successfully registered!'
+      message: 'You have successfully registered!',
+      user: user
     });
   })(req, res, next);
 });

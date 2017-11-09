@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import { APIManager, Auth } from '../../utils'
+import * as actions from '../../redux/actions'
+
 import { LogReg, ProfileDetails } from '../presentation'
 import { PrivateRoute, RouteNotFound } from '../layout/RouteHandler'
 
@@ -30,26 +32,11 @@ class Profile extends Component {
   }
 
   registerUser(newUser){
-    APIManager.post('/auth/register', newUser)
-    .then(response => {
-      console.log(response.message);
-    })
-    .catch(error => {
-      console.log(error.message);
-    });
+    this.props.localRegister(newUser);
   }
 
   loginUser(user){
-    APIManager.post('/auth/login', user)
-    .then(response => {
-      console.log(response.message);
-      Auth.authenticateUser(response.user._id);
-      this.props.history.push('/notes');
-      return null;
-    })
-    .catch(error => {
-      console.log(error.message);
-    });
+    this.props.localLogin(user);
   }
 
   render(){
@@ -67,7 +54,7 @@ class Profile extends Component {
 
     return(
       <div>
-        {Auth.isUserAuthenticated() ?
+        {this.props.user.authenticated ?
           <Switch>
             <Route exact path={this.state.path} component={ProfileDetails}/>
             <Redirect exact from={`${this.state.path}/login`} to={this.state.path} />
@@ -87,4 +74,13 @@ class Profile extends Component {
   }
 }
 
-export default Profile
+const stateToProps = (state) => ({
+  user: state.user
+})
+
+const dispatchToProps = (dispatch) => ({
+  localRegister: (params) => dispatch(actions.localRegister(params)),
+  localLogin: (params) => dispatch(actions.localLogin(params))
+})
+
+export default connect(stateToProps, dispatchToProps)(Profile)

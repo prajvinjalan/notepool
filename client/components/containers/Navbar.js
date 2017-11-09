@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import { APIManager, Auth } from '../../utils'
+import * as actions from '../../redux/actions'
+
 import styles from '../../styles.js'
 
 class Navbar extends Component {
@@ -10,15 +12,7 @@ class Navbar extends Component {
   }
 
   logoutUser(){
-    APIManager.get('/auth/logout', null)
-    .then(response => {
-      console.log(response.message);
-      Auth.deauthenticateUser();
-      this.props.history.push('/');
-    })
-    .catch(error => {
-      console.log(error.message);
-    });
+    this.props.logout();
   }
 
   render(){
@@ -44,12 +38,20 @@ class Navbar extends Component {
       <div className="container navbar" style={styles.navbar}>
         <ul className="nav navbar-nav">
           <li><Link to="/">Home</Link></li>
-          {Auth.isUserAuthenticated() && <li><Link to="/notes">Notes</Link></li>}
+          {this.props.user.authenticated && <li><Link to="/notes">Notes</Link></li>}
         </ul>
-        {Auth.isUserAuthenticated() ? <LogoutLink /> : <LogRegLinks />}
+        {this.props.user.authenticated ? <LogoutLink /> : <LogRegLinks />}
       </div>
     )
   }
 }
 
-export default withRouter(Navbar)
+const stateToProps = (state) => ({
+  user: state.user
+})
+
+const dispatchToProps = (dispatch) => ({
+  logout: () => dispatch(actions.logout()),
+})
+
+export default connect(stateToProps, dispatchToProps)(withRouter(Navbar))

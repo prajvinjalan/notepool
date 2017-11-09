@@ -1,16 +1,17 @@
 import { combineReducers } from 'redux'
 
-import constants from '../constants'
+import { noteConstants } from '../constants'
+import { userConstants } from '../constants'
 
 const notes = (state = [], action) => {
-  switch (action.type){
-    case constants.RECEIVE_NOTES:
+  switch (action.type) {
+    case noteConstants.RECEIVE_NOTES:
       return action.payload;
 
-    case constants.ADD_NOTE:
+    case noteConstants.ADD_NOTE:
       return [...state, action.payload];
 
-    case constants.UPDATE_NOTE:
+    case noteConstants.UPDATE_NOTE:
       return state.map(note => {
         if(note.id === action.payload.id){
           return action.payload;
@@ -18,10 +19,10 @@ const notes = (state = [], action) => {
         return note;
       });
 
-    case constants.DELETE_NOTE:
+    case noteConstants.DELETE_NOTE:
       return state.filter(note => note.id !== action.payload);
 
-    case constants.ADD_COLLABORATOR:
+    case noteConstants.ADD_COLLABORATOR:
       return state.map(note => {
         if(note.id === action.payload.id){
           let alreadyAdded = false;
@@ -39,7 +40,7 @@ const notes = (state = [], action) => {
         return note;
       });
 
-    case constants.REMOVE_COLLABORATOR:
+    case noteConstants.REMOVE_COLLABORATOR:
       return state.map(note => {
         if(note.id === action.payload.id){
           let selectedNote = {...note};
@@ -53,6 +54,9 @@ const notes = (state = [], action) => {
         return note;
       });
 
+    case userConstants.LOGOUT_USER:
+      return [];
+
     default:
       return state;
   }
@@ -62,22 +66,25 @@ const notesById = (state = {}, action) => {
   let nextState = {};
 
   switch (action.type){
-    case constants.RECEIVE_NOTES:
+    case noteConstants.RECEIVE_NOTES:
       nextState = {...state};
       action.payload.forEach(note => {
         nextState[note.id] = note;
       });
       return nextState;
 
-    case constants.ADD_NOTE:
-    case constants.UPDATE_NOTE:
-    case constants.UPDATE_COLLABORATORS:
+    case noteConstants.ADD_NOTE:
+    case noteConstants.UPDATE_NOTE:
+    case noteConstants.UPDATE_COLLABORATORS:
       return {...state, [action.payload.id]: action.payload};
 
-    case constants.DELETE_NOTE:
+    case noteConstants.DELETE_NOTE:
       nextState = {...state};
       delete nextState[action.payload];
       return nextState;
+
+    case userConstants.LOGOUT_USER:
+      return {};
 
     default:
       return state;

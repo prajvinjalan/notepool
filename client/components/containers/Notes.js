@@ -11,11 +11,11 @@ class Notes extends Component {
   }
 
   componentDidMount(){
-    this.props.fetchNotes();
+    this.props.fetchNotes(this.props.user.id);
   }
 
   addNote(newNote){
-    this.props.addNote(newNote);
+    this.props.addNote({note: newNote, id: this.props.user.id});
   }
 
   updateNote(updatedNote){
@@ -44,7 +44,8 @@ class Notes extends Component {
 }
 
 const stateToProps = (state) => ({
-  notes: state.note.notes
+  notes: state.note.notes,
+  user: state.user
 })
 
 const dispatchToProps = (dispatch) => ({
