@@ -1,5 +1,5 @@
 import { userConstants } from '../constants'
-import { APIManager, Auth } from '../../utils'
+import { APIManager } from '../../utils'
 
 // ACTION DISPATCHERS
 // equivalent to " ... => { return (dispatch) => { ... }} "
@@ -11,6 +11,10 @@ export const localRegister = (newUser) => (dispatch) => {
   .then(response => {
     console.log(response.message);
     dispatch(registerSuccessAction(response.user));
+    dispatch(localLogin({
+      email: newUser.email,
+      password: newUser.password
+    }));
     return null;
   })
   .catch(error => {
@@ -26,7 +30,6 @@ export const localLogin = (user) => (dispatch) => {
   .then(response => {
     console.log(response.message);
     dispatch(loginSuccessAction(response.user));
-    Auth.authenticateUser(response.user._id);
     //this.props.history.push('/notes');
     return null;
   })
@@ -41,7 +44,6 @@ export const logout = () => (dispatch) => {
   .then(response => {
     console.log(response.message);
     dispatch(logoutUserAction());
-    Auth.deauthenticateUser();
     //this.props.history.push('/');
   })
   .catch(error => {

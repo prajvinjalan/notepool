@@ -1,5 +1,5 @@
 import { noteConstants } from '../constants'
-import { APIManager, Auth } from '../../utils'
+import { APIManager } from '../../utils'
 
 // ACTION DISPATCHERS
 // equivalent to " ... => { return (dispatch) => { ... }} "
