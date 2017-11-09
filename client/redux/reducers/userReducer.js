@@ -11,14 +11,16 @@ const user = (state = initialState, action) => {
   switch (action.type) {
     case userConstants.REGISTER_REQUEST:
       return {...state,
-        loading: true
+        loading: true,
+        message: ""
       };
 
     case userConstants.REGISTER_SUCCESS:
       return {...state,
         loading: false,
         authenticated: true,
-        userId: action.payload._id
+        id: action.payload._id,
+        message: ""
       };
 
     case userConstants.REGISTER_FAILURE:
@@ -30,7 +32,8 @@ const user = (state = initialState, action) => {
 
     case userConstants.LOGIN_REQUEST:
       return {...state,
-        loading: true
+        loading: true,
+        message: ""
       };
 
 
@@ -38,7 +41,8 @@ const user = (state = initialState, action) => {
       return {...state,
         loading: false,
         authenticated: true,
-        id: action.payload._id
+        id: action.payload._id,
+        message: ""
       };
 
     case userConstants.LOGIN_FAILURE:
@@ -52,7 +56,8 @@ const user = (state = initialState, action) => {
       return {...state,
         loading: false,
         authenticated: false,
-        id: ""
+        id: "",
+        message: ""
       };
 
     default:
