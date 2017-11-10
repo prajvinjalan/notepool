@@ -3,7 +3,7 @@
 ## Getting Started
 1. Clone the repository:
 ```
-git clone https://github.com/rkanjani/notepool.git
+git clone https://github.com/jalanp/notepool.git
 cd notepool
 ```
 2. Install dependencies and bundle using webpack:
