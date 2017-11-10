@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import * as actions from '../../redux/actions'
 
-import { LogReg, ProfileDetails } from '../presentation'
+import { Loading, LogReg, ProfileDetails } from '../presentation'
 import { PrivateRoute, RouteNotFound } from '../layout/RouteHandler'
 
 class Profile extends Component {
@@ -52,23 +52,31 @@ class Profile extends Component {
       )
     }
 
+    const AuthSwitch = () => {
+      return(
+        <div>
+          {this.props.user.authenticated ?
+            <Switch>
+              <Route exact path={this.state.path} component={ProfileDetails}/>
+              <Redirect exact from={`${this.state.path}/login`} to={this.state.path} />
+              <Redirect exact from={`${this.state.path}/register`} to={this.state.path} />
+              <RouteNotFound />
+            </Switch>
+            :
+            <Switch>
+              <Route exact path={`${this.state.path}/login`} component={LoginPage}/>
+              <Route exact path={`${this.state.path}/register`} component={RegisterPage}/>
+              <PrivateRoute exact path={this.state.path} />
+              <RouteNotFound />
+            </Switch>
+          }
+        </div>
+      )
+    }
+
     return(
       <div>
-        {this.props.user.authenticated ?
-          <Switch>
-            <Route exact path={this.state.path} component={ProfileDetails}/>
-            <Redirect exact from={`${this.state.path}/login`} to={this.state.path} />
-            <Redirect exact from={`${this.state.path}/register`} to={this.state.path} />
-            <RouteNotFound />
-          </Switch>
-          :
-          <Switch>
-            <Route exact path={`${this.state.path}/login`} component={LoginPage}/>
-            <Route exact path={`${this.state.path}/register`} component={RegisterPage}/>
-            <PrivateRoute exact path={this.state.path} />
-            <RouteNotFound />
-          </Switch>
-        }
+        {this.props.user.loading ? <Loading /> : <AuthSwitch />}
       </div>
     )
   }

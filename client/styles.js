@@ -16,6 +16,11 @@ export default {
       position: 'absolute',
       margin: '10px'
     },
+    loading: {
+      width: '48px',
+      margin: '0 auto',
+      paddingTop: '100px'
+    },
     title: {
       margin: 0,
       fontWeight: 500,
@@ -58,17 +63,9 @@ export default {
     borderTop: '1px solid #ddd'
   },
   note: {
-    container: {
-      padding: 16,
-      background: '#f9f9f9',
-      border: '1px solid #ddd',
-      display: 'grid',
-      gridTemplateRows: '[row-start] 2fr [row-2] 1fr [row-end]',
-      gridTemplateColumns: '[column-start] 3fr [column-2] 1fr [column-end]'
-    },
-    formInput: {
-      paddingLeft: '55px',
-      height: '40px'
+    body: {
+      whiteSpace: 'pre-wrap',
+      wordWrap: 'break-word'
     },
     bodyInput: {
       paddingLeft: '55px',
@@ -78,20 +75,13 @@ export default {
       minWidth: '100%',
       maxWidth: '100%'
     },
-    header: {
-      marginTop: 0,
-      marginBottom: 0
-    },
-    title: {
-      textDecoration: 'none',
-      color: 'red'
-    },
-    list: {
-      listStyleType: 'none'
-    },
-    body: {
-      whiteSpace: 'pre-wrap',
-      wordWrap: 'break-word'
+    container: {
+      padding: 16,
+      background: '#f9f9f9',
+      border: '1px solid #ddd',
+      display: 'grid',
+      gridTemplateRows: '[row-start] 2fr [row-2] 1fr [row-end]',
+      gridTemplateColumns: '[column-start] 3fr [column-2] 1fr [column-end]'
     },
     colourButton: {
       borderRadius: '50%',
@@ -101,6 +91,17 @@ export default {
       margin: '4px',
       outline: 'none'
     },
+    formInput: {
+      paddingLeft: '55px',
+      height: '40px'
+    },
+    header: {
+      marginTop: 0,
+      marginBottom: 0
+    },
+    list: {
+      listStyleType: 'none'
+    },
     roundedButton: {
       borderRadius: '50%',
       border: '1px solid #888',
@@ -108,6 +109,10 @@ export default {
       height: '20px',
       outline: 'none',
       padding: '0'
+    },
+    title: {
+      textDecoration: 'none',
+      color: 'red'
     }
   }
 }

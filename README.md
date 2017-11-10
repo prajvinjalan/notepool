@@ -24,7 +24,7 @@ To have the build refresh on code changes, run the following commands on separat
 webpack -w
 npm run devstart
 ```
+Specifying ```NODE_ENV=<dev>``` will apply the Redux Logger middleware.
 
 ## Notes
-+ integrate Redux?
-+ use different styling (switch from Bootstrap to Semantic-UI?)
++ switch from Bootstrap to Semantic-UI

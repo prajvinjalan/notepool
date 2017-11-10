@@ -29,6 +29,7 @@ export const localLogin = (user) => (dispatch) => {
   APIManager.post('/auth/login', user)
   .then(response => {
     console.log(response.message);
+    //setTimeout(() => {dispatch(loginSuccessAction(response.user))}, 1000);
     dispatch(loginSuccessAction(response.user));
     //this.props.history.push('/notes');
     return null;

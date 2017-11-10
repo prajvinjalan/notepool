@@ -91,9 +91,23 @@ const notesById = (state = {}, action) => {
   }
 }
 
+const loading = (state = false, action) => {
+  switch (action.type){
+    case noteConstants.RECEIVING_NOTES:
+      return true;
+
+    case noteConstants.RECEIVE_NOTES:
+      return false;
+
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   notes,
-  notesById
+  notesById,
+  loading
 });
 
 export const getNoteById = (state, id) => state.notesById[id];

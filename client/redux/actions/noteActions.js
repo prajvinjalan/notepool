@@ -5,11 +5,14 @@ import { APIManager } from '../../utils'
 // equivalent to " ... => { return (dispatch) => { ... }} "
 
 export const fetchNotes = (id) => (dispatch) => {
+  dispatch(fetchingNotesAction());
+
   APIManager.get(`/api/users/${id}`, null)
   .then(response => {
     let params = { params: { collaborators: response.result.local.email }}
     APIManager.get('/api/notes', params)
     .then(response => {
+      //setTimeout(() => {dispatch(fetchNotesAction(response.result))}, 1000);
       dispatch(fetchNotesAction(response.result));
       return null;
     })
@@ -88,6 +91,10 @@ const updateCollaborator = (params) => (dispatch, getState) => {
 
 // ACTION CREATORS
 // equivalent to " ... => { return { ... } } "
+
+const fetchingNotesAction = () => ({
+  type: noteConstants.RECEIVING_NOTES
+})
 
 const fetchNotesAction = (notes) => ({
   type: noteConstants.RECEIVE_NOTES,

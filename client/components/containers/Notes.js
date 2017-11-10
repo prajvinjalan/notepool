@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import * as actions from '../../redux/actions'
 
-import { Note, NoteForm, NoteList } from '../presentation'
+import { Loading, Note, NoteForm, NoteList } from '../presentation'
 
 class Notes extends Component {
   constructor(props){
@@ -38,14 +38,21 @@ class Notes extends Component {
     const noteForm = <NoteForm header="Add a note" item={{title: '', body: '', colour: '', collaborators: []}} buttonClick={this.addNote.bind(this)} buttonText="Add Note"/>
 
     return(
-      <NoteList listItems={this.props.notes} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)} addCollaborator={this.addCollaborator.bind(this)} removeCollaborator={this.removeCollaborator.bind(this)} noteForm={noteForm}/>
+      <div>
+        {this.props.loading ?
+          <Loading />
+          :
+          <NoteList listItems={this.props.notes} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)} addCollaborator={this.addCollaborator.bind(this)} removeCollaborator={this.removeCollaborator.bind(this)} noteForm={noteForm}/>
+        }
+      </div>
     )
   }
 }
 
 const stateToProps = (state) => ({
   notes: state.note.notes,
-  user: state.user
+  user: state.user,
+  loading: state.note.loading
 })
 
 const dispatchToProps = (dispatch) => ({
