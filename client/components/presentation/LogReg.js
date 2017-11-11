@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { Button, Container, Divider, Grid, Header, Icon, Input } from 'semantic-ui-react'
 
 import styles from '../../styles.js'
 
@@ -17,7 +18,7 @@ class LogReg extends Component {
   }
 
   handleInputChange(event){
-    let updatedUser = Object.assign({}, this.state.newUser);
+    let updatedUser = {...this.state.newUser};
     updatedUser[event.target.id] = event.target.value;
     this.setState({
       newUser: updatedUser
@@ -25,40 +26,46 @@ class LogReg extends Component {
   }
 
   buttonClick(){
-    let user = Object.assign({}, this.state.newUser);
+    let user = {...this.state.newUser};
     this.props.buttonClick(user);
   }
 
   render(){
     return(
-      <div className="container">
-        <div style={styles.logreg.container}>
-          <h1 style={styles.logreg.header}>{this.props.title}</h1>
+      <div>
+        <Container style={styles.logreg.container}>
+          <Header size='huge' style={styles.logreg.header}>{this.props.title}</Header>
           <p style={styles.logreg.paragraph}>{this.props.description}</p>
-          <div style={styles.logreg.socialWrapper}>
-            <button className="btn btn-danger">Google</button>
-            <button className="btn btn-primary">Facebook</button>
-            <button className="btn btn-info">Twitter</button>
-          </div>
-          {this.props.isRegister &&
-            <fieldset className="form-group" style={styles.universal.formGroup}>
-              <label htmlFor="name" style={styles.universal.formLabel}>Name</label>
-              <input id="name" className="form-control" type="text" style={styles.logreg.formInput} onChange={this.handleInputChange.bind(this)}></input>
-            </fieldset>
-          }
-          <fieldset className="form-group" style={styles.universal.formGroup}>
-            <label htmlFor="email" style={styles.universal.formLabel}>Email</label>
-            <input id="email" className="form-control" type="text" style={styles.logreg.formInput} onChange={this.handleInputChange.bind(this)}></input>
-          </fieldset>
-          <fieldset className="form-group" style={styles.universal.formGroup}>
-            <label htmlFor="password" style={styles.universal.formLabel}>Password</label>
-            <input id="password" className="form-control" type="password" style={styles.logreg.formInput} onChange={this.handleInputChange.bind(this)}></input>
-          </fieldset>
-          <button className="btn btn-success btn-block" onClick={this.buttonClick.bind(this)}>{this.props.title}</button>
-        </div>
-        <div style={Object.assign({}, styles.logreg.container, styles.logreg.container.bottom)}>
+          <Grid columns='equal'>
+            <Grid.Column verticalAlign='middle'>
+              {this.props.isRegister &&
+                <Input fluid id="name" icon='user' iconPosition='left' placeholder='Name' onChange={this.handleInputChange.bind(this)} style={{marginBottom: '2rem'}} />
+              }
+              <Input fluid id="email" icon='mail' iconPosition='left' placeholder='Email' onChange={this.handleInputChange.bind(this)} style={{marginBottom: '2rem'}} />
+              <Input fluid id="password" icon='lock' iconPosition='left' placeholder='Password' type='password' onChange={this.handleInputChange.bind(this)} style={{marginBottom: '2rem'}} />
+              <Button size='huge' fluid color='green' onClick={this.buttonClick.bind(this)}>{this.props.title}</Button>
+            </Grid.Column>
+            <Grid.Column width={1}>
+              <Divider vertical>Or</Divider>
+            </Grid.Column>
+            <Grid.Column verticalAlign='middle'>
+              <Button size='huge' fluid color='facebook'>
+                <Icon name='facebook' /> Facebook
+              </Button>
+              <br />
+              <Button size='huge' fluid color='twitter'>
+                <Icon name='twitter' /> Twitter
+              </Button>
+              <br />
+              <Button size='huge' fluid color='google plus'>
+                <Icon name='google plus' /> Google Plus
+              </Button>
+            </Grid.Column>
+          </Grid>
+        </Container>
+        <Container style={{...styles.logreg.container, ...styles.logreg.container.bottom}}>
           {this.props.switchDescription} <Link to={this.props.isRegister ? '/profile/login' : '/profile/register'}>{(this.props.title == 'Login' ? 'Register' : 'Login')}</Link>
-        </div>
+        </Container>
       </div>
     )
   }

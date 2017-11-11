@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 import Footer from './Footer'
-import Header from './Header'
 import { Home } from '../presentation'
 import Navbar from '../containers/Navbar'
 import NoteDetails from '../containers/NoteDetails'
@@ -14,7 +13,6 @@ class Main extends Component {
   render(){
     return(
       <div>
-        <Header />
         <Navbar />
         <main style={{minHeight: '435px'}}>
           <Switch>

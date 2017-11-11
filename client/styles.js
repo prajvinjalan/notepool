@@ -3,7 +3,8 @@ export default {
     container: {
       padding: 16,
       background: '#f9f9f9',
-      textAlign: 'center'
+      textAlign: 'center',
+      height: '70px'
     },
     footer: {
       bottom: '0',
@@ -23,17 +24,14 @@ export default {
     },
     title: {
       margin: 0,
-      fontWeight: 500,
-      fontSize: '3.5rem',
-      textDecoration: 'none',
-      color: 'black',
+      textDecoration: 'none'
     }
   },
   logreg: {
     container: {
       margin: '30px auto',
       padding: '30px 40px',
-      maxWidth: '400px',
+      width: '600px',
       border: '1px solid #ddd',
       bottom: {
         textAlign: 'center'
@@ -44,10 +42,10 @@ export default {
       height: '40px'
     },
     header: {
-      margin: '18px 0',
       textAlign: 'center'
     },
     paragraph: {
+      marginBottom: '2rem',
       textAlign: 'center'
     },
     socialWrapper: {
