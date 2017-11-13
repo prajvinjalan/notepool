@@ -104,10 +104,21 @@ const loading = (state = false, action) => {
   }
 }
 
+const currentNote = (state = {}, action) => {
+  switch (action.type){
+    case noteConstants.SET_CURRENT_NOTE:
+      return action.payload;
+
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   notes,
   notesById,
-  loading
+  loading,
+  currentNote
 });
 
 export const getNoteById = (state, id) => state.notesById[id];

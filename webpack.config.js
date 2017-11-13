@@ -20,6 +20,11 @@ module.exports = {
           plugins: [['lodash', {'id': ['lodash', 'semantic-ui-react'] }]],
           presets: ['react', 'env', 'stage-2']
         }
+      },
+      {
+        test: /\.scss$/,
+        exclude: /(node_modules)/,
+        loaders: [ 'style-loader', 'css-loader', 'sass-loader' ]
       }
     ]
   }

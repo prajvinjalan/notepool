@@ -67,6 +67,11 @@ export const deleteNote = (id) => (dispatch) => {
   });
 }
 
+export const setCurrentNote = (id) => (dispatch, getState) => {
+  const note = getState().note.notesById[id];
+  dispatch(setCurrentNoteAction(note));
+}
+
 export const addCollaborator = (params) => (dispatch) => {
   dispatch(addCollaboratorAction(params));
   dispatch(updateCollaborator(params));
@@ -114,6 +119,11 @@ const updateNoteAction = (note) => ({
 const deleteNoteAction = (id) => ({
   type: noteConstants.DELETE_NOTE,
   payload: id
+});
+
+const setCurrentNoteAction = (note) => ({
+  type: noteConstants.SET_CURRENT_NOTE,
+  payload: note
 });
 
 const addCollaboratorAction = (params) => ({

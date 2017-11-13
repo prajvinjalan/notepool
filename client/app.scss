@@ -1,0 +1,23 @@
+.ui.centered.card, .ui.centered.card:hover {
+  box-shadow: none;
+  border: 1px solid #d4d4d5;
+}
+
+@each $colour in yellow, lightgreen, lightskyblue {
+  .ui.card.#{$colour}>.content {
+    background: #{$colour};
+  }
+}
+
+.ui.modal input {
+  border: none;
+  font-weight: bold;
+}
+
+.ui.modal textarea {
+  border: none;
+}
+
+.ui.modal>.content.with-border {
+  border-bottom: 1px solid rgba(34,36,38,.15);
+}

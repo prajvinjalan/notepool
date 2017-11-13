@@ -7,6 +7,8 @@ import store from './redux/store'
 import Main from './components/layout/Main'
 import { CaptureRouteNotFound } from './components/layout/RouteHandler'
 
+import './app.scss'
+
 class App extends Component {
   render(){
     return(

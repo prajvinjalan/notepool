@@ -112,5 +112,27 @@ export default {
       textDecoration: 'none',
       color: 'red'
     }
+  },
+  item: {
+    container: {
+      border: '1px solid #999',
+      borderRadius: '5px',
+      padding: '10px',
+      cursor: 'pointer'
+    },
+    header: {
+      fontWeight: 'bold',
+      fontSize: 'x-large',
+      padding: '5px'
+    },
+    description: {
+      padding: '5px'
+    },
+    divider: {
+      margin: '10px 0'
+    },
+    extra: {
+      padding: '5px',
+    }
   }
 }

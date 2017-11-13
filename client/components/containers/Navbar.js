@@ -19,7 +19,7 @@ class Navbar extends Component {
 
     const LogRegLinks = () => {
       return(
-        <Menu.Menu position='right'>
+        <Menu.Menu>
           <Menu.Item name='register'>
             <Button inverted color='green' as={Link} to='/profile/register'>Register</Button>
           </Menu.Item>
@@ -33,7 +33,7 @@ class Navbar extends Component {
     const UserLinks = () => {
       return(
         <Menu.Menu>
-          <Menu.Item as={Link} name='notes' to="/notes" />
+          <Menu.Item name='notes' as={Link} to='/notes'>Notes</Menu.Item>
           <Dropdown item pointing className='top right' text='Profile'>
             <Dropdown.Menu>
               <Dropdown.Item as={Link} icon='user' text='Details' to="/profile" />
@@ -48,7 +48,7 @@ class Navbar extends Component {
     return(
       <div style={styles.universal.container}>
         <Container>
-          <Menu size='massive' secondary>
+          <Menu size='small' secondary>
             <Container>
               <Header size='huge' as={Link} to="/" style={styles.universal.title}>Notepool</Header>
             </Container>

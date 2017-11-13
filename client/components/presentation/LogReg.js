@@ -39,26 +39,26 @@ class LogReg extends Component {
           <Grid columns='equal'>
             <Grid.Column verticalAlign='middle'>
               {this.props.isRegister &&
-                <Input fluid id="name" icon='user' iconPosition='left' placeholder='Name' onChange={this.handleInputChange.bind(this)} style={{marginBottom: '2rem'}} />
+                <Input fluid id="name" icon='user' iconPosition='left' placeholder='Name' onChange={this.handleInputChange.bind(this)} style={{marginBottom: '1rem'}} />
               }
-              <Input fluid id="email" icon='mail' iconPosition='left' placeholder='Email' onChange={this.handleInputChange.bind(this)} style={{marginBottom: '2rem'}} />
-              <Input fluid id="password" icon='lock' iconPosition='left' placeholder='Password' type='password' onChange={this.handleInputChange.bind(this)} style={{marginBottom: '2rem'}} />
-              <Button size='huge' fluid color='green' onClick={this.buttonClick.bind(this)}>{this.props.title}</Button>
+              <Input fluid id="email" icon='mail' iconPosition='left' placeholder='Email' onChange={this.handleInputChange.bind(this)} style={{marginBottom: '1rem'}} />
+              <Input fluid id="password" icon='lock' iconPosition='left' placeholder='Password' type='password' onChange={this.handleInputChange.bind(this)} style={{marginBottom: '1rem'}} />
+              <Button size='medium' fluid color='green' onClick={this.buttonClick.bind(this)}>{this.props.title}</Button>
             </Grid.Column>
             <Grid.Column width={1}>
               <Divider vertical>Or</Divider>
             </Grid.Column>
             <Grid.Column verticalAlign='middle'>
-              <Button size='huge' fluid color='facebook'>
+              <Button size='medium' fluid color='facebook'>
                 <Icon name='facebook' /> Facebook
               </Button>
               <br />
-              <Button size='huge' fluid color='twitter'>
+              <Button size='medium' fluid color='twitter'>
                 <Icon name='twitter' /> Twitter
               </Button>
               <br />
-              <Button size='huge' fluid color='google plus'>
-                <Icon name='google plus' /> Google Plus
+              <Button size='medium' fluid color='google plus'>
+                <Icon name='google plus' /> Google
               </Button>
             </Grid.Column>
           </Grid>
