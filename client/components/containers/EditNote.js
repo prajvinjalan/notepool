@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Dropdown, Form, Grid, Input, Modal, TextArea } from 'semantic-ui-react'
+import { Button, Dropdown, Form, Grid, Input, Label, Modal, TextArea } from 'semantic-ui-react'
 
 import styles from '../../styles.js'
 
@@ -56,7 +56,7 @@ class EditNote extends Component {
         </Modal.Content>
         <Modal.Content>
           <Modal.Description>
-            Collaborators
+            <Label>Collaborators</Label>
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>

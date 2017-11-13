@@ -21,3 +21,11 @@
 .ui.modal>.content.with-border {
   border-bottom: 1px solid rgba(34,36,38,.15);
 }
+
+.ui.grid>.row {
+  margin-bottom: 2rem !important;
+}
+
+.ui.button.right-aligned-button {
+  margin: auto 0 auto auto;
+}

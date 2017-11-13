@@ -10,10 +10,12 @@ function create (params, isRaw) {
         return;
       }
 
-      if(isRaw === true){
-        resolve(note);
-      } else {
-        resolve(note.summary());
+      if(note){
+        if(isRaw === true){
+          resolve(note);
+        } else {
+          resolve(note.summary());
+        }
       }
     });
   });
@@ -28,14 +30,16 @@ function find (params, isRaw) {
         return;
       }
 
-      if(isRaw === true){
-        resolve(notes);
-      } else {
-        let list = []
-        notes.forEach(function(note, i){
-          list.push(note.summary());
-        });
-        resolve(list);
+      if(notes){
+        if(isRaw === true){
+          resolve(notes);
+        } else {
+          let list = []
+          notes.forEach(function(note, i){
+            list.push(note.summary());
+          });
+          resolve(list);
+        }
       }
     });
   });
@@ -50,10 +54,12 @@ function findById (id, isRaw) {
         return;
       }
 
-      if(isRaw === true){
-        resolve(note);
-      } else {
-        resolve(note.summary());
+      if(note){
+        if(isRaw === true){
+          resolve(note);
+        } else {
+          resolve(note.summary());
+        }
       }
     });
   });
@@ -67,11 +73,13 @@ function update (id, params, isRaw) {
         reject(err);
         return;
       }
-      
-      if(isRaw === true){
-        resolve(note);
-      } else {
-        resolve(note.summary());
+
+      if(note){
+        if(isRaw === true){
+          resolve(note);
+        } else {
+          resolve(note.summary());
+        }
       }
     });
   });

@@ -33,12 +33,12 @@ export const addNote = (params) => (dispatch) => {
     APIManager.post('/api/notes', params.note)
     .then(response => {
       dispatch(addNoteAction(response.result));
-      return null;
+      dispatch(setCurrentNote(response.result.id));
     })
     .catch(error => {
       console.log(error.message);
     });
-    return null;
+    return response;
   })
   .catch(error => {
     console.log(error.message);
@@ -67,8 +67,7 @@ export const deleteNote = (id) => (dispatch) => {
   });
 }
 
-export const setCurrentNote = (id) => (dispatch, getState) => {
-  const note = getState().note.notesById[id];
+export const setCurrentNote = (note) => (dispatch) => {
   dispatch(setCurrentNoteAction(note));
 }
 

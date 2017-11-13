@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Card, Divider, Item } from 'semantic-ui-react'
+import { Card, Divider, Item, Label } from 'semantic-ui-react'
 
 import styles from '../../styles.js'
 import { CollaboratorForm } from '../presentation'
@@ -52,7 +52,7 @@ class Note extends Component {
   }
 
   show(){
-    this.props.show(this.props.currentNote.id);
+    this.props.show(this.props.currentNote);
   }
 
   render(){
@@ -99,7 +99,7 @@ class Note extends Component {
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-          Collaborators
+          <Label>Collaborators</Label>
         </Card.Content>
       </Card>
       // <Item id='noteItem' style={{...styles.item.container, ...{background: this.props.currentNote.colour}}} onClick={this.show.bind(this)}>

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Card, Container, Grid, Modal } from 'semantic-ui-react'
+import { Button, Container, Grid, Modal } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
 import { getNoteById } from '../../redux/reducers'
 
-import { Loading, Note, NoteForm, NoteList } from '../presentation'
+import { Loading, Note } from '../presentation'
 import EditNote from './EditNote'
 import styles from '../../styles'
 
@@ -22,8 +22,9 @@ class Notes extends Component {
     this.props.fetchNotes(this.props.user.id);
   }
 
-  addNote(note){
-    this.props.addNote({note: note, id: this.props.user.id});
+  addNote(){
+    const note = {title: '', body: '', colour: '', collaborators: []};
+    this.show(note);
   }
 
   updateNote(updatedNote){
@@ -42,20 +43,24 @@ class Notes extends Component {
     this.props.removeCollaborator(params);
   }
 
-  show = (id) => {
-    this.props.setCurrentNote(id);
+  show = (note) => {
+    this.props.setCurrentNote(note);
     this.setState({ open: true });
   }
 
   close = (note) => {
     this.setState({ open: false });
-    if (note) {
+    if (note.id) { // if this note already exists
       this.props.updateNote(note);
+    } else { // if this is a new note it won't have an id
+      this.props.addNote({note: note, id: this.props.user.id});
     }
   }
 
+
+
   render(){
-    const noteForm = <NoteForm header="Add a note" item={{title: '', body: '', colour: '', collaborators: []}} buttonClick={this.addNote.bind(this)} buttonText="Add Note"/>
+    const noteButton = <Button circular icon='plus' size='big' color='teal' className='right-aligned-button' onClick={this.addNote.bind(this)}></Button>
 
     const listItems = this.props.notes.map((note, i) => {
       return(
@@ -70,14 +75,13 @@ class Notes extends Component {
         {this.props.loading ?
           <Loading />
           :
-          // <NoteList listItems={this.props.notes} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)} addCollaborator={this.addCollaborator.bind(this)} removeCollaborator={this.removeCollaborator.bind(this)} noteForm={noteForm}/>
           <Container style={{marginTop: '50px'}}>
             <Grid columns={3} stackable>
               <Grid.Row>
                 {listItems}
               </Grid.Row>
               <Grid.Row>
-                {noteForm}
+                {noteButton}
               </Grid.Row>
             </Grid>
           </Container>
