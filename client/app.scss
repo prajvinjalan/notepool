@@ -3,10 +3,53 @@
   border: 1px solid #d4d4d5;
 }
 
-@each $colour in yellow, lightgreen, lightskyblue {
-  .ui.card.#{$colour}>.content {
+@each $colour in white, lightgreen, lightskyblue, lightcoral, yellow, rosybrown {
+  .ui.card.#{$colour} > .content {
     background: #{$colour};
   }
+
+  .ui.button##{$colour}.icon {
+    background: #{$colour};
+    border: 1px solid #aaa;
+    margin: 5px !important;
+    padding: 15px;
+
+    .icon {
+      display: none;
+    }
+  }
+
+  .ui.button##{$colour}.colour-selected.icon {
+    padding: 8px;
+
+    .icon {
+      display: inline;
+    }
+  }
+
+  .ui.button##{$colour}:hover, .ui.button##{$colour}:focus {
+    border: 1px solid #555;
+    background: #{$colour};
+  }
+
+  .ui.modal.#{$colour} > .header,
+  .ui.modal.#{$colour} > .content,
+  .ui.modal.#{$colour} input,
+  .ui.modal.#{$colour} textarea {
+    background: #{$colour};
+  }
+}
+
+.ui.dropdown .menu > .item:hover {
+  background: none;
+}
+
+.ui.dropdown .menu > .item {
+  padding: 0.5rem !important;
+}
+
+.ui.circular.button > .icon {
+  color: #555;
 }
 
 .ui.modal input {
@@ -18,14 +61,19 @@
   border: none;
 }
 
-.ui.modal>.content.with-border {
+.ui.modal > .content.with-border {
   border-bottom: 1px solid rgba(34,36,38,.15);
 }
 
-.ui.grid>.row {
+.ui.grid > .row {
   margin-bottom: 2rem !important;
 }
 
 .ui.button.right-aligned-button {
   margin: auto 0 auto auto;
+}
+
+.ui.dropdown .menu > .item.with-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }

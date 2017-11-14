@@ -11,7 +11,7 @@ class Navbar extends Component {
     super(props);
   }
 
-  logoutUser(){
+  logoutUser = () => {
     this.props.logout();
   }
 

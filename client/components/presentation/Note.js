@@ -41,17 +41,7 @@ class Note extends Component {
     this.props.removeCollaborator(updatedCollaborators);
   }
 
-  updateColour(event){
-    if(this.props.currentNote.colour !== event.target.id){
-      const updatedNote = {
-        id: this.props.currentNote.id,
-        colour: event.target.id
-      }
-      this.props.updateNote(updatedNote);
-    }
-  }
-
-  show(){
+  show = () => {
     this.props.show(this.props.currentNote);
   }
 
@@ -95,7 +85,7 @@ class Note extends Component {
         <Card.Content>
           <Card.Header content={this.props.currentNote.title} />
           <Card.Description>
-            <span style={styles.note.body}>{this.props.currentNote.body}</span>
+            <span style={{whiteSpace: 'pre-wrap', wordWrap: 'break-word'}}>{this.props.currentNote.body}</span>
           </Card.Description>
         </Card.Content>
         <Card.Content extra>

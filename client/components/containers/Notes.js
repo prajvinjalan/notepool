@@ -7,7 +7,6 @@ import { getNoteById } from '../../redux/reducers'
 
 import { Loading, Note } from '../presentation'
 import EditNote from './EditNote'
-import styles from '../../styles'
 
 class Notes extends Component {
   constructor(props){
@@ -22,24 +21,24 @@ class Notes extends Component {
     this.props.fetchNotes(this.props.user.id);
   }
 
-  addNote(){
-    const note = {title: '', body: '', colour: '', collaborators: []};
+  addNote = () => {
+    const note = {title: '', body: '', colour: 'white', collaborators: []};
     this.show(note);
   }
 
-  updateNote(updatedNote){
+  updateNote = (updatedNote) => {
     this.props.updateNote(updatedNote);
   }
 
-  deleteNote(id){
+  deleteNote = (id) => {
     this.props.deleteNote(id);
   }
 
-  addCollaborator(params){
+  addCollaborator = (params) => {
     this.props.addCollaborator(params);
   }
 
-  removeCollaborator(params){
+  removeCollaborator = (params) => {
     this.props.removeCollaborator(params);
   }
 
@@ -50,10 +49,12 @@ class Notes extends Component {
 
   close = (note) => {
     this.setState({ open: false });
-    if (note.id) { // if this note already exists
-      this.props.updateNote(note);
-    } else { // if this is a new note it won't have an id
-      this.props.addNote({note: note, id: this.props.user.id});
+    if (note) { // undefined if closing on delete note button
+      if (note.id) { // if this note already exists
+        this.props.updateNote(note);
+      } else { // if this is a new note it won't have an id
+        this.props.addNote({note: note, id: this.props.user.id});
+      }
     }
   }
 
