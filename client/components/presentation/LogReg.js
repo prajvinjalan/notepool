@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
-import { Auth } from '../../utils'
 import styles from '../../styles.js'
 
 class LogReg extends Component {
@@ -28,10 +27,6 @@ class LogReg extends Component {
   buttonClick(){
     let user = Object.assign({}, this.state.newUser);
     this.props.buttonClick(user);
-  }
-
-  check(){
-    console.log(Auth.getUserId());
   }
 
   render(){

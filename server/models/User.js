@@ -20,4 +20,16 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
+UserSchema.methods.summary = function(){
+  let summary = {
+    local: {
+      name: this.local.name,
+      email: this.local.email
+    },
+    id: this._id.toString()
+  }
+
+  return summary;
+}
+
 const User = module.exports = mongoose.model('User', UserSchema);

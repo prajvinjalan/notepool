@@ -19,4 +19,16 @@ const NoteSchema = new mongoose.Schema({
   }
 });
 
+NoteSchema.methods.summary = function(){
+  let summary = {
+    title: this.title,
+    body: this.body,
+    colour: this.colour,
+    collaborators: this.collaborators,
+    id: this._id.toString()
+  }
+
+  return summary;
+}
+
 const Note = module.exports = mongoose.model('Note', NoteSchema);

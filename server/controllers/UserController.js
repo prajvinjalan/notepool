@@ -9,33 +9,52 @@ function create (params) {
         reject(err);
         return;
       }
-      resolve(user);
+
+      if(isRaw === true){
+        resolve(user);
+      } else {
+        resolve(user.summary());
+      }
     });
   });
 }
 
 // Read All
-function find (params) {
+function find (params, isRaw) {
   return new Promise(function(resolve, reject) {
     User.find(params, function(err, users){
       if(err){
         reject(err);
         return;
       }
-      resolve(users)
+
+      if(isRaw === true){
+        resolve(users);
+      } else {
+        let list = []
+        users.forEach(function(user, i){
+          list.push(user.summary());
+        });
+        resolve(list);
+      }
     });
   });
 }
 
 // Read One
-function findById (id, callback) {
+function findById (id, isRaw) {
   return new Promise(function(resolve, reject) {
     User.findById(id, function(err, user){
       if(err){
         reject(err);
         return;
       }
-      resolve(user);
+
+      if(isRaw === true){
+        resolve(user);
+      } else {
+        resolve(user.summary());
+      }
     });
   });
 }
@@ -48,13 +67,18 @@ function update (id, params) {
         reject(err);
         return;
       }
-      resolve(user);
+
+      if(isRaw === true){
+        resolve(user);
+      } else {
+        resolve(user.summary());
+      }
     });
   });
 }
 
 // Delete
-function _delete (id, callback) {
+function _delete (id) {
   return new Promise(function(resolve, reject) {
     User.findByIdAndRemove(id, function(err){
       if(err){

@@ -1,97 +1,67 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import { connect } from 'react-redux'
 
-import { APIManager, Auth } from '../../utils'
-import { Note, NoteForm, NoteList } from '../presentation'
+import * as actions from '../../redux/actions'
+
+import { Loading, Note, NoteForm, NoteList } from '../presentation'
 
 class Notes extends Component {
   constructor(props){
     super(props);
-
-    this.state = {
-      list: []
-    }
   }
 
   componentDidMount(){
-    this.getNotes();
-  }
-
-  getNotes(){
-    let id = Auth.getUserId();
-    APIManager.get(`/api/users/${id}`, null)
-    .then(response => {
-      let params = { params: { collaborators: response.result.local.email }}
-      APIManager.get('/api/notes', params)
-      .then(response => {
-        this.setState({
-          list: response.result
-        });
-        return null;
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
-      return null;
-    })
-    .catch(error => {
-      console.log(error.message);
-    });
+    this.props.fetchNotes(this.props.user.id);
   }
 
   addNote(newNote){
-    let id = Auth.getUserId();
-    APIManager.get(`/api/users/${id}`, null)
-    .then(response => {
-      newNote.collaborators.push(response.result.local.email);
-      APIManager.post('/api/notes', newNote)
-      .then(response => {
-        this.getNotes();
-        return null;
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
-      return null;
-    })
-    .catch(error => {
-      console.log(error.message);
-    });
-  }
-
-  deleteNote(id){
-    APIManager.delete(`/api/notes/${id}`)
-    .then(response => {
-      this.getNotes();
-      return null;
-    })
-    .catch(error => {
-      console.log(error.message);
-    });
+    this.props.addNote({note: newNote, id: this.props.user.id});
   }
 
   updateNote(updatedNote){
-    APIManager.put(`/api/notes/${updatedNote.id}`, {data: updatedNote})
-    .then(response => {
-      this.getNotes();
-      return null;
-    })
-    .catch(error => {
-      console.log(error.message);
-    });
+    this.props.updateNote(updatedNote);
   }
 
-  addCollaborator(){
+  deleteNote(id){
+    this.props.deleteNote(id);
+  }
 
+  addCollaborator(params){
+    this.props.addCollaborator(params);
+  }
+
+  removeCollaborator(params){
+    this.props.removeCollaborator(params);
   }
 
   render(){
     const noteForm = <NoteForm header="Add a note" item={{title: '', body: '', colour: '', collaborators: []}} buttonClick={this.addNote.bind(this)} buttonText="Add Note"/>
 
     return(
-      <NoteList listItems={this.state.list} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)} addCollaborator={this.addCollaborator.bind(this)} noteForm={noteForm}/>
+      <div>
+        {this.props.loading ?
+          <Loading />
+          :
+          <NoteList listItems={this.props.notes} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)} addCollaborator={this.addCollaborator.bind(this)} removeCollaborator={this.removeCollaborator.bind(this)} noteForm={noteForm}/>
+        }
+      </div>
     )
   }
 }
 
-export default Notes
+const stateToProps = (state) => ({
+  notes: state.note.notes,
+  user: state.user,
+  loading: state.note.loading
+})
+
+const dispatchToProps = (dispatch) => ({
+  fetchNotes: (params) => dispatch(actions.fetchNotes(params)),
+  addNote: (params) => dispatch(actions.addNote(params)),
+  updateNote: (params) => dispatch(actions.updateNote(params)),
+  deleteNote: (params) => dispatch(actions.deleteNote(params)),
+  addCollaborator: (params) => dispatch(actions.addCollaborator(params)),
+  removeCollaborator: (params) => dispatch(actions.removeCollaborator(params))
+})
+
+export default connect(stateToProps, dispatchToProps)(Notes)

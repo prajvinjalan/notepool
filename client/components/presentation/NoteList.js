@@ -15,14 +15,18 @@ class NoteList extends Component {
     this.props.updateNote(updatedNote);
   }
 
-  addCollaborator(){
-    this.props.addCollaborator();
+  addCollaborator(params){
+    this.props.addCollaborator(params);
+  }
+
+  removeCollaborator(params){
+    this.props.removeCollaborator(params);
   }
 
   render(){
     const listItems = this.props.listItems.map((note, i) => {
       return(
-        <li key={note._id}><Note currentNote={note} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)} addCollaborator={this.addCollaborator.bind(this)}></Note></li>
+        <li key={note.id}><Note currentNote={note} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)} addCollaborator={this.addCollaborator.bind(this)} removeCollaborator={this.removeCollaborator.bind(this)} /></li>
       )
     })
 

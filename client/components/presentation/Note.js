@@ -14,62 +14,37 @@ class Note extends Component {
   }
 
   callDelete(){
-    this.props.deleteNote(this.props.currentNote._id);
-  }
-
-  addCollaborator(email){
-    this.toggleCollaboratorForm();
-
-    const updatedNote = {
-      id: this.props.currentNote._id,
-      title: this.props.currentNote.title,
-      body: this.props.currentNote.body,
-      colour: this.props.currentNote.colour,
-      collaborators: this.props.currentNote.collaborators
-    }
-    let alreadyAdded = false;
-    for(let i = 0; i < updatedNote.collaborators.length; i++){
-      if(updatedNote.collaborators[i] === email){
-        alreadyAdded = true;
-      }
-    }
-    if(!alreadyAdded){
-      updatedNote.collaborators.push(email);
-      this.props.updateNote(updatedNote);
-    }
+    this.props.deleteNote(this.props.currentNote.id);
   }
 
   toggleCollaboratorForm(){
     this.setState({
       showCollabForm: !this.state.showCollabForm
-    })
+    });
+  }
+
+  addCollaborator(email){
+    this.toggleCollaboratorForm();
+    const updatedCollaborators = {
+      id: this.props.currentNote.id,
+      email: email
+    }
+    this.props.addCollaborator(updatedCollaborators);
   }
 
   removeCollaborator(event){
-    let collaborators = this.props.currentNote.collaborators;
-    for(let i = 0; i < collaborators.length; i++){
-      if(collaborators[i] === event.target.id){
-        collaborators.splice(i, 1);
-      }
+    const updatedCollaborators = {
+      id: this.props.currentNote.id,
+      email: event.target.id
     }
-    const updatedNote = {
-      id: this.props.currentNote._id,
-      title: this.props.currentNote.title,
-      body: this.props.currentNote.body,
-      colour: this.props.currentNote.colour,
-      collaborators: collaborators
-    }
-    this.props.updateNote(updatedNote);
+    this.props.removeCollaborator(updatedCollaborators);
   }
 
   updateColour(event){
     if(this.props.currentNote.colour !== event.target.id){
       const updatedNote = {
-        id: this.props.currentNote._id,
-        title: this.props.currentNote.title,
-        body: this.props.currentNote.body,
-        colour: event.target.id,
-        collaborators: this.props.currentNote.collaborators
+        id: this.props.currentNote.id,
+        colour: event.target.id
       }
       this.props.updateNote(updatedNote);
     }
@@ -86,7 +61,7 @@ class Note extends Component {
       <div style={{...styles.note.container, ...{background: this.props.currentNote.colour}}}>
         <div style={{gridColumn: 'column-start / column-2', gridRow: 'row-start / row-2'}}>
           <h2 style={styles.note.header}>
-            <Link style={styles.note.title} to={`/notes/${this.props.currentNote._id}`}>{this.props.currentNote.title}</Link>
+            <Link style={styles.note.title} to={`/notes/${this.props.currentNote.id}`}>{this.props.currentNote.title}</Link>
           </h2>
           <span style={styles.note.body}>{this.props.currentNote.body}</span>
         </div>
