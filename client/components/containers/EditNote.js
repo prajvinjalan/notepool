@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Button, Dropdown, Form, Grid, Icon, Input, Label, Modal, TextArea } from 'semantic-ui-react'
 
+import EditCollaborators from './EditCollaborators'
+
 class EditNote extends Component {
   constructor(props){
     super(props);
@@ -12,7 +14,8 @@ class EditNote extends Component {
         body: '',
         colour: '',
         collaborators: []
-      }
+      },
+      open: false
     }
   }
 
@@ -64,37 +67,64 @@ class EditNote extends Component {
     }
   }
 
+  showCollab = () => {
+    this.setState({
+      open: true
+    });
+  }
+
+  closeCollab = (email) => {
+    if (email) {
+      let note = {...this.state.note};
+      note['collaborators'].push(email);
+      this.setState({
+        note: note
+      });
+    }
+    this.setState({
+      open: false,
+    });
+  }
+
   render(){
     const colours_1 = ['white', 'lightgreen', 'lightskyblue'];
     const colours_2 = ['lightcoral', 'yellow', 'rosybrown'];
 
     const colourList_1 = colours_1.map((colour, i) => {
       return(
-        <Button key={i} circular icon='check' id={colour} className={this.state.note.colour === colour ? 'colour-selected' : ''} onClick={this.updateColour.bind(this)} />
+        <Button key={i} circular icon='check' id={colour} className={this.state.note.colour === colour ? 'colour-selected' : ''} onClick={this.updateColour} />
       )
     })
 
     const colourList_2 = colours_2.map((colour, i) => {
       return(
-        <Button key={i} circular icon='check' id={colour} className={this.state.note.colour === colour ? 'colour-selected' : ''} onClick={this.updateColour.bind(this)} />
+        <Button key={i} circular icon='check' id={colour} className={this.state.note.colour === colour ? 'colour-selected' : ''} onClick={this.updateColour} />
       )
     })
 
+    const collabList = (this.state.note.collaborators !== undefined ?
+      this.state.note.collaborators.map((collaborator, i) => {
+        return(
+          <Label key={i}>{collaborator}</Label>
+        )
+      })
+      : '')
+
     return(
-      <Modal dimmer='inverted' open={this.props.open} onClose={this.close.bind(this)} className={this.props.item.colour}>
+      <Modal dimmer='inverted' open={this.props.open} onClose={this.close} className={this.props.item.colour}>
         <Modal.Header>
-          <Input id='title' fluid defaultValue={this.props.item.title} onChange={this.handleInputChange.bind(this)} />
+          <Input id='title' fluid placeholder='Title' defaultValue={this.props.item.title} onChange={this.handleInputChange} />
         </Modal.Header>
         <Modal.Content className='with-border'>
           <Modal.Description>
             <Form>
-              <TextArea id='body' autoHeight defaultValue={this.props.item.body} onChange={this.handleInputChange.bind(this)} />
+              <TextArea id='body' autoHeight defaultValue={this.props.item.body} onChange={this.handleInputChange} />
             </Form>
           </Modal.Description>
         </Modal.Content>
         <Modal.Content>
           <Modal.Description>
-            <Label>Collaborators</Label>
+            {collabList}
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
@@ -106,10 +136,11 @@ class EditNote extends Component {
                   <Dropdown.Item className='with-grid'>{colourList_2}</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-              <Button inverted color='green' icon='add user' onClick={this.close.bind(this)} />
+              <Button inverted color='green' icon='add user' onClick={this.showCollab} />
+              <EditCollaborators open={this.state.open} close={this.closeCollab} />
             </Grid.Column>
             <Grid.Column textAlign='right'>
-              <Button inverted color='red' icon='remove' onClick={this.delete.bind(this)} />
+              <Button inverted color='red' icon='trash' onClick={this.delete} />
             </Grid.Column>
           </Grid>
         </Modal.Actions>

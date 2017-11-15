@@ -31,24 +31,24 @@ class Profile extends Component {
     }
   }
 
-  registerUser(newUser){
+  registerUser = (newUser) => {
     this.props.localRegister(newUser);
   }
 
-  loginUser(user){
+  loginUser = (user) => {
     this.props.localLogin(user);
   }
 
   render(){
     const LoginPage = (props) => {
       return(
-        <LogReg title={this.state.login.title} description={this.state.login.description} switchDescription={this.state.login.switchDescription} isRegister={false} buttonClick={this.loginUser.bind(this)} />
+        <LogReg title={this.state.login.title} description={this.state.login.description} switchDescription={this.state.login.switchDescription} isRegister={false} buttonClick={this.loginUser} />
       )
     }
 
     const RegisterPage = (props) => {
       return(
-        <LogReg title={this.state.register.title} description={this.state.register.description} switchDescription={this.state.register.switchDescription} isRegister={true} buttonClick={this.registerUser.bind(this)} />
+        <LogReg title={this.state.register.title} description={this.state.register.description} switchDescription={this.state.register.switchDescription} isRegister={true} buttonClick={this.registerUser} />
       )
     }
 

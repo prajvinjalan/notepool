@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { Button, Container, Dropdown, Header, Menu } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
-import styles from '../../styles.js'
 
 class Navbar extends Component {
   constructor(props){
@@ -38,7 +37,7 @@ class Navbar extends Component {
             <Dropdown.Menu>
               <Dropdown.Item as={Link} icon='user' text='Details' to="/profile" />
               <Dropdown.Item icon='setting' text='Settings' />
-              <Dropdown.Item as={Link} icon='sign out' text='Logout' onClick={this.logoutUser.bind(this)} to="/" />
+              <Dropdown.Item as={Link} icon='sign out' text='Logout' onClick={this.logoutUser} to="/" />
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Menu>
@@ -46,11 +45,11 @@ class Navbar extends Component {
     }
 
     return(
-      <div style={styles.universal.container}>
+      <div className='navbar'>
         <Container>
           <Menu size='small' secondary>
             <Container>
-              <Header size='huge' as={Link} to="/" style={styles.universal.title}>Notepool</Header>
+              <Header size='huge' as={Link} to="/" content='Notepool' />
             </Container>
             {this.props.user.authenticated ? <UserLinks /> : <LogRegLinks />}
           </Menu>

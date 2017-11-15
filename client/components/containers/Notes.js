@@ -44,11 +44,15 @@ class Notes extends Component {
 
   show = (note) => {
     this.props.setCurrentNote(note);
-    this.setState({ open: true });
+    this.setState({
+      open: true
+    });
   }
 
   close = (note) => {
-    this.setState({ open: false });
+    this.setState({
+      open: false
+    });
     if (note) { // undefined if closing on delete note button
       if (note.id) { // if this note already exists
         this.props.updateNote(note);
@@ -61,12 +65,12 @@ class Notes extends Component {
 
 
   render(){
-    const noteButton = <Button circular icon='plus' size='big' color='teal' className='right-aligned-button' onClick={this.addNote.bind(this)}></Button>
+    const noteButton = <Button circular icon='plus' size='big' color='teal' className='right-aligned-button' onClick={this.addNote}></Button>
 
     const listItems = this.props.notes.map((note, i) => {
       return(
         <Grid.Column key={note.id}>
-          <Note show={this.show.bind(this)} currentNote={note} deleteNote={this.deleteNote.bind(this)} updateNote={this.updateNote.bind(this)} addCollaborator={this.addCollaborator.bind(this)} removeCollaborator={this.removeCollaborator.bind(this)} />
+          <Note show={this.show} currentNote={note} deleteNote={this.deleteNote} updateNote={this.updateNote} addCollaborator={this.addCollaborator} removeCollaborator={this.removeCollaborator} />
         </Grid.Column>
       )
     })
@@ -76,7 +80,7 @@ class Notes extends Component {
         {this.props.loading ?
           <Loading />
           :
-          <Container style={{marginTop: '50px'}}>
+          <Container style={{marginTop: '2rem'}}>
             <Grid columns={3} stackable>
               <Grid.Row>
                 {listItems}
@@ -87,7 +91,7 @@ class Notes extends Component {
             </Grid>
           </Container>
         }
-        <EditNote item={this.props.currentNote} open={this.state.open} close={this.close.bind(this)} deleteNote={this.deleteNote.bind(this)} />
+        <EditNote item={this.props.currentNote} open={this.state.open} close={this.close} deleteNote={this.deleteNote} />
       </div>
     )
   }

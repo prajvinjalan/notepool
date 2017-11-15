@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Container, Divider, Grid, Header, Icon, Input } from 'semantic-ui-react'
 
-import styles from '../../styles.js'
-
 class LogReg extends Component {
   constructor(props){
     super(props);
@@ -33,17 +31,17 @@ class LogReg extends Component {
   render(){
     return(
       <div>
-        <Container style={styles.logreg.container}>
-          <Header size='huge' style={styles.logreg.header}>{this.props.title}</Header>
-          <p style={styles.logreg.paragraph}>{this.props.description}</p>
+        <Container className='logreg container'>
+          <Header size='huge' className='logreg header'>{this.props.title}</Header>
+          <p className='logreg paragraph'>{this.props.description}</p>
           <Grid columns='equal'>
             <Grid.Column verticalAlign='middle'>
               {this.props.isRegister &&
-                <Input fluid id="name" icon='user' iconPosition='left' placeholder='Name' onChange={this.handleInputChange.bind(this)} style={{marginBottom: '1rem'}} />
+                <Input fluid id="name" icon='user' iconPosition='left' placeholder='Name' onChange={this.handleInputChange} className='logreg input' />
               }
-              <Input fluid id="email" icon='mail' iconPosition='left' placeholder='Email' onChange={this.handleInputChange.bind(this)} style={{marginBottom: '1rem'}} />
-              <Input fluid id="password" icon='lock' iconPosition='left' placeholder='Password' type='password' onChange={this.handleInputChange.bind(this)} style={{marginBottom: '1rem'}} />
-              <Button size='medium' fluid color='green' onClick={this.buttonClick.bind(this)}>{this.props.title}</Button>
+              <Input fluid id="email" icon='mail' iconPosition='left' placeholder='Email' onChange={this.handleInputChange} className='logreg input' />
+              <Input fluid id="password" icon='lock' iconPosition='left' placeholder='Password' type='password' onChange={this.handleInputChange} className='logreg input' />
+              <Button size='medium' fluid color='green' onClick={this.buttonClick}>{this.props.title}</Button>
             </Grid.Column>
             <Grid.Column width={1}>
               <Divider vertical>Or</Divider>
@@ -63,7 +61,7 @@ class LogReg extends Component {
             </Grid.Column>
           </Grid>
         </Container>
-        <Container style={{...styles.logreg.container, ...styles.logreg.container.bottom}}>
+        <Container className='logreg container bottom'>
           {this.props.switchDescription} <Link to={this.props.isRegister ? '/profile/login' : '/profile/register'}>{(this.props.title == 'Login' ? 'Register' : 'Login')}</Link>
         </Container>
       </div>

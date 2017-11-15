@@ -1,16 +1,6 @@
-import React, { Component } from 'react'
-import ReactLoading from 'react-loading'
+import React from 'react'
+import { Loader } from 'semantic-ui-react'
 
-import styles from '../../styles'
-
-class Loading extends Component {
-  render(){
-    return(
-      <div style={styles.universal.loading}>
-        <ReactLoading type='spokes' delay={0} color='#888' height='48px' width='48px'/>
-      </div>
-    )
-  }
-}
+const Loading = () => <Loader active inline='centered' size='large' style={{marginTop: '10rem'}} />
 
 export default Loading
