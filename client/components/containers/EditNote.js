@@ -86,6 +86,14 @@ class EditNote extends Component {
     });
   }
 
+  removeCollaborator = (event) => {
+    let note = {...this.state.note};
+    note['collaborators'] = note['collaborators'].filter(email => email !== event.target.id);
+    this.setState({
+      note: note
+    })
+  }
+
   render(){
     const colours_1 = ['white', 'lightgreen', 'lightskyblue'];
     const colours_2 = ['lightcoral', 'yellow', 'rosybrown'];
@@ -105,7 +113,9 @@ class EditNote extends Component {
     const collabList = (this.state.note.collaborators !== undefined ?
       this.state.note.collaborators.map((collaborator, i) => {
         return(
-          <Label key={i}>{collaborator}</Label>
+          <Label key={i}>
+            {collaborator} <Icon id={collaborator} name='delete' onClick={this.removeCollaborator} />
+          </Label>
         )
       })
       : '')

@@ -27,4 +27,4 @@ npm run devstart
 Specifying ```NODE_ENV=<dev>``` will apply the Redux Logger middleware.
 
 ## Notes
-+ switch from Bootstrap to Semantic-UI
++ use react-grid-layout for notes? (will need a lot of refactoring)
