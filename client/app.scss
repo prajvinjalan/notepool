@@ -137,3 +137,15 @@
 .navbar .header {
   margin: 0;
 }
+
+#email-input.error {
+  background: rgba(255, 67, 67, 0.04);
+  color: rgba(226, 101, 101, 0.89);
+  border: 1px solid rgba(226, 101, 101, 0.89);
+}
+
+#email-input.success {
+  background: rgba(67, 255, 73, 0.04);
+  color: rgb(84, 173, 107);
+  border: 1px solid rgb(84, 173, 107);
+}

@@ -21,27 +21,6 @@ class Notes extends Component {
     this.props.fetchNotes(this.props.user.id);
   }
 
-  addNote = () => {
-    const note = {title: '', body: '', colour: 'white', collaborators: []};
-    this.show(note);
-  }
-
-  updateNote = (updatedNote) => {
-    this.props.updateNote(updatedNote);
-  }
-
-  deleteNote = (id) => {
-    this.props.deleteNote(id);
-  }
-
-  addCollaborator = (params) => {
-    this.props.addCollaborator(params);
-  }
-
-  removeCollaborator = (params) => {
-    this.props.removeCollaborator(params);
-  }
-
   show = (note) => {
     this.props.setCurrentNote(note);
     this.setState({
@@ -49,20 +28,11 @@ class Notes extends Component {
     });
   }
 
-  close = (note) => {
+  close = () => {
     this.setState({
       open: false
     });
-    if (note) { // undefined if closing on delete note button
-      if (note.id) { // if this note already exists
-        this.props.updateNote(note);
-      } else { // if this is a new note it won't have an id
-        this.props.addNote({note: note, id: this.props.user.id});
-      }
-    }
   }
-
-
 
   render(){
     const noteButton = <Button circular icon='plus' size='big' color='teal' className='right-aligned-button' onClick={this.addNote}></Button>
@@ -70,7 +40,7 @@ class Notes extends Component {
     const listItems = this.props.notes.map((note, i) => {
       return(
         <Grid.Column key={note.id}>
-          <Note show={this.show} currentNote={note} deleteNote={this.deleteNote} updateNote={this.updateNote} addCollaborator={this.addCollaborator} removeCollaborator={this.removeCollaborator} />
+          <Note show={this.show} currentNote={note} />
         </Grid.Column>
       )
     })
@@ -91,7 +61,7 @@ class Notes extends Component {
             </Grid>
           </Container>
         }
-        <EditNote item={this.props.currentNote} open={this.state.open} close={this.close} deleteNote={this.deleteNote} />
+        <EditNote item={this.props.currentNote} open={this.state.open} close={this.close} />
       </div>
     )
   }
@@ -106,11 +76,6 @@ const stateToProps = (state) => ({
 
 const dispatchToProps = (dispatch) => ({
   fetchNotes: (params) => dispatch(actions.fetchNotes(params)),
-  addNote: (params) => dispatch(actions.addNote(params)),
-  updateNote: (params) => dispatch(actions.updateNote(params)),
-  deleteNote: (params) => dispatch(actions.deleteNote(params)),
-  addCollaborator: (params) => dispatch(actions.addCollaborator(params)),
-  removeCollaborator: (params) => dispatch(actions.removeCollaborator(params)),
   setCurrentNote: (params) => dispatch(actions.setCurrentNote(params))
 })
 

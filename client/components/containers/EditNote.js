@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Button, Dropdown, Form, Grid, Icon, Input, Label, Modal, TextArea } from 'semantic-ui-react'
+
+import * as actions from '../../redux/actions'
 
 import EditCollaborators from './EditCollaborators'
 
@@ -33,17 +36,6 @@ class EditNote extends Component {
     });
   }
 
-  close = () => {
-    this.props.close(this.state.note);
-  }
-
-  delete = () => {
-    if (this.state.note.id){ // delete note if it has been created (no id if note wasn't added)
-      this.props.deleteNote(this.state.note.id);
-    }
-    this.props.close();
-  }
-
   updateColour = (event) => {
     let currentButton = event.currentTarget.id;
     let selectedButton = document.querySelectorAll('.colour-selected');
@@ -67,31 +59,45 @@ class EditNote extends Component {
     }
   }
 
-  showCollab = () => {
-    this.setState({
-      open: true
-    });
-  }
-
-  closeCollab = (email) => {
-    if (email) {
-      let note = {...this.state.note};
-      note['collaborators'].push(email);
-      this.setState({
-        note: note
-      });
-    }
-    this.setState({
-      open: false,
-    });
-  }
-
   removeCollaborator = (event) => {
     let note = {...this.state.note};
     note['collaborators'] = note['collaborators'].filter(email => email !== event.target.id);
     this.setState({
       note: note
     })
+
+    this.props.removeCollaborator({id: this.state.note.id, email: event.target.id});
+  }
+
+  delete = () => {
+    if (this.state.note.id){ // delete note if it has been created (no id if note wasn't added)
+      this.props.deleteNote(this.state.note.id);
+    }
+    this.props.close();
+  }
+
+  close = () => {
+    const note = this.state.note;
+    if (note) { // undefined if closing on delete note button
+      if (note.id) { // if this note already exists
+        this.props.updateNote(note);
+      } else { // if this is a new note it won't have an id
+        this.props.addNote({note: note, id: this.props.user.id});
+      }
+    }
+    this.props.close();
+  }
+
+  showCollab = () => {
+    this.setState({
+      open: true
+    });
+  }
+
+  closeCollab = () => {
+    this.setState({
+      open: false,
+    });
   }
 
   render(){
@@ -110,7 +116,7 @@ class EditNote extends Component {
       )
     })
 
-    const collabList = (this.state.note.collaborators !== undefined ?
+    const collabList = (this.state.note !== undefined ?
       this.state.note.collaborators.map((collaborator, i) => {
         return(
           <Label key={i}>
@@ -159,4 +165,15 @@ class EditNote extends Component {
   }
 }
 
-export default EditNote
+const stateToProps = (state) => ({
+  user: state.user
+})
+
+const dispatchToProps = (dispatch) => ({
+  addNote: (params) => dispatch(actions.addNote(params)),
+  updateNote: (params) => dispatch(actions.updateNote(params)),
+  deleteNote: (params) => dispatch(actions.deleteNote(params)),
+  removeCollaborator: (params) => dispatch(actions.removeCollaborator(params)),
+})
+
+export default connect(stateToProps, dispatchToProps)(EditNote)
