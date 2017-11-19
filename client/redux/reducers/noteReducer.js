@@ -64,6 +64,7 @@ const notes = (state = [], action) => {
 
 const notesById = (state = {}, action) => {
   let nextState = {};
+  let selectedNote;
 
   switch (action.type){
     case noteConstants.RECEIVE_NOTES:
@@ -75,8 +76,29 @@ const notesById = (state = {}, action) => {
 
     case noteConstants.ADD_NOTE:
     case noteConstants.UPDATE_NOTE:
-    case noteConstants.UPDATE_COLLABORATORS:
       return {...state, [action.payload.id]: action.payload};
+
+    case noteConstants.ADD_COLLABORATOR:
+      let alreadyAdded = false;
+      selectedNote = {...state[action.payload.id]};
+      for(let i = 0; i < selectedNote.collaborators.length; i++){
+        if(selectedNote.collaborators[i] === action.payload.email){
+          alreadyAdded = true;
+        }
+      }
+      if(!alreadyAdded){
+        selectedNote.collaborators.push(action.payload.email);
+      }
+      return {...state, [action.payload.id]: selectedNote};
+
+    case noteConstants.REMOVE_COLLABORATOR:
+      selectedNote = {...state[action.payload.id]};
+      for(let i = 0; i < selectedNote.collaborators.length; i++){
+        if(selectedNote.collaborators[i] === action.payload.email){
+          selectedNote.collaborators.splice(i, 1);
+        }
+      }
+      return {...state, [action.payload.id]: selectedNote};
 
     case noteConstants.DELETE_NOTE:
       nextState = {...state};

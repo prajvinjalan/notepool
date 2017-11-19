@@ -21,6 +21,11 @@ class Notes extends Component {
     this.props.fetchNotes(this.props.user.id);
   }
 
+  addNote = () => {
+    const note = {title: '', body: '', colour: 'white', collaborators: []};
+    this.show(note);
+  }
+
   show = (note) => {
     this.props.setCurrentNote(note);
     this.setState({
@@ -33,6 +38,8 @@ class Notes extends Component {
       open: false
     });
   }
+
+
 
   render(){
     const noteButton = <Button circular icon='plus' size='big' color='teal' className='right-aligned-button' onClick={this.addNote}></Button>

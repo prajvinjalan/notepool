@@ -9,7 +9,7 @@ export const fetchNotes = (id) => (dispatch) => {
 
   APIManager.get(`/api/users/${id}`, null)
   .then(response => {
-    let params = { params: { collaborators: response.result.local.email }}
+    const params = { params: { collaborators: response.result.local.email }}
     APIManager.get('/api/notes', params)
     .then(response => {
       //setTimeout(() => {dispatch(fetchNotesAction(response.result))}, 1000);
@@ -33,7 +33,6 @@ export const addNote = (params) => (dispatch) => {
     APIManager.post('/api/notes', params.note)
     .then(response => {
       dispatch(addNoteAction(response.result));
-      dispatch(setCurrentNote(response.result.id));
     })
     .catch(error => {
       console.log(error.message);
@@ -83,9 +82,10 @@ export const removeCollaborator = (params) => (dispatch) => {
 
 const updateCollaborator = (params) => (dispatch, getState) => {
   const note = getState().note.notesById[params.id];
-  APIManager.put(`/api/notes/${note.id}`, {data: note})
+  //const data = { data: { email: params.email }}
+  APIManager.put(`/api/notes/${params.id}`, {data: note})
   .then(response => {
-    dispatch(updatedCollaboratorAction(response.result));
+    dispatch(setCurrentNoteAction(response.result));
     return null;
   })
   .catch(error => {
@@ -134,8 +134,3 @@ const removeCollaboratorAction = (params) => ({
   type: noteConstants.REMOVE_COLLABORATOR,
   payload: params
 });
-
-const updatedCollaboratorAction = (note) => ({
-  type: noteConstants.UPDATE_COLLABORATORS,
-  payload: note
-})

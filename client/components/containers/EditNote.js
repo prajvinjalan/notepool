@@ -11,29 +11,23 @@ class EditNote extends Component {
     super(props);
 
     this.state = {
-      note: {
-        id: '',
-        title: '',
-        body: '',
-        colour: '',
-        collaborators: []
-      },
+      title: '',
+      body: '',
       open: false
     }
   }
 
   componentWillReceiveProps(nextProps){
     this.setState({
-      note: nextProps.item
+      title: nextProps.item.title,
+      body: nextProps.item.body
     });
   }
 
   handleInputChange = (event) => {
-    let updatedNote = {...this.state.note};
-    updatedNote[event.target.id] = event.target.value;
     this.setState({
-      note: updatedNote
-    });
+      [event.target.id]: event.target.value
+    })
   }
 
   updateColour = (event) => {
@@ -44,40 +38,33 @@ class EditNote extends Component {
     }
     document.getElementById(currentButton).classList.toggle('colour-selected');
 
-    let elements = document.querySelectorAll('.' + this.state.note.colour);
+    let elements = document.querySelectorAll('.' + this.props.currentNote.colour);
     for (let i = 0; i < elements.length; i++){
       if (elements[i].classList.contains('modal')){
-        elements[i].classList.remove(this.state.note.colour);
+        elements[i].classList.remove(this.props.currentNote.colour);
         elements[i].classList.add(currentButton);
       }
     }
 
-    if(this.state.note.colour !== currentButton){
-      this.setState({
-        note: {...this.state.note, ...{colour: currentButton}}
-      });
+    if(this.props.currentNote.colour !== currentButton){
+      let note = {...this.props.currentNote, ...{colour: currentButton}};
+      this.props.setCurrentNote(note);
     }
   }
 
   removeCollaborator = (event) => {
-    let note = {...this.state.note};
-    note['collaborators'] = note['collaborators'].filter(email => email !== event.target.id);
-    this.setState({
-      note: note
-    })
-
-    this.props.removeCollaborator({id: this.state.note.id, email: event.target.id});
+    this.props.removeCollaborator({id: this.props.currentNote.id, email: event.target.id});
   }
 
   delete = () => {
-    if (this.state.note.id){ // delete note if it has been created (no id if note wasn't added)
-      this.props.deleteNote(this.state.note.id);
+    if (this.props.currentNote.id){ // delete note if it has been created (no id if note wasn't added)
+      this.props.deleteNote(this.props.currentNote.id);
     }
     this.props.close();
   }
 
   close = () => {
-    const note = this.state.note;
+    const note = {...this.props.currentNote, ...{title: this.state.title, body: this.state.body}};
     if (note) { // undefined if closing on delete note button
       if (note.id) { // if this note already exists
         this.props.updateNote(note);
@@ -106,18 +93,18 @@ class EditNote extends Component {
 
     const colourList_1 = colours_1.map((colour, i) => {
       return(
-        <Button key={i} circular icon='check' id={colour} className={this.state.note.colour === colour ? 'colour-selected' : ''} onClick={this.updateColour} />
+        <Button key={i} circular icon='check' id={colour} className={this.props.currentNote.colour === colour ? 'colour-selected' : ''} onClick={this.updateColour} />
       )
     })
 
     const colourList_2 = colours_2.map((colour, i) => {
       return(
-        <Button key={i} circular icon='check' id={colour} className={this.state.note.colour === colour ? 'colour-selected' : ''} onClick={this.updateColour} />
+        <Button key={i} circular icon='check' id={colour} className={this.props.currentNote.colour === colour ? 'colour-selected' : ''} onClick={this.updateColour} />
       )
     })
 
-    const collabList = (this.state.note !== undefined ?
-      this.state.note.collaborators.map((collaborator, i) => {
+    const collabList = (this.props.currentNote.collaborators !== undefined ?
+      this.props.currentNote.collaborators.map((collaborator, i) => {
         return(
           <Label key={i}>
             {collaborator} <Icon id={collaborator} name='delete' onClick={this.removeCollaborator} />
@@ -127,14 +114,14 @@ class EditNote extends Component {
       : '')
 
     return(
-      <Modal dimmer='inverted' open={this.props.open} onClose={this.close} className={this.props.item.colour}>
+      <Modal dimmer='inverted' open={this.props.open} onClose={this.close} className={this.props.currentNote.colour}>
         <Modal.Header>
-          <Input id='title' fluid placeholder='Title' defaultValue={this.props.item.title} onChange={this.handleInputChange} />
+          <Input id='title' fluid placeholder='Title' defaultValue={this.props.currentNote.title} onChange={this.handleInputChange} />
         </Modal.Header>
         <Modal.Content className='with-border'>
           <Modal.Description>
             <Form>
-              <TextArea id='body' autoHeight defaultValue={this.props.item.body} onChange={this.handleInputChange} />
+              <TextArea id='body' autoHeight defaultValue={this.props.currentNote.body} onChange={this.handleInputChange} />
             </Form>
           </Modal.Description>
         </Modal.Content>
@@ -166,7 +153,9 @@ class EditNote extends Component {
 }
 
 const stateToProps = (state) => ({
-  user: state.user
+  user: state.user,
+  currentNote: state.note.currentNote,
+  notesById: state.note.notesById
 })
 
 const dispatchToProps = (dispatch) => ({
@@ -174,6 +163,7 @@ const dispatchToProps = (dispatch) => ({
   updateNote: (params) => dispatch(actions.updateNote(params)),
   deleteNote: (params) => dispatch(actions.deleteNote(params)),
   removeCollaborator: (params) => dispatch(actions.removeCollaborator(params)),
+  setCurrentNote: (params) => dispatch(actions.setCurrentNote(params))
 })
 
 export default connect(stateToProps, dispatchToProps)(EditNote)
