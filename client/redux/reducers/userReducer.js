@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   authenticated: false,
   id: "",
+  email: "",
   message: ""
 }
 
@@ -20,6 +21,7 @@ const user = (state = initialState, action) => {
         loading: false,
         authenticated: true,
         id: action.payload._id,
+        email: action.payload.local.email,
         message: ""
       };
 
@@ -42,6 +44,7 @@ const user = (state = initialState, action) => {
         loading: false,
         authenticated: true,
         id: action.payload._id,
+        email: action.payload.local.email,
         message: ""
       };
 
@@ -57,6 +60,7 @@ const user = (state = initialState, action) => {
         loading: false,
         authenticated: false,
         id: "",
+        email: "",
         message: ""
       };
 

@@ -14,10 +14,23 @@ class EditCollaborators extends Component {
   }
 
   close = (event) => {
-    if (event.currentTarget.id === 'save'){
-      this.props.addCollaborator({id: this.props.currentNote.id, email: this.state.email});
+    if (event.currentTarget.id === 'save' && !this.isDuplicateCollaborator()){
+      this.props.addCollaborator({id: this.props.currentNote.id, email: this.state.email, note: this.props.currentNote});
+      this.props.close();
+    } else if (event.currentTarget.id === 'save' && this.isDuplicateCollaborator()){
+      console.log('dupe');
+    } else {
+      this.props.close();
     }
-    this.props.close();
+  }
+
+  isDuplicateCollaborator = () => {
+    for (let i = 0; i < this.props.currentNote.collaborators.length; i++){
+      if (this.state.email === this.props.currentNote.collaborators[i]){
+        return true;
+      }
+    }
+    return false;
   }
 
   handleInputChange = (event) => {

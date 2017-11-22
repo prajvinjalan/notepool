@@ -77,7 +77,10 @@ const loginRequestAction = () => ({
 
 const loginSuccessAction = (user) => ({
   type: userConstants.LOGIN_SUCCESS,
-  payload: user
+  payload: user,
+  meta: {
+    emit: true
+  }
 });
 
 const loginFailureAction = (error) => ({
@@ -87,5 +90,8 @@ const loginFailureAction = (error) => ({
 
 const logoutUserAction = () => ({
   type: userConstants.LOGOUT_USER,
-  payload: null
+  payload: null,
+  meta: {
+    emit: true
+  }
 })

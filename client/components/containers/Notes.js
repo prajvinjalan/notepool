@@ -22,8 +22,11 @@ class Notes extends Component {
   }
 
   addNote = () => {
-    const note = {title: '', body: '', colour: 'white', collaborators: []};
-    this.show(note);
+    const note = {title: '', body: '', colour: 'white', collaborators: [this.props.user.email]};
+    this.props.addNote(note)
+    .then((response) => {
+      this.show(response);
+    });
   }
 
   show = (note) => {
@@ -83,6 +86,7 @@ const stateToProps = (state) => ({
 
 const dispatchToProps = (dispatch) => ({
   fetchNotes: (params) => dispatch(actions.fetchNotes(params)),
+  addNote: (params) => dispatch(actions.addNote(params)),
   setCurrentNote: (params) => dispatch(actions.setCurrentNote(params))
 })
 

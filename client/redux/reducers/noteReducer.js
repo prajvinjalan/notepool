@@ -12,6 +12,7 @@ const notes = (state = [], action) => {
       return [...state, action.payload];
 
     case noteConstants.UPDATE_NOTE:
+    case noteConstants.SET_CURRENT_NOTE:
       return state.map(note => {
         if(note.id === action.payload.id){
           return action.payload;
@@ -20,21 +21,13 @@ const notes = (state = [], action) => {
       });
 
     case noteConstants.DELETE_NOTE:
-      return state.filter(note => note.id !== action.payload);
+      return state.filter(note => note.id !== action.payload.id);
 
     case noteConstants.ADD_COLLABORATOR:
       return state.map(note => {
         if(note.id === action.payload.id){
-          let alreadyAdded = false;
           let selectedNote = {...note};
-          for(let i = 0; i < note.collaborators.length; i++){
-            if(note.collaborators[i] === action.payload.email){
-              alreadyAdded = true;
-            }
-          }
-          if(!alreadyAdded){
-            selectedNote.collaborators.push(action.payload.email);
-          }
+          selectedNote.collaborators.push(action.payload.email);
           return selectedNote;
         }
         return note;
@@ -76,33 +69,12 @@ const notesById = (state = {}, action) => {
 
     case noteConstants.ADD_NOTE:
     case noteConstants.UPDATE_NOTE:
+    case noteConstants.SET_CURRENT_NOTE:
       return {...state, [action.payload.id]: action.payload};
-
-    case noteConstants.ADD_COLLABORATOR:
-      let alreadyAdded = false;
-      selectedNote = {...state[action.payload.id]};
-      for(let i = 0; i < selectedNote.collaborators.length; i++){
-        if(selectedNote.collaborators[i] === action.payload.email){
-          alreadyAdded = true;
-        }
-      }
-      if(!alreadyAdded){
-        selectedNote.collaborators.push(action.payload.email);
-      }
-      return {...state, [action.payload.id]: selectedNote};
-
-    case noteConstants.REMOVE_COLLABORATOR:
-      selectedNote = {...state[action.payload.id]};
-      for(let i = 0; i < selectedNote.collaborators.length; i++){
-        if(selectedNote.collaborators[i] === action.payload.email){
-          selectedNote.collaborators.splice(i, 1);
-        }
-      }
-      return {...state, [action.payload.id]: selectedNote};
 
     case noteConstants.DELETE_NOTE:
       nextState = {...state};
-      delete nextState[action.payload];
+      delete nextState[action.payload.id];
       return nextState;
 
     case userConstants.LOGOUT_USER:

@@ -26,18 +26,11 @@ export const fetchNotes = (id) => (dispatch) => {
   });
 }
 
-export const addNote = (params) => (dispatch) => {
-  APIManager.get(`/api/users/${params.id}`, null)
+export const addNote = (note) => (dispatch) => {
+  return APIManager.post('/api/notes', note)
   .then(response => {
-    params.note.collaborators.push(response.result.local.email);
-    APIManager.post('/api/notes', params.note)
-    .then(response => {
-      dispatch(addNoteAction(response.result));
-    })
-    .catch(error => {
-      console.log(error.message);
-    });
-    return response;
+    dispatch(addNoteAction(response.result));
+    return response.result;
   })
   .catch(error => {
     console.log(error.message);
@@ -55,10 +48,10 @@ export const updateNote = (note) => (dispatch) => {
   });
 }
 
-export const deleteNote = (id) => (dispatch) => {
-  APIManager.delete(`/api/notes/${id}`)
+export const deleteNote = (note) => (dispatch) => {
+  APIManager.delete(`/api/notes/${note.id}`)
   .then(response => {
-    dispatch(deleteNoteAction(id));
+    dispatch(deleteNoteAction(note));
     return null;
   })
   .catch(error => {
@@ -82,6 +75,7 @@ export const removeCollaborator = (params) => (dispatch) => {
 
 const updateCollaborator = (params) => (dispatch, getState) => {
   const note = getState().note.notesById[params.id];
+  console.log(note);
   //const data = { data: { email: params.email }}
   APIManager.put(`/api/notes/${params.id}`, {data: note})
   .then(response => {
@@ -112,25 +106,40 @@ const addNoteAction = (note) => ({
 
 const updateNoteAction = (note) => ({
   type: noteConstants.UPDATE_NOTE,
-  payload: note
+  payload: note,
+  meta: {
+    emit: true
+  }
 });
 
-const deleteNoteAction = (id) => ({
+const deleteNoteAction = (note) => ({
   type: noteConstants.DELETE_NOTE,
-  payload: id
+  payload: note,
+  meta: {
+    emit: true
+  }
 });
 
 const setCurrentNoteAction = (note) => ({
   type: noteConstants.SET_CURRENT_NOTE,
-  payload: note
+  payload: note,
+  meta: {
+    emit: true
+  }
 });
 
 const addCollaboratorAction = (params) => ({
   type: noteConstants.ADD_COLLABORATOR,
-  payload: params
+  payload: params,
+  meta: {
+    emit: true
+  }
 });
 
 const removeCollaboratorAction = (params) => ({
   type: noteConstants.REMOVE_COLLABORATOR,
-  payload: params
+  payload: params,
+  meta: {
+    emit: true
+  }
 });

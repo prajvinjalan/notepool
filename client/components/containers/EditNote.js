@@ -27,7 +27,9 @@ class EditNote extends Component {
   handleInputChange = (event) => {
     this.setState({
       [event.target.id]: event.target.value
-    })
+    }, () => {
+      this.props.setCurrentNote({...this.props.currentNote, ...{title: this.state.title, body: this.state.body}})
+    });
   }
 
   updateColour = (event) => {
@@ -53,25 +55,27 @@ class EditNote extends Component {
   }
 
   removeCollaborator = (event) => {
-    this.props.removeCollaborator({id: this.props.currentNote.id, email: event.target.id});
+    this.props.removeCollaborator({id: this.props.currentNote.id, email: event.target.id, note: this.props.currentNote});
   }
 
   delete = () => {
-    if (this.props.currentNote.id){ // delete note if it has been created (no id if note wasn't added)
-      this.props.deleteNote(this.props.currentNote.id);
-    }
+    // if (this.props.currentNote.id){ // delete note if it has been created (no id if note wasn't added)
+    //   this.props.deleteNote(this.props.currentNote.id);
+    // }
+    this.props.deleteNote(this.props.currentNote);
     this.props.close();
   }
 
   close = () => {
     const note = {...this.props.currentNote, ...{title: this.state.title, body: this.state.body}};
-    if (note) { // undefined if closing on delete note button
-      if (note.id) { // if this note already exists
-        this.props.updateNote(note);
-      } else { // if this is a new note it won't have an id
-        this.props.addNote({note: note, id: this.props.user.id});
-      }
-    }
+    // if (note) { // undefined if closing on delete note button
+    //   if (note.id) { // if this note already exists
+    //     this.props.updateNote(note);
+    //   } else { // if this is a new note it won't have an id
+    //     this.props.addNote(note);
+    //   }
+    // }
+    this.props.updateNote(note);
     this.props.close();
   }
 
@@ -159,7 +163,6 @@ const stateToProps = (state) => ({
 })
 
 const dispatchToProps = (dispatch) => ({
-  addNote: (params) => dispatch(actions.addNote(params)),
   updateNote: (params) => dispatch(actions.updateNote(params)),
   deleteNote: (params) => dispatch(actions.deleteNote(params)),
   removeCollaborator: (params) => dispatch(actions.removeCollaborator(params)),
