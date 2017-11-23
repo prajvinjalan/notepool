@@ -13,7 +13,9 @@ class EditCollaborators extends Component {
     }
   }
 
+  // Closes the collaborator form
   close = (event) => {
+    // If block that contains conditions for (1. save unique email, 2. save but duplicate email, 3. discard)
     if (event.currentTarget.id === 'save' && !this.isDuplicateCollaborator()){
       this.props.addCollaborator({id: this.props.currentNote.id, email: this.state.email, note: this.props.currentNote});
       this.props.close();
@@ -24,6 +26,7 @@ class EditCollaborators extends Component {
     }
   }
 
+  // Determines whether the current email is already a collaborator
   isDuplicateCollaborator = () => {
     for (let i = 0; i < this.props.currentNote.collaborators.length; i++){
       if (this.state.email === this.props.currentNote.collaborators[i]){
@@ -33,12 +36,15 @@ class EditCollaborators extends Component {
     return false;
   }
 
+  // Handles changes to email input
   handleInputChange = (event) => {
     this.setState({
       email: event.target.value
     });
 
     let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    // If block that contains conditions for (1. valid email, 2. empty input, 3. invalid email)
     if (event.target.value.match(emailRegex)){
       document.getElementById('save').classList.remove('disabled');
       document.getElementById('email-input').classList.remove('error');
@@ -70,12 +76,15 @@ class EditCollaborators extends Component {
   }
 }
 
+// Maps state objects to props
 const stateToProps = (state) => ({
   currentNote: state.note.currentNote
 })
 
+// Maps dispatch functions to props
 const dispatchToProps = (dispatch) => ({
   addCollaborator: (params) => dispatch(actions.addCollaborator(params))
 })
 
+// Connects state and dispatch functions to this component
 export default connect(stateToProps, dispatchToProps)(EditCollaborators)

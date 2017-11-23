@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom'
 import { Card, Label } from 'semantic-ui-react'
 
 const Note = (props) => {
+  // Creates a list of labels for the current note's collaborators
   const collabList = props.currentNote.collaborators.map((collaborator, i) => {
     return(
       <Label key={i}>{collaborator}</Label>
     )
   })
 
+  // Calls prop function to open 'Edit Note' modal on clicking the note
   const show = () => {
     props.show(props.currentNote);
   }

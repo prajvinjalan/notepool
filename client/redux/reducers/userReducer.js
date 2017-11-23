@@ -8,6 +8,7 @@ const initialState = {
   message: ""
 }
 
+// User state that handles registration, login, and logout
 const user = (state = initialState, action) => {
   switch (action.type) {
     case userConstants.REGISTER_REQUEST:

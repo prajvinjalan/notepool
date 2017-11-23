@@ -17,7 +17,9 @@ class AppContainer extends Component {
     super(props)
   }
 
+  // When the entire app loads (page reload)
   componentDidMount(){
+    // If a user was logged in, uses their previous client id for the socket
     if (this.props.user.authenticated){
       this.props.setClientSocket(this.props.user);
     }
@@ -36,14 +38,17 @@ class AppContainer extends Component {
   }
 }
 
+// Maps state objects to props
 const stateToProps = (state) => ({
   user: state.user
 })
 
+// Maps dispatch functions to props
 const dispatchToProps = (dispatch) => ({
   setClientSocket: (params) => dispatch(actions.setClientSocket(params))
 })
 
+// Custom connect method that sets the store for a component
 const connectWithStore = (store, WrappedComponent, ...args) => {
   const ConnectedWrappedComponent = connect(...args)(WrappedComponent)
   return (props) => {
@@ -51,6 +56,8 @@ const connectWithStore = (store, WrappedComponent, ...args) => {
   }
 }
 
+// Top-level component that gets rendered
 const App = connectWithStore(store.configureStore(), AppContainer, stateToProps, dispatchToProps)
 
+// Renders the component
 ReactDOM.render(<App />, document.getElementById('root'))

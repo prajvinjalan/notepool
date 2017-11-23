@@ -4,6 +4,7 @@ import { APIManager } from '../../utils'
 // ACTION DISPATCHERS
 // equivalent to " ... => { return (dispatch) => { ... }} "
 
+// Action dispatcher for fetching all of a user's notes
 export const fetchNotes = (id) => (dispatch) => {
   dispatch(fetchingNotesAction());
 
@@ -26,6 +27,7 @@ export const fetchNotes = (id) => (dispatch) => {
   });
 }
 
+// Action dispatcher for adding a note
 export const addNote = (note) => (dispatch) => {
   return APIManager.post('/api/notes', note)
   .then(response => {
@@ -37,6 +39,7 @@ export const addNote = (note) => (dispatch) => {
   });
 }
 
+// Action dispatcher for updating a given note
 export const updateNote = (note) => (dispatch) => {
   APIManager.put(`/api/notes/${note.id}`, {data: note})
   .then(response => {
@@ -48,6 +51,7 @@ export const updateNote = (note) => (dispatch) => {
   });
 }
 
+// Action dispatcher for deleting a given
 export const deleteNote = (note) => (dispatch) => {
   APIManager.delete(`/api/notes/${note.id}`)
   .then(response => {
@@ -59,20 +63,24 @@ export const deleteNote = (note) => (dispatch) => {
   });
 }
 
+// Action dispatcher for setting a note as the current note
 export const setCurrentNote = (note) => (dispatch) => {
   dispatch(setCurrentNoteAction(note));
 }
 
+// Action dispatcher for adding a collaborator from a note
 export const addCollaborator = (params) => (dispatch) => {
   dispatch(addCollaboratorAction(params));
   dispatch(updateCollaborator(params));
 }
 
+// Action dispatcher for removing a collaborator from a note
 export const removeCollaborator = (params) => (dispatch) => {
   dispatch(removeCollaboratorAction(params));
   dispatch(updateCollaborator(params));
 }
 
+// Updates the note with the collaborator changes in the database and sets it as the current note
 const updateCollaborator = (params) => (dispatch, getState) => {
   const note = getState().note.notesById[params.id];
   //const data = { data: { email: params.email }}

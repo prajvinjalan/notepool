@@ -8,6 +8,7 @@ import Notes from '../containers/Notes'
 import Profile from '../containers/Profile'
 import { PrivateRoute, RouteNotFound } from './RouteHandler'
 
+// Main application layout with base routes
 const Main = () => (
   <div>
     <Navbar />

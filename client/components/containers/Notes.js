@@ -16,10 +16,12 @@ class Notes extends Component {
     }
   }
 
+  // When the page loads ('/notes'), fetch all notes to display
   componentDidMount(){
     this.props.fetchNotes(this.props.user.id);
   }
 
+  // Adds a new blank note with the user as a collaborator, then opens the modal to edit the note
   addNote = () => {
     const note = {title: '', body: '', colour: 'white', collaborators: [this.props.user.email]};
     this.props.addNote(note)
@@ -28,13 +30,15 @@ class Notes extends Component {
     });
   }
 
+  // Opens the 'Edit Note' modal
   show = (note) => {
-    this.props.setCurrentNote(note);
+    this.props.setCurrentNote(note); // Sets the current note to show in the modal
     this.setState({
       open: true
     });
   }
 
+  // Closes the 'Edit Note' modal
   close = () => {
     this.setState({
       open: false
@@ -44,8 +48,10 @@ class Notes extends Component {
 
 
   render(){
+    // Creates a button to add notes
     const noteButton = <Button circular icon='plus' size='big' color='teal' className='right-aligned-button' onClick={this.addNote}></Button>
 
+    // Creates a Grid Column item with each note
     const listItems = this.props.notes.map((note, i) => {
       return(
         <Grid.Column key={note.id}>
@@ -76,6 +82,7 @@ class Notes extends Component {
   }
 }
 
+// Maps state objects to props
 const stateToProps = (state) => ({
   notes: state.note.notes,
   currentNote: state.note.currentNote,
@@ -83,10 +90,12 @@ const stateToProps = (state) => ({
   loading: state.note.loading
 })
 
+// Maps dispatch functions to props
 const dispatchToProps = (dispatch) => ({
   fetchNotes: (params) => dispatch(actions.fetchNotes(params)),
   addNote: (params) => dispatch(actions.addNote(params)),
   setCurrentNote: (params) => dispatch(actions.setCurrentNote(params))
 })
 
+// Connects state and dispatch functions to this component
 export default connect(stateToProps, dispatchToProps)(Notes)

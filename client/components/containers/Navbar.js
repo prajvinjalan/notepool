@@ -10,6 +10,7 @@ class Navbar extends Component {
     super(props);
   }
 
+  // Logs user out, then redirects to home page
   logoutUser = () => {
     this.props.logout()
     .then(() => {
@@ -19,6 +20,7 @@ class Navbar extends Component {
 
   render(){
 
+    // Creates Login and Register links
     const LogRegLinks = () => {
       return(
         <Menu.Menu>
@@ -32,6 +34,7 @@ class Navbar extends Component {
       )
     }
 
+    // Creates Notes and Profile menu links
     const UserLinks = () => {
       return(
         <Menu.Menu>
@@ -62,12 +65,15 @@ class Navbar extends Component {
   }
 }
 
+// Maps state objects to props
 const stateToProps = (state) => ({
   user: state.user
 })
 
+// Maps dispatch functions to props
 const dispatchToProps = (dispatch) => ({
   logout: () => dispatch(actions.logout()),
 })
 
+// Connects state and dispatch functions to this component
 export default connect(stateToProps, dispatchToProps)(withRouter(Navbar))

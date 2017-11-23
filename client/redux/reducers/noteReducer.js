@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import { noteConstants } from '../constants'
 import { userConstants } from '../constants'
 
+// Notes reducer that contains all of a user's notes
 const notes = (state = [], action) => {
   switch (action.type) {
     case noteConstants.RECEIVE_NOTES:
@@ -55,6 +56,7 @@ const notes = (state = [], action) => {
   }
 }
 
+// NotesById reducer that contains a user's notes as a lookup table with note ids as keys
 const notesById = (state = {}, action) => {
   let nextState = {};
   let selectedNote;
@@ -85,6 +87,7 @@ const notesById = (state = {}, action) => {
   }
 }
 
+// Loading reducer for when fetching notes
 const loading = (state = false, action) => {
   switch (action.type){
     case noteConstants.RECEIVING_NOTES:
@@ -98,6 +101,7 @@ const loading = (state = false, action) => {
   }
 }
 
+// CurrentNote reducer that holds the current note
 const currentNote = (state = {}, action) => {
   switch (action.type){
     case noteConstants.SET_CURRENT_NOTE:
@@ -108,6 +112,7 @@ const currentNote = (state = {}, action) => {
   }
 }
 
+// Combines all the above reducers
 export default combineReducers({
   notes,
   notesById,
@@ -115,4 +120,5 @@ export default combineReducers({
   currentNote
 });
 
+// Function to get a note by its id
 export const getNoteById = (state, id) => state.notesById[id];

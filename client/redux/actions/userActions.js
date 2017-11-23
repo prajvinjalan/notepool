@@ -4,9 +4,11 @@ import { APIManager } from '../../utils'
 // ACTION DISPATCHERS
 // equivalent to " ... => { return (dispatch) => { ... }} "
 
+// Action dispatcher for registering locally
 export const localRegister = (newUser) => (dispatch) => {
   dispatch(registerRequestAction());
 
+  // Dispatches login action if registration was successful
   return APIManager.post('/auth/register', newUser)
   .then(response => {
     console.log(response.message);
@@ -23,6 +25,7 @@ export const localRegister = (newUser) => (dispatch) => {
   });
 }
 
+// Action dispatcher for logging in locally
 export const localLogin = (user) => (dispatch) => {
   dispatch(loginRequestAction());
 
@@ -39,6 +42,7 @@ export const localLogin = (user) => (dispatch) => {
   });
 }
 
+// Action dispatcher for logging out
 export const logout = () => (dispatch) => {
   return APIManager.get('/auth/logout', null)
   .then(response => {

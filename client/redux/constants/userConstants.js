@@ -1,3 +1,4 @@
+// Constants used for User Reducer and User Actions
 export const userConstants = {
   REGISTER_REQUEST: 'REGISTER_REQUEST',
   REGISTER_SUCCESS: 'REGISTER_SUCCESS',
