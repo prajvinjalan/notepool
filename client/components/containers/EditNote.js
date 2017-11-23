@@ -11,25 +11,12 @@ class EditNote extends Component {
     super(props);
 
     this.state = {
-      title: '',
-      body: '',
       open: false
     }
   }
 
-  componentWillReceiveProps(nextProps){
-    this.setState({
-      title: nextProps.item.title,
-      body: nextProps.item.body
-    });
-  }
-
   handleInputChange = (event) => {
-    this.setState({
-      [event.target.id]: event.target.value
-    }, () => {
-      this.props.setCurrentNote({...this.props.currentNote, ...{title: this.state.title, body: this.state.body}})
-    });
+    this.props.setCurrentNote({...this.props.currentNote, ...{[event.target.id]: event.target.value}});
   }
 
   updateColour = (event) => {
@@ -59,22 +46,12 @@ class EditNote extends Component {
   }
 
   delete = () => {
-    // if (this.props.currentNote.id){ // delete note if it has been created (no id if note wasn't added)
-    //   this.props.deleteNote(this.props.currentNote.id);
-    // }
     this.props.deleteNote(this.props.currentNote);
     this.props.close();
   }
 
   close = () => {
-    const note = {...this.props.currentNote, ...{title: this.state.title, body: this.state.body}};
-    // if (note) { // undefined if closing on delete note button
-    //   if (note.id) { // if this note already exists
-    //     this.props.updateNote(note);
-    //   } else { // if this is a new note it won't have an id
-    //     this.props.addNote(note);
-    //   }
-    // }
+    const note = {...this.props.currentNote};
     this.props.updateNote(note);
     this.props.close();
   }
@@ -120,12 +97,12 @@ class EditNote extends Component {
     return(
       <Modal dimmer='inverted' open={this.props.open} onClose={this.close} className={this.props.currentNote.colour}>
         <Modal.Header>
-          <Input id='title' fluid placeholder='Title' defaultValue={this.props.currentNote.title} onChange={this.handleInputChange} />
+          <Input id='title' fluid placeholder='Title' value={this.props.currentNote.title} onChange={this.handleInputChange} />
         </Modal.Header>
         <Modal.Content className='with-border'>
           <Modal.Description>
             <Form>
-              <TextArea id='body' autoHeight defaultValue={this.props.currentNote.body} onChange={this.handleInputChange} />
+              <TextArea id='body' autoHeight value={this.props.currentNote.body} onChange={this.handleInputChange} />
             </Form>
           </Modal.Description>
         </Modal.Content>

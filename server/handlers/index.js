@@ -1,7 +1,7 @@
 var reduxio = require('redux-socket.io-connect');
 
+// backend variable persists (since based on server not client)
 let currentClients = {};
-// store same clientId on refresh? or set state again?
 
 module.exports = reduxio.createHandler({
   UPDATE_NOTE: (context, action) => {
@@ -9,7 +9,7 @@ module.exports = reduxio.createHandler({
   },
 
   SET_CURRENT_NOTE: (context, action) => {
-    dispatchToMultipleClients(context, action, 'UPDATE_NOTE');
+    dispatchToMultipleClients(context, action, 'SET_CURRENT_NOTE');
   },
 
   DELETE_NOTE: (context, action) => {
@@ -30,13 +30,22 @@ module.exports = reduxio.createHandler({
   },
 
   LOGOUT_USER: (context, action) => {
-    const { client, server } = context;
+    const { client } = context;
     // console.log(client.id);
     delete currentClients[client.id];
     // console.log(currentClients);
+  },
+
+  SET_CLIENT_SOCKET: (context, action) => {
+    const { client } = context;
+    const oldClientId = getClientId(action.payload.email);
+    delete currentClients[oldClientId];
+    currentClients[client.id] = action.payload.email;
+    console.log(currentClients);
   }
 });
 
+// Dispatch an action to multiple clients that are collaborating on a certain note
 const dispatchToMultipleClients = (context, action, dispatchType) => {
   const { client, dispatchTo } = context;
   const payload = action.payload;
@@ -51,6 +60,7 @@ const dispatchToMultipleClients = (context, action, dispatchType) => {
   }
 }
 
+// Dispatch an action to a single client based on user's email
 const dispatchToSingleClient = (context, action, dispatchType) => {
   const { client, dispatchTo } = context;
   const payload = action.payload;
@@ -63,6 +73,7 @@ const dispatchToSingleClient = (context, action, dispatchType) => {
   //console.log(currentClients);
 }
 
+// Get all clients that have users who are collaborating on a certain note
 const getCollaboratingClients = (clientId, note) => {
   let otherClients = Object.assign({}, currentClients);
   delete otherClients[clientId]; // remove client who dispatched action
@@ -76,6 +87,7 @@ const getCollaboratingClients = (clientId, note) => {
   return otherClients;
 }
 
+// Get single client id based on user's email
 const getClientId = (email) => {
   for (id in currentClients){
     if (currentClients[id] === email){

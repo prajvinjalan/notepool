@@ -8,4 +8,6 @@ export const userConstants = {
   LOGIN_FAILURE: 'LOGIN_FAILURE',
 
   LOGOUT_USER: 'LOGOUT_USER',
+
+  SET_CLIENT_SOCKET: 'SET_CLIENT_SOCKET'
 }

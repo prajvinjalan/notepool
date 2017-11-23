@@ -28,7 +28,7 @@ router.post('/register', function(req, res, next){
     return res.json({
       confirmation: 'success',
       message: 'You have successfully registered!',
-      user: user
+      user: user.summary()
     });
   })(req, res, next);
 });
@@ -59,7 +59,7 @@ router.post('/login', function(req, res, next){
     return res.json({
       confirmation: 'success',
       message: 'You have successfully logged in!',
-      user: user
+      user: user.summary()
     });
   })(req, res, next);
 });

@@ -11,7 +11,10 @@ class Navbar extends Component {
   }
 
   logoutUser = () => {
-    this.props.logout();
+    this.props.logout()
+    .then(() => {
+      this.props.history.push('/');
+    });
   }
 
   render(){

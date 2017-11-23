@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Button, Container, Grid, Modal } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
-import { getNoteById } from '../../redux/reducers'
 
 import { Loading, Note } from '../presentation'
 import EditNote from './EditNote'

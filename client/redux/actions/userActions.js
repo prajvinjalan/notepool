@@ -7,7 +7,7 @@ import { APIManager } from '../../utils'
 export const localRegister = (newUser) => (dispatch) => {
   dispatch(registerRequestAction());
 
-  APIManager.post('/auth/register', newUser)
+  return APIManager.post('/auth/register', newUser)
   .then(response => {
     console.log(response.message);
     dispatch(registerSuccessAction(response.user));
@@ -26,12 +26,11 @@ export const localRegister = (newUser) => (dispatch) => {
 export const localLogin = (user) => (dispatch) => {
   dispatch(loginRequestAction());
 
-  APIManager.post('/auth/login', user)
+  return APIManager.post('/auth/login', user)
   .then(response => {
     console.log(response.message);
     //setTimeout(() => {dispatch(loginSuccessAction(response.user))}, 1000);
     dispatch(loginSuccessAction(response.user));
-    //this.props.history.push('/notes');
     return null;
   })
   .catch(error => {
@@ -41,15 +40,18 @@ export const localLogin = (user) => (dispatch) => {
 }
 
 export const logout = () => (dispatch) => {
-  APIManager.get('/auth/logout', null)
+  return APIManager.get('/auth/logout', null)
   .then(response => {
     console.log(response.message);
     dispatch(logoutUserAction());
-    //this.props.history.push('/');
   })
   .catch(error => {
     console.log(error.message);
   });
+}
+
+export const setClientSocket = (user) => (dispatch) => {
+  dispatch(setClientSocketAction(user));
 }
 
 // ACTION CREATORS
@@ -94,4 +96,12 @@ const logoutUserAction = () => ({
   meta: {
     emit: true
   }
-})
+});
+
+const setClientSocketAction = (user) => ({
+  type: userConstants.SET_CLIENT_SOCKET,
+  payload: user,
+  meta: {
+    emit: true
+  }
+});

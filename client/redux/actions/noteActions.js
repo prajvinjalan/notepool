@@ -75,7 +75,6 @@ export const removeCollaborator = (params) => (dispatch) => {
 
 const updateCollaborator = (params) => (dispatch, getState) => {
   const note = getState().note.notesById[params.id];
-  console.log(note);
   //const data = { data: { email: params.email }}
   APIManager.put(`/api/notes/${params.id}`, {data: note})
   .then(response => {

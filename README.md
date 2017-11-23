@@ -34,3 +34,4 @@ Specifying ```NODE_ENV=<dev>``` will apply the Redux Logger middleware.
 - [ ] More complicated notes (lists and other formatting?)
 - [ ] React-grid-layout for notes? (will need a lot of refactoring)
 - [ ] Refactor express code to use ES6 notation?
+- [ ] Notifications (e.g. for login/register confirmations and validations)

@@ -27,9 +27,5 @@ export default {
       )
     );
     return store;
-  },
-
-  currentStore: () => {
-    return store;
   }
 }

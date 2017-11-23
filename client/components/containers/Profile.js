@@ -22,31 +22,29 @@ class Profile extends Component {
         title: 'Register',
         description: 'Register for a free account!',
         switchDescription: 'Already have an account?'
-      },
-      user: {
-        name: '',
-        email: '',
-        password: ''
       }
     }
   }
 
-  registerUser = (newUser) => {
-    this.props.localRegister(newUser);
+  registerUser = (user) => {
+    this.props.localRegister(user);
   }
 
   loginUser = (user) => {
-    this.props.localLogin(user);
+    this.props.localLogin(user)
+    .then(() => {
+      this.props.history.push('/notes');
+    });
   }
 
   render(){
-    const LoginPage = (props) => {
+    const LoginPage = () => {
       return(
         <LogReg title={this.state.login.title} description={this.state.login.description} switchDescription={this.state.login.switchDescription} isRegister={false} buttonClick={this.loginUser} />
       )
     }
 
-    const RegisterPage = (props) => {
+    const RegisterPage = () => {
       return(
         <LogReg title={this.state.register.title} description={this.state.register.description} switchDescription={this.state.register.switchDescription} isRegister={true} buttonClick={this.registerUser} />
       )
