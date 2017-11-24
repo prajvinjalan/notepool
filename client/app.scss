@@ -1,0 +1,151 @@
+// Note attributes affected by colour -> cards, modals, options within modals
+
+@each $colour in white, lightgreen, lightskyblue, lightcoral, yellow, rosybrown {
+  .ui.card.#{$colour} > .content {
+    background: #{$colour};
+  }
+
+  .ui.button##{$colour}.icon {
+    background: #{$colour};
+    border: 1px solid #aaa;
+    margin: 5px !important;
+    padding: 15px;
+
+    .icon {
+      display: none;
+    }
+  }
+
+  .ui.button##{$colour}.colour-selected.icon {
+    padding: 8px;
+
+    .icon {
+      display: inline;
+    }
+  }
+
+  .ui.button##{$colour}:hover, .ui.button##{$colour}:focus {
+    border: 1px solid #555;
+    background: #{$colour};
+  }
+
+  .ui.modal.#{$colour} > .header,
+  .ui.modal.#{$colour} > .content,
+  .ui.modal.#{$colour} input,
+  .ui.modal.#{$colour} textarea {
+    background: #{$colour};
+  }
+}
+
+// Modal content (when editing notes)
+
+.ui.modal input {
+  border: none;
+  font-weight: bold;
+}
+
+.ui.modal textarea {
+  border: none;
+}
+
+.ui.modal > .content.with-border {
+  border-bottom: 1px solid rgba(34,36,38,.15);
+}
+
+.ui.dropdown .menu > .item:hover {
+  background: none;
+}
+
+.ui.dropdown .menu > .item {
+  padding: 0.5rem !important;
+}
+
+.ui.dropdown .menu > .item.with-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.ui.circular.button > .icon {
+  color: #555;
+}
+
+// Login and Register Pages
+
+.logreg.container {
+  margin: 30px auto;
+  padding: 30px 40px;
+  width: 600px;
+  border: 1px solid #ddd;
+}
+
+.logreg.container.bottom {
+  margin: 30px auto;
+  padding: 30px 40px;
+  width: 600px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.logreg.header {
+  text-align: center;
+}
+
+.logreg.paragraph {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.logreg.input {
+  margin-bottom: 1rem;
+}
+
+// Other views
+
+.ui.centered.card, .ui.centered.card:hover {
+  box-shadow: none;
+  border: 1px solid #d4d4d5;
+}
+
+.note-body {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.ui.grid > .row {
+  margin-bottom: 2rem !important;
+}
+
+.ui.grid > .row > .column {
+  padding: 1rem;
+}
+
+.ui.button.right-aligned-button {
+  margin: auto 0 auto auto;
+}
+
+.ui.label {
+  margin: 0.2rem;
+}
+
+.navbar, footer {
+  padding: 1rem;
+  background: #f9f9f9;
+  text-align: center;
+  height: 70px;
+}
+
+.navbar .header {
+  margin: 0;
+}
+
+#email-input.error {
+  background: rgba(255, 67, 67, 0.04);
+  color: rgba(226, 101, 101, 0.89);
+  border: 1px solid rgba(226, 101, 101, 0.89);
+}
+
+#email-input.success {
+  background: rgba(67, 255, 73, 0.04);
+  color: rgb(84, 173, 107);
+  border: 1px solid rgb(84, 173, 107);
+}

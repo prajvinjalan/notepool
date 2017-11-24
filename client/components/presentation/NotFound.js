@@ -1,19 +1,27 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Container, Grid, Header, Icon } from 'semantic-ui-react'
 
-import Header from '../layout/Header'
+import Navbar from '../containers/Navbar'
+import Footer from '../layout/Footer'
 
-class NotFound extends Component {
-  render(){
-    return(
-      <div>
-        <Header />
-        <div className="container">
-          <h1>Erorr 404</h1>
-          <p>We couldn't find the requested URL <span style={{fontWeight: 'bold'}}>{this.props.path}</span> on the server.</p>
-        </div>
-      </div>
-    )
-  }
-}
+const NotFound = (props) => (
+  <div>
+    <Navbar />
+    <Container textAlign='center'>
+      <Grid verticalAlign='middle' style={{minHeight: '38rem'}}>
+        <Grid.Column>
+          <Header size='large' icon>
+            <Icon name='dont' />
+            Error 404
+            <Header.Subheader style={{marginTop: '1rem'}}>
+              We couldn't find the requested URL <span style={{fontWeight: 'bold'}}>{props.path}</span> on the server.
+            </Header.Subheader>
+          </Header>
+        </Grid.Column>
+      </Grid>
+    </Container>
+    <Footer />
+  </div>
+)
 
 export default NotFound

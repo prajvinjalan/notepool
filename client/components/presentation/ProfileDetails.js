@@ -1,13 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Container } from 'semantic-ui-react'
 
-class ProfileDetails extends Component {
-  render(){
-    return(
-      <div className="container">
-        Profile Details!
-      </div>
-    )
-  }
-}
+const ProfileDetails = () => <Container content='Profile Details' />
 
 export default ProfileDetails

@@ -1,46 +1,59 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Button, Container, Dropdown, Header, Menu } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
-
-import styles from '../../styles.js'
 
 class Navbar extends Component {
   constructor(props){
     super(props);
   }
 
-  logoutUser(){
+  logoutUser = () => {
     this.props.logout();
   }
 
   render(){
+
     const LogRegLinks = () => {
       return(
-        <ul className="nav navbar-nav navbar-right" style={{marginRight: '0'}}>
-          <li><Link to="/profile/register">Register</Link></li>
-          <li><Link to="/profile/login">Login</Link></li>
-        </ul>
+        <Menu.Menu>
+          <Menu.Item name='register'>
+            <Button inverted color='green' as={Link} to='/profile/register'>Register</Button>
+          </Menu.Item>
+          <Menu.Item name='login'>
+            <Button inverted color='green' as={Link} to='/profile/login'>Login</Button>
+          </Menu.Item>
+        </Menu.Menu>
       )
     }
 
-    const LogoutLink = () => {
+    const UserLinks = () => {
       return(
-        <ul className="nav navbar-nav navbar-right" style={{marginRight: '0'}}>
-          <li><Link to="/profile" >Profile</Link></li>
-          <li><Link to="/" onClick={this.logoutUser.bind(this)}>Logout</Link></li>
-        </ul>
+        <Menu.Menu>
+          <Menu.Item name='notes' as={Link} to='/notes'>Notes</Menu.Item>
+          <Dropdown item pointing className='top right' text='Profile'>
+            <Dropdown.Menu>
+              <Dropdown.Item as={Link} icon='user' text='Details' to="/profile" />
+              <Dropdown.Item icon='setting' text='Settings' />
+              <Dropdown.Item as={Link} icon='sign out' text='Logout' onClick={this.logoutUser} to="/" />
+            </Dropdown.Menu>
+          </Dropdown>
+        </Menu.Menu>
       )
     }
 
     return(
-      <div className="container navbar" style={styles.navbar}>
-        <ul className="nav navbar-nav">
-          <li><Link to="/">Home</Link></li>
-          {this.props.user.authenticated && <li><Link to="/notes">Notes</Link></li>}
-        </ul>
-        {this.props.user.authenticated ? <LogoutLink /> : <LogRegLinks />}
+      <div className='navbar'>
+        <Container>
+          <Menu size='small' secondary>
+            <Container>
+              <Header size='huge' as={Link} to="/" content='Notepool' />
+            </Container>
+            {this.props.user.authenticated ? <UserLinks /> : <LogRegLinks />}
+          </Menu>
+        </Container>
       </div>
     )
   }

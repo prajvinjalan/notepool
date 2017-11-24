@@ -1,13 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Container } from 'semantic-ui-react'
 
-class Home extends Component {
-  render(){
-    return(
-      <div className="container">
-        Home Page!
-      </div>
-    )
-  }
-}
+const Home = () => <Container content='Home Page' />
 
 export default Home
