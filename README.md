@@ -24,7 +24,7 @@ To have the build refresh on code changes, run the following commands on separat
 webpack -w
 npm run devstart
 ```
-Specifying ```DEBUG=notepool:server``` will enable the debug function for the server.
+Specifying ```DEBUG=notepool:server``` will enable the debug function for the server.  
 Specifying ```NODE_ENV=dev``` will apply the Redux Logger middleware.
 
 ## TODO (eventually?)
