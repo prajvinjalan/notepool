@@ -24,7 +24,8 @@ To have the build refresh on code changes, run the following commands on separat
 webpack -w
 npm run devstart
 ```
-Specifying ```NODE_ENV=<dev>``` will apply the Redux Logger middleware.
+Specifying ```DEBUG=notepool:server``` will enable the debug function for the server.
+Specifying ```NODE_ENV=dev``` will apply the Redux Logger middleware.
 
 ## TODO (eventually?)
 - [x] Socket.io for real-time collaborating
@@ -33,5 +34,5 @@ Specifying ```NODE_ENV=<dev>``` will apply the Redux Logger middleware.
 - [ ] Password related - change password, forgot password (send email), minimum requirements when registering (?)
 - [ ] More complicated notes (lists and other formatting?)
 - [ ] React-grid-layout for notes? (will need a lot of refactoring)
-- [ ] Refactor express code to use ES6 notation?
+- [x] Refactor express code to use ES6 notation
 - [ ] Notifications (e.g. for login/register confirmations and validations)

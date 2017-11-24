@@ -1,14 +1,14 @@
-const express = require('express');
-const path = require('path');
-const favicon = require('serve-favicon');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const passport = require('passport');
-const expressValidator = require('express-validator');
-const session = require('express-session');
+import express from 'express'
+import path from 'path'
+import favicon from 'serve-favicon'
+import logger from 'morgan'
+import bodyParser from 'body-parser'
+import mongoose from 'mongoose'
+import passport from 'passport'
+import expressValidator from 'express-validator'
+import session from 'express-session'
 
-const dbconfig = require('./server/config/database');
+import dbconfig from './server/config/database'
 
 // connect to DB
 mongoose.connect(dbconfig.database, {
@@ -26,8 +26,8 @@ db.on('error', function(err){
   console.log('Connection to MongoDB failed' + err);
 });
 
-const api = require('./server/routes/api');
-const auth = require('./server/routes/auth');
+import api from './server/routes/api'
+import auth from './server/routes/auth'
 
 // initialize app
 const app = express();
@@ -65,7 +65,8 @@ app.use(expressValidator({
 }));
 
 // Passport Config and Middleware
-require('./server/config/passport')(passport);
+import strategies from './server/config/passport'
+strategies(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -88,4 +89,4 @@ app.use(function(err, req, res, next) {
   console.log(err);
 });
 
-module.exports = app;
+export default app

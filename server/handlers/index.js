@@ -1,9 +1,9 @@
-var reduxio = require('redux-socket.io-connect');
+import { createHandler } from 'redux-socket.io-connect'
 
 // backend variable persists (since based on server not client)
 let currentClients = {};
 
-module.exports = reduxio.createHandler({
+export default createHandler({
   UPDATE_NOTE: (context, action) => {
     dispatchToMultipleClients(context, action, 'UPDATE_NOTE');
   },
@@ -41,7 +41,7 @@ module.exports = reduxio.createHandler({
     const oldClientId = getClientId(action.payload.email);
     delete currentClients[oldClientId];
     currentClients[client.id] = action.payload.email;
-    console.log(currentClients);
+    // console.log(currentClients);
   }
 });
 
@@ -52,6 +52,7 @@ const dispatchToMultipleClients = (context, action, dispatchType) => {
   // console.log(action, client.id);
   const otherClients = getCollaboratingClients(client.id, payload);
   // console.log(otherClients);
+  let clientId;
   for (clientId in otherClients){
     dispatchTo(clientId, {
       type: dispatchType,
@@ -80,6 +81,7 @@ const getCollaboratingClients = (clientId, note) => {
   delete otherClients[clientId]; // remove client who dispatched action
 
   // remove clients who aren't collaborating
+  let id;
   for (id in otherClients){
     let found = false;
     note.collaborators.forEach(collaborator => {
@@ -96,6 +98,8 @@ const getCollaboratingClients = (clientId, note) => {
 
 // Get single client id based on user's email
 const getClientId = (email) => {
+  console.log(currentClients)
+  let id;
   for (id in currentClients){
     if (currentClients[id] === email){
       return id;

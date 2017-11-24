@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express'
+import controllers from '../controllers'
 const router = express.Router();
-const controllers = require('../controllers');
 
 // GET resource
-router.get('/:resource', function(req, res, next){
+router.get('/:resource', (req, res, next) => {
 
   let resource = req.params.resource;
   let query = req.query;
@@ -32,7 +32,7 @@ router.get('/:resource', function(req, res, next){
 });
 
 // GET resource by id
-router.get('/:resource/:id', function(req, res, next){
+router.get('/:resource/:id', (req, res, next) => {
 
   let resource = req.params.resource;
   let id = req.params.id
@@ -61,7 +61,7 @@ router.get('/:resource/:id', function(req, res, next){
 });
 
 // POST resource
-router.post('/:resource', function(req, res, next){
+router.post('/:resource', (req, res, next) => {
 
   let resource = req.params.resource;
   let controller = controllers[resource];
@@ -89,7 +89,7 @@ router.post('/:resource', function(req, res, next){
 });
 
 // PUT resource
-router.put('/:resource/:id', function(req, res, next){
+router.put('/:resource/:id', (req, res, next) => {
 
   let resource = req.params.resource;
   let id = req.params.id;
@@ -118,7 +118,7 @@ router.put('/:resource/:id', function(req, res, next){
 });
 
 // DELETE resource by id
-router.delete('/:resource/:id', function(req, res, next){
+router.delete('/:resource/:id', (req, res, next) => {
 
   let resource = req.params.resource;
   let id = req.params.id;
@@ -146,4 +146,4 @@ router.delete('/:resource/:id', function(req, res, next){
   });
 });
 
-module.exports = router;
+export default router

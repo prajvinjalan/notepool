@@ -1,10 +1,10 @@
-const User = require('../models/User');
-const Promise = require('bluebird');
+import User from '../models/User'
+import Promise from 'bluebird'
 
 // Create
-function create (params) {
-  return new Promise(function(resolve, reject) {
-    User.create(params, function(err, user){
+const create = (params) => {
+  return new Promise((resolve, reject) => {
+    User.create(params, (err, user) => {
       if(err){
         reject(err);
         return;
@@ -20,9 +20,9 @@ function create (params) {
 }
 
 // Read All
-function find (params, isRaw) {
-  return new Promise(function(resolve, reject) {
-    User.find(params, function(err, users){
+const find = (params, isRaw) => {
+  return new Promise((resolve, reject) => {
+    User.find(params, (err, users) => {
       if(err){
         reject(err);
         return;
@@ -32,7 +32,7 @@ function find (params, isRaw) {
         resolve(users);
       } else {
         let list = []
-        users.forEach(function(user, i){
+        users.forEach((user, i) => {
           list.push(user.summary());
         });
         resolve(list);
@@ -42,9 +42,9 @@ function find (params, isRaw) {
 }
 
 // Read One
-function findById (id, isRaw) {
-  return new Promise(function(resolve, reject) {
-    User.findById(id, function(err, user){
+const findById = (id, isRaw) => {
+  return new Promise((resolve, reject) => {
+    User.findById(id, (err, user) => {
       if(err){
         reject(err);
         return;
@@ -60,9 +60,9 @@ function findById (id, isRaw) {
 }
 
 // Update
-function update (id, params) {
-  return new Promise(function(resolve, reject) {
-    User.findByIdAndUpdate(id, params, {new:true}, function(err, user){
+const update = (id, params) => {
+  return new Promise((resolve, reject) => {
+    User.findByIdAndUpdate(id, params, {new:true}, (err, user) => {
       if(err){
         reject(err);
         return;
@@ -78,9 +78,9 @@ function update (id, params) {
 }
 
 // Delete
-function _delete (id) {
-  return new Promise(function(resolve, reject) {
-    User.findByIdAndRemove(id, function(err){
+const _delete = (id) => {
+  return new Promise((resolve, reject) => {
+    User.findByIdAndRemove(id, (err) => {
       if(err){
         reject(err);
         return;
@@ -90,7 +90,7 @@ function _delete (id) {
   });
 }
 
-module.exports = {
+export default {
   create: create,
   update: update,
   delete: _delete,

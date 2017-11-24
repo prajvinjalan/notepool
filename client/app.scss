@@ -101,6 +101,37 @@
   margin-bottom: 1rem;
 }
 
+// Navbar
+
+.navbar, footer {
+  padding: 1rem;
+  background: #f9f9f9;
+  text-align: center;
+  height: 70px;
+}
+
+.navbar .ui.huge.header {
+  margin: auto 0;
+}
+
+.navbar #profile-item, .navbar #notes-item {
+  background: none;
+  margin: 0;
+  padding: 0;
+
+  .user.circle.icon, .book.icon {
+    margin: 0;
+  }
+
+  .dropdown.icon {
+    display: none;
+  }
+}
+
+.navbar #notes-item {
+  margin: 0 2em 0 0;
+}
+
 // Other views
 
 .ui.centered.card, .ui.centered.card:hover {
@@ -127,17 +158,6 @@
 
 .ui.label {
   margin: 0.2rem;
-}
-
-.navbar, footer {
-  padding: 1rem;
-  background: #f9f9f9;
-  text-align: center;
-  height: 70px;
-}
-
-.navbar .header {
-  margin: 0;
 }
 
 #email-input.error {

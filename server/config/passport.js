@@ -1,17 +1,17 @@
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcryptjs');
+import { Strategy as LocalStrategy } from 'passport-local'
+import bcrypt from 'bcryptjs'
 
-const User = require('../models/User');
+import User from '../models/User'
 
-module.exports = function(passport){
+export default function(passport) {
   // used to serialize the user for the session
-  passport.serializeUser(function(user, done) {
+  passport.serializeUser((user, done) => {
       done(null, user.id);
   });
 
   // used to deserialize the user
-  passport.deserializeUser(function(id, done) {
-      User.findById(id, function(err, user) {
+  passport.deserializeUser((id, done) => {
+      User.findById(id, (err, user) => {
           done(err, user);
       });
   });
@@ -21,9 +21,9 @@ module.exports = function(passport){
     usernameField: 'email',
     passwordField: 'password',
     passReqToCallback: true
-  }, function(req, email, password, done){
-    process.nextTick(function(){
-      User.findOne({'local.email': email}, function(err, user){
+  }, (req, email, password, done) => {
+    process.nextTick(() => {
+      User.findOne({'local.email': email}, (err, user) =>{
         if(err){
           return done(err);
         }
@@ -37,17 +37,17 @@ module.exports = function(passport){
               password: req.body.password
             }
           });
-          bcrypt.genSalt(10, function(err, salt){
+          bcrypt.genSalt(10, (err, salt) => {
             if(err){
               return done(err);
             }
-            bcrypt.hash(password, salt, function(err, hash){
+            bcrypt.hash(password, salt, (err, hash) => {
               if(err){
                 return done(err);
               }
               newUser.local.email = email;
               newUser.local.password = hash;
-              newUser.save(function(err){
+              newUser.save((err) => {
                 if(err){
                   return done(err);
                 }
@@ -65,16 +65,16 @@ module.exports = function(passport){
     usernameField: 'email',
     passwordField: 'password',
     passReqToCallback: true
-  }, function(req, email, password, done){
-    process.nextTick(function(){
-      User.findOne({'local.email' : email}, function(err, user){
+  }, (req, email, password, done) => {
+    process.nextTick(() => {
+      User.findOne({'local.email' : email}, (err, user) => {
         if(err){
           return done(err);
         }
         if(!user){
           return done(null, false, {message: 'That user was not found.'})
         }
-        bcrypt.compare(password, user.local.password, function(err, isMatch){
+        bcrypt.compare(password, user.local.password, (err, isMatch) => {
           if(err){
             return done(err);
           }

@@ -1,10 +1,10 @@
-const Note = require('../models/Note');
-const Promise = require('bluebird');
+import Note from '../models/Note'
+import Promise from 'bluebird'
 
 // Create
-function create (params, isRaw) {
-  return new Promise(function(resolve, reject) {
-    Note.create(params, function(err, note){
+const create = (params, isRaw) => {
+  return new Promise((resolve, reject) => {
+    Note.create(params, (err, note) => {
       if(err){
         reject(err);
         return;
@@ -22,9 +22,9 @@ function create (params, isRaw) {
 }
 
 // Read All
-function find (params, isRaw) {
-  return new Promise(function(resolve, reject) {
-    Note.find(params, function(err, notes){
+const find = (params, isRaw) => {
+  return new Promise((resolve, reject) => {
+    Note.find(params, (err, notes) => {
       if(err){
         reject(err);
         return;
@@ -35,7 +35,7 @@ function find (params, isRaw) {
           resolve(notes);
         } else {
           let list = []
-          notes.forEach(function(note, i){
+          notes.forEach((note, i) => {
             list.push(note.summary());
           });
           resolve(list);
@@ -46,9 +46,9 @@ function find (params, isRaw) {
 }
 
 // Read One
-function findById (id, isRaw) {
-  return new Promise(function(resolve, reject) {
-    Note.findById(id, function(err, note){
+const findById = (id, isRaw) => {
+  return new Promise((resolve, reject) => {
+    Note.findById(id, (err, note) => {
       if(err){
         reject(err);
         return;
@@ -66,9 +66,9 @@ function findById (id, isRaw) {
 }
 
 // Update
-function update (id, params, isRaw) {
-  return new Promise(function(resolve, reject) {
-    Note.findByIdAndUpdate(id, params, {new:true}, function(err, note){
+const update = (id, params, isRaw) => {
+  return new Promise((resolve, reject) => {
+    Note.findByIdAndUpdate(id, params, {new:true}, (err, note) => {
       if(err){
         reject(err);
         return;
@@ -86,9 +86,9 @@ function update (id, params, isRaw) {
 }
 
 // Delete
-function _delete (id) {
-  return new Promise(function(resolve, reject) {
-    Note.findByIdAndRemove(id, function(err){
+const _delete = (id) => {
+  return new Promise((resolve, reject) => {
+    Note.findByIdAndRemove(id, (err) => {
       if(err){
         reject(err);
         return;
@@ -98,7 +98,7 @@ function _delete (id) {
   });
 }
 
-module.exports = {
+export default {
   create: create,
   update: update,
   delete: _delete,

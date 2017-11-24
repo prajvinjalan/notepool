@@ -38,8 +38,8 @@ class Navbar extends Component {
     const UserLinks = () => {
       return(
         <Menu.Menu>
-          <Menu.Item name='notes' as={Link} to='/notes'>Notes</Menu.Item>
-          <Dropdown item pointing className='top right' trigger={<Icon name='user circle' size='big'/>}>
+          <Menu.Item id='notes-item' name='notes' as={Link} to='/notes'><Icon name='book' size='big' /></Menu.Item>
+          <Dropdown id='profile-item' item pointing className='top right' trigger={<Icon name='user circle outline' size='big'/>}>
             <Dropdown.Menu>
               <Dropdown.Item as={Link} icon='user' text='Details' to="/profile" />
               <Dropdown.Item icon='setting' text='Settings' />

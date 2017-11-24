@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express'
+import passport from 'passport'
 const router = express.Router();
-const passport = require('passport');
 
 // Register route
-router.post('/register', function(req, res, next){
+router.post('/register', (req, res, next) => {
   const validationResult = validateRegisterForm(req);
   if(!validationResult.success){
     return res.json({
@@ -11,7 +11,7 @@ router.post('/register', function(req, res, next){
       message: validationResult.errors
     });
   }
-  return passport.authenticate('local-register', function(err, user, info){
+  return passport.authenticate('local-register', (err, user, info) => {
     if(info){
       return res.json({
         confirmation: 'fail',
@@ -34,7 +34,7 @@ router.post('/register', function(req, res, next){
 });
 
 // Login route
-router.post('/login', function(req, res, next){
+router.post('/login', (req, res, next) => {
   const validationResult = validateLoginForm(req);
   if(!validationResult.success){
     return res.json({
@@ -42,7 +42,7 @@ router.post('/login', function(req, res, next){
       message: validationResult.errors
     });
   }
-  return passport.authenticate('local-login', function(err, user, info){
+  return passport.authenticate('local-login', (err, user, info) => {
     if(info){
       return res.json({
         confirmation: 'fail',
@@ -65,7 +65,7 @@ router.post('/login', function(req, res, next){
 });
 
 // Logout route
-router.get('/logout', function(req, res, next){
+router.get('/logout', (req, res, next) => {
   req.logout();
   return res.json({
     confirmation: 'success',
@@ -74,7 +74,7 @@ router.get('/logout', function(req, res, next){
 });
 
 // Validate user inputs for registering
-function validateRegisterForm(req){
+const validateRegisterForm = (req) => {
   let isFormValid = true;
 
   req.checkBody('name', 'Name is required.').notEmpty();
@@ -97,7 +97,7 @@ function validateRegisterForm(req){
 }
 
 // Validate user inputs for logging in
-function validateLoginForm(req){
+const validateLoginForm = (req) => {
   let isFormValid = true;
 
   req.checkBody('email', 'Email is required.').notEmpty();
@@ -116,4 +116,4 @@ function validateLoginForm(req){
   }
 }
 
-module.exports = router;
+export default router
