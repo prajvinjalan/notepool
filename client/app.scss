@@ -52,17 +52,19 @@
   border-bottom: 1px solid rgba(34,36,38,.15);
 }
 
-.ui.dropdown .menu > .item:hover {
-  background: none;
-}
+#colour-dropdown.ui.dropdown {
+  .menu > .item:hover {
+    background: none;
+  }
 
-.ui.dropdown .menu > .item {
-  padding: 0.5rem !important;
-}
+  .menu > .item {
+    padding: 0.5rem !important;
+  }
 
-.ui.dropdown .menu > .item.with-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  .menu > .item.with-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }
 
 .ui.circular.button > .icon {

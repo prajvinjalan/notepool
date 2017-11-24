@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Button, Container, Dropdown, Header, Menu } from 'semantic-ui-react'
+import { Button, Container, Dropdown, Header, Icon, Menu } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
 
@@ -39,7 +39,7 @@ class Navbar extends Component {
       return(
         <Menu.Menu>
           <Menu.Item name='notes' as={Link} to='/notes'>Notes</Menu.Item>
-          <Dropdown item pointing className='top right' text='Profile'>
+          <Dropdown item pointing className='top right' trigger={<Icon name='user circle' size='big'/>}>
             <Dropdown.Menu>
               <Dropdown.Item as={Link} icon='user' text='Details' to="/profile" />
               <Dropdown.Item icon='setting' text='Settings' />

@@ -8,23 +8,38 @@ import { APIManager } from '../../utils'
 export const fetchNotes = (id) => (dispatch) => {
   dispatch(fetchingNotesAction());
 
-  APIManager.get(`/api/users/${id}`, null)
+  return APIManager.get(`/api/users/${id}`, null)
   .then(response => {
-    const params = { params: { collaborators: response.result.local.email }}
-    APIManager.get('/api/notes', params)
-    .then(response => {
-      //setTimeout(() => {dispatch(fetchNotesAction(response.result))}, 1000);
-      dispatch(fetchNotesAction(response.result));
-      return null;
-    })
-    .catch(error => {
-      console.log(error.message);
-    });
+    dispatch(fetchAllNotes(response.result.local.email))
     return null;
   })
   .catch(error => {
     console.log(error.message);
   });
+}
+
+const fetchAllNotes = (email) => (dispatch) => {
+  return APIManager.get('/api/notes', null)
+  .then(response => {
+    dispatch(fetchUserNotes(email, response.result));
+    return null;
+  })
+  .catch(error => {
+    console.log(error.message);
+  });
+}
+
+const fetchUserNotes = (email, notes) => (dispatch) => {
+  let userNotes = [];
+  notes.forEach(note => {
+    note.collaborators.forEach(collaborator => {
+      if (collaborator['email'] === email){
+        userNotes.push(note);
+      }
+    });
+  });
+  //setTimeout(() => {dispatch(fetchNotesAction(response.result))}, 1000);
+  dispatch(fetchNotesAction(userNotes));
 }
 
 // Action dispatcher for adding a note
@@ -41,7 +56,7 @@ export const addNote = (note) => (dispatch) => {
 
 // Action dispatcher for updating a given note
 export const updateNote = (note) => (dispatch) => {
-  APIManager.put(`/api/notes/${note.id}`, {data: note})
+  return APIManager.put(`/api/notes/${note.id}`, {data: note})
   .then(response => {
     dispatch(updateNoteAction(response.result));
     return null;
@@ -51,9 +66,9 @@ export const updateNote = (note) => (dispatch) => {
   });
 }
 
-// Action dispatcher for deleting a given
+// Action dispatcher for deleting a given note
 export const deleteNote = (note) => (dispatch) => {
-  APIManager.delete(`/api/notes/${note.id}`)
+  return APIManager.delete(`/api/notes/${note.id}`)
   .then(response => {
     dispatch(deleteNoteAction(note));
     return null;
@@ -63,9 +78,10 @@ export const deleteNote = (note) => (dispatch) => {
   });
 }
 
-// Action dispatcher for setting a note as the current note
+// Action dispatcher for setting a note as the current note, then updating the note
 export const setCurrentNote = (note) => (dispatch) => {
   dispatch(setCurrentNoteAction(note));
+  dispatch(updateNoteAction(note));
 }
 
 // Action dispatcher for adding a collaborator from a note

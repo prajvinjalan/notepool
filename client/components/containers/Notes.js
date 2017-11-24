@@ -23,7 +23,15 @@ class Notes extends Component {
 
   // Adds a new blank note with the user as a collaborator, then opens the modal to edit the note
   addNote = () => {
-    const note = {title: '', body: '', colour: 'white', collaborators: [this.props.user.email]};
+    const note = {
+      title: '',
+      body: '',
+      colour: 'white',
+      collaborators: [{
+        email: this.props.user.email,
+        type: 'Owner'
+      }]
+    };
     this.props.addNote(note)
     .then((response) => {
       this.show(response);
@@ -76,7 +84,9 @@ class Notes extends Component {
             </Grid>
           </Container>
         }
-        <EditNote item={this.props.currentNote} open={this.state.open} close={this.close} />
+        {(this.props.currentNote.id !== '') &&
+          <EditNote item={this.props.currentNote} open={this.state.open} close={this.close} />
+        }
       </div>
     )
   }

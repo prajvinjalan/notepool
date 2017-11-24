@@ -83,6 +83,24 @@ class EditNote extends Component {
     });
   }
 
+  isOwner = () => {
+    if (this.props.currentNote){
+      return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Owner');
+    }
+  }
+
+  isEditor = () => {
+    if (this.props.currentNote){
+      return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Editor');
+    }
+  }
+
+  isViewer = () => {
+    if (this.props.currentNote){
+      return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Viewer');
+    }
+  }
+
   render(){
     // Creates colour change buttons
     const colours_1 = ['white', 'lightgreen', 'lightskyblue'];
@@ -105,7 +123,13 @@ class EditNote extends Component {
       this.props.currentNote.collaborators.map((collaborator, i) => {
         return(
           <Label key={i}>
-            {collaborator} <Icon id={collaborator} name='delete' onClick={this.removeCollaborator} />
+            {collaborator.email} ({collaborator.type})
+            {
+              ((collaborator.type !== 'Owner') &&
+              !this.isViewer() &&
+              (collaborator.email !== this.props.user.email))
+              && <Icon id={collaborator.email} name='delete' onClick={this.removeCollaborator} />
+            }
           </Label>
         )
       })
@@ -128,23 +152,27 @@ class EditNote extends Component {
             {collabList}
           </Modal.Description>
         </Modal.Content>
-        <Modal.Actions>
-          <Grid columns='equal'>
-            <Grid.Column textAlign='left'>
-              <Dropdown floating button className='icon inverted green bottom left' icon='paint brush' pointing>
-                <Dropdown.Menu>
-                  <Dropdown.Item className='with-grid'>{colourList_1}</Dropdown.Item>
-                  <Dropdown.Item className='with-grid'>{colourList_2}</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-              <Button inverted color='green' icon='add user' onClick={this.showCollab} />
-              <EditCollaborators open={this.state.open} close={this.closeCollab} />
-            </Grid.Column>
-            <Grid.Column textAlign='right'>
-              <Button inverted color='red' icon='trash' onClick={this.delete} />
-            </Grid.Column>
-          </Grid>
-        </Modal.Actions>
+        {!this.isViewer() &&
+          <Modal.Actions>
+            <Grid columns='equal'>
+              <Grid.Column textAlign='left'>
+                <Dropdown id='colour-dropdown' floating button className='icon inverted green bottom left' icon='paint brush' pointing>
+                  <Dropdown.Menu>
+                    <Dropdown.Item className='with-grid'>{colourList_1}</Dropdown.Item>
+                    <Dropdown.Item className='with-grid'>{colourList_2}</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                <Button inverted color='green' icon='add user' onClick={this.showCollab} />
+                <EditCollaborators open={this.state.open} close={this.closeCollab} />
+              </Grid.Column>
+              {this.isOwner() &&
+                <Grid.Column textAlign='right'>
+                  <Button inverted color='red' icon='trash' onClick={this.delete} />
+                </Grid.Column>
+              }
+            </Grid>
+          </Modal.Actions>
+        }
       </Modal>
     )
   }

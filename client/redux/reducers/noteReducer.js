@@ -13,7 +13,6 @@ const notes = (state = [], action) => {
       return [...state, action.payload];
 
     case noteConstants.UPDATE_NOTE:
-    case noteConstants.SET_CURRENT_NOTE:
       return state.map(note => {
         if(note.id === action.payload.id){
           return action.payload;
@@ -28,7 +27,7 @@ const notes = (state = [], action) => {
       return state.map(note => {
         if(note.id === action.payload.id){
           let selectedNote = {...note};
-          selectedNote.collaborators.push(action.payload.email);
+          selectedNote.collaborators.push(action.payload.collaborator);
           return selectedNote;
         }
         return note;
@@ -39,7 +38,7 @@ const notes = (state = [], action) => {
         if(note.id === action.payload.id){
           let selectedNote = {...note};
           for(let i = 0; i < selectedNote.collaborators.length; i++){
-            if(selectedNote.collaborators[i] === action.payload.email){
+            if(selectedNote.collaborators[i].email === action.payload.email){
               selectedNote.collaborators.splice(i, 1);
             }
           }
@@ -59,11 +58,9 @@ const notes = (state = [], action) => {
 // NotesById reducer that contains a user's notes as a lookup table with note ids as keys
 const notesById = (state = {}, action) => {
   let nextState = {};
-  let selectedNote;
 
   switch (action.type){
     case noteConstants.RECEIVE_NOTES:
-      nextState = {...state};
       action.payload.forEach(note => {
         nextState[note.id] = note;
       });
@@ -71,7 +68,6 @@ const notesById = (state = {}, action) => {
 
     case noteConstants.ADD_NOTE:
     case noteConstants.UPDATE_NOTE:
-    case noteConstants.SET_CURRENT_NOTE:
       return {...state, [action.payload.id]: action.payload};
 
     case noteConstants.DELETE_NOTE:
@@ -101,11 +97,23 @@ const loading = (state = false, action) => {
   }
 }
 
-// CurrentNote reducer that holds the current note
+const emptyNote = {id: '', title: '', body: '', colour: '', collaborators: []};
+
+// CurrentNote reducer that holds the current note (for the 'Edit Note' modal)
 const currentNote = (state = {}, action) => {
   switch (action.type){
     case noteConstants.SET_CURRENT_NOTE:
       return action.payload;
+
+    case noteConstants.UPDATE_NOTE:
+      if (state.id === action.payload.id){
+        return action.payload;
+      }
+
+    case noteConstants.DELETE_NOTE:
+      if (state.id === action.payload.id){
+        return emptyNote;
+      }
 
     default:
       return state;

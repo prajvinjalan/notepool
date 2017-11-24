@@ -27,8 +27,8 @@ npm run devstart
 Specifying ```NODE_ENV=<dev>``` will apply the Redux Logger middleware.
 
 ## TODO (eventually?)
-- [ ] Socket.io for real-time collaborating
-- [ ] Different types of collaborators (editor, viewer)
+- [x] Socket.io for real-time collaborating
+- [x] Different types of collaborators (editor, viewer)
 - [ ] Link Google/Facebook/Twitter login
 - [ ] Password related - change password, forgot password (send email), minimum requirements when registering (?)
 - [ ] More complicated notes (lists and other formatting?)

@@ -9,7 +9,7 @@ module.exports = reduxio.createHandler({
   },
 
   SET_CURRENT_NOTE: (context, action) => {
-    dispatchToMultipleClients(context, action, 'SET_CURRENT_NOTE');
+    dispatchToMultipleClients(context, action, 'UPDATE_NOTE');
   },
 
   DELETE_NOTE: (context, action) => {
@@ -61,14 +61,15 @@ const dispatchToMultipleClients = (context, action, dispatchType) => {
 }
 
 // Dispatch an action to a single client based on user's email
-const dispatchToSingleClient = (context, action, dispatchType) => {
+const dispatchToSingleClient = (context, action, dispatchType, note) => {
   const { client, dispatchTo } = context;
   const payload = action.payload;
   // console.log(action, client.id);
-  const clientId = getClientId(payload.email);
+  // 'REMOVE_COLLABORATOR' sends email object in payload, whereas 'ADD_COLLABORATOR' sends collaborator object in payload
+  const clientId = getClientId(payload.email ? payload.email : payload.collaborator.email);
   dispatchTo(clientId, {
     type: dispatchType,
-    payload: payload.note
+    payload: (note ? note : payload.note)
   });
   //console.log(currentClients);
 }
@@ -80,7 +81,13 @@ const getCollaboratingClients = (clientId, note) => {
 
   // remove clients who aren't collaborating
   for (id in otherClients){
-    if (!(note.collaborators.indexOf(otherClients[id]) > -1)){
+    let found = false;
+    note.collaborators.forEach(collaborator => {
+      if (collaborator['email'] === otherClients[id]){
+        found = true;
+      }
+    });
+    if (!found){
       delete otherClients[id];
     }
   }
