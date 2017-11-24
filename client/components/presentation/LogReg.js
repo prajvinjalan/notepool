@@ -15,6 +15,7 @@ class LogReg extends Component {
     }
   }
 
+  // Handles changes to register and login page inputs
   handleInputChange = (event) => {
     let updatedUser = {...this.state.newUser};
     updatedUser[event.target.id] = event.target.value;
@@ -23,6 +24,7 @@ class LogReg extends Component {
     });
   }
 
+  // Calls the 'buttonClick' prop (based on whether register or login was rendered)
   buttonClick = () => {
     let user = {...this.state.newUser};
     this.props.buttonClick(user);

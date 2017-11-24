@@ -22,36 +22,39 @@ class Profile extends Component {
         title: 'Register',
         description: 'Register for a free account!',
         switchDescription: 'Already have an account?'
-      },
-      user: {
-        name: '',
-        email: '',
-        password: ''
       }
     }
   }
 
-  registerUser = (newUser) => {
-    this.props.localRegister(newUser);
+  // Registers the user
+  registerUser = (user) => {
+    this.props.localRegister(user);
   }
 
+  // Logs the user in, then redirects to their notes
   loginUser = (user) => {
-    this.props.localLogin(user);
+    this.props.localLogin(user)
+    .then(() => {
+      this.props.history.push('/notes');
+    });
   }
 
   render(){
-    const LoginPage = (props) => {
+    // Creates the Login page
+    const LoginPage = () => {
       return(
         <LogReg title={this.state.login.title} description={this.state.login.description} switchDescription={this.state.login.switchDescription} isRegister={false} buttonClick={this.loginUser} />
       )
     }
 
-    const RegisterPage = (props) => {
+    // Creates the Register page
+    const RegisterPage = () => {
       return(
         <LogReg title={this.state.register.title} description={this.state.register.description} switchDescription={this.state.register.switchDescription} isRegister={true} buttonClick={this.registerUser} />
       )
     }
 
+    // Returns a Switch Component based on user authentication (to redirect appropriately)
     const AuthSwitch = () => {
       return(
         <div>
@@ -82,13 +85,16 @@ class Profile extends Component {
   }
 }
 
+// Maps state objects to props
 const stateToProps = (state) => ({
   user: state.user
 })
 
+// Maps dispatch functions to props
 const dispatchToProps = (dispatch) => ({
   localRegister: (params) => dispatch(actions.localRegister(params)),
   localLogin: (params) => dispatch(actions.localLogin(params))
 })
 
+// Connects state and dispatch functions to this component
 export default connect(stateToProps, dispatchToProps)(Profile)

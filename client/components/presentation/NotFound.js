@@ -4,6 +4,7 @@ import { Container, Grid, Header, Icon } from 'semantic-ui-react'
 import Navbar from '../containers/Navbar'
 import Footer from '../layout/Footer'
 
+// Component for route that wasn't found
 const NotFound = (props) => (
   <div>
     <Navbar />

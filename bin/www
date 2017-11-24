@@ -22,6 +22,18 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
+ * Create Socket.io connection
+ */
+
+var io = require('socket.io');
+var reduxio = require('redux-socket.io-connect');
+var handlers = require('../server/handlers');
+
+const socket = io(server);
+
+reduxio.createServer(socket, handlers);
+
+/**
  * Listen on provided port, on all network interfaces.
  */
 

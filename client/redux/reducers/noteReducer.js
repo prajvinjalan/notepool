@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import { noteConstants } from '../constants'
 import { userConstants } from '../constants'
 
+// Notes reducer that contains all of a user's notes
 const notes = (state = [], action) => {
   switch (action.type) {
     case noteConstants.RECEIVE_NOTES:
@@ -20,21 +21,13 @@ const notes = (state = [], action) => {
       });
 
     case noteConstants.DELETE_NOTE:
-      return state.filter(note => note.id !== action.payload);
+      return state.filter(note => note.id !== action.payload.id);
 
     case noteConstants.ADD_COLLABORATOR:
       return state.map(note => {
         if(note.id === action.payload.id){
-          let alreadyAdded = false;
           let selectedNote = {...note};
-          for(let i = 0; i < note.collaborators.length; i++){
-            if(note.collaborators[i] === action.payload.email){
-              alreadyAdded = true;
-            }
-          }
-          if(!alreadyAdded){
-            selectedNote.collaborators.push(action.payload.email);
-          }
+          selectedNote.collaborators.push(action.payload.collaborator);
           return selectedNote;
         }
         return note;
@@ -45,7 +38,7 @@ const notes = (state = [], action) => {
         if(note.id === action.payload.id){
           let selectedNote = {...note};
           for(let i = 0; i < selectedNote.collaborators.length; i++){
-            if(selectedNote.collaborators[i] === action.payload.email){
+            if(selectedNote.collaborators[i].email === action.payload.email){
               selectedNote.collaborators.splice(i, 1);
             }
           }
@@ -62,13 +55,12 @@ const notes = (state = [], action) => {
   }
 }
 
+// NotesById reducer that contains a user's notes as a lookup table with note ids as keys
 const notesById = (state = {}, action) => {
   let nextState = {};
-  let selectedNote;
 
   switch (action.type){
     case noteConstants.RECEIVE_NOTES:
-      nextState = {...state};
       action.payload.forEach(note => {
         nextState[note.id] = note;
       });
@@ -78,31 +70,9 @@ const notesById = (state = {}, action) => {
     case noteConstants.UPDATE_NOTE:
       return {...state, [action.payload.id]: action.payload};
 
-    case noteConstants.ADD_COLLABORATOR:
-      let alreadyAdded = false;
-      selectedNote = {...state[action.payload.id]};
-      for(let i = 0; i < selectedNote.collaborators.length; i++){
-        if(selectedNote.collaborators[i] === action.payload.email){
-          alreadyAdded = true;
-        }
-      }
-      if(!alreadyAdded){
-        selectedNote.collaborators.push(action.payload.email);
-      }
-      return {...state, [action.payload.id]: selectedNote};
-
-    case noteConstants.REMOVE_COLLABORATOR:
-      selectedNote = {...state[action.payload.id]};
-      for(let i = 0; i < selectedNote.collaborators.length; i++){
-        if(selectedNote.collaborators[i] === action.payload.email){
-          selectedNote.collaborators.splice(i, 1);
-        }
-      }
-      return {...state, [action.payload.id]: selectedNote};
-
     case noteConstants.DELETE_NOTE:
       nextState = {...state};
-      delete nextState[action.payload];
+      delete nextState[action.payload.id];
       return nextState;
 
     case userConstants.LOGOUT_USER:
@@ -113,6 +83,7 @@ const notesById = (state = {}, action) => {
   }
 }
 
+// Loading reducer for when fetching notes
 const loading = (state = false, action) => {
   switch (action.type){
     case noteConstants.RECEIVING_NOTES:
@@ -126,16 +97,30 @@ const loading = (state = false, action) => {
   }
 }
 
+const emptyNote = {id: '', title: '', body: '', colour: '', collaborators: []};
+
+// CurrentNote reducer that holds the current note (for the 'Edit Note' modal)
 const currentNote = (state = {}, action) => {
   switch (action.type){
     case noteConstants.SET_CURRENT_NOTE:
       return action.payload;
+
+    case noteConstants.UPDATE_NOTE:
+      if (state.id === action.payload.id){
+        return action.payload;
+      }
+
+    case noteConstants.DELETE_NOTE:
+      if (state.id === action.payload.id){
+        return emptyNote;
+      }
 
     default:
       return state;
   }
 }
 
+// Combines all the above reducers
 export default combineReducers({
   notes,
   notesById,
@@ -143,4 +128,5 @@ export default combineReducers({
   currentNote
 });
 
+// Function to get a note by its id
 export const getNoteById = (state, id) => state.notesById[id];

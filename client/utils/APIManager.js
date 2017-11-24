@@ -2,6 +2,7 @@ import axios from 'axios'
 import Promise from 'bluebird'
 
 export default {
+  // Exported get function that returns a promise based on a GET request
   get: (url, params) => {
     return new Promise(function(resolve, reject) {
       axios.get(url, params)
@@ -19,6 +20,7 @@ export default {
     });
   },
 
+  // Exported post function that returns a promise based on a POST request
   post: (url, body) => {
     return new Promise(function(resolve, reject) {
       axios.post(url, body)
@@ -36,6 +38,7 @@ export default {
     });
   },
 
+  // Exported put function that returns a promise based on a PUT request
   put: (url, body) => {
     return new Promise(function(resolve, reject) {
       axios.put(url, body.data)
@@ -53,6 +56,7 @@ export default {
     });
   },
 
+  // Exported delete function that returns a promise based on a DELETE request
   delete: (url) => {
     return new Promise(function(resolve, reject) {
       axios.delete(url)
@@ -71,7 +75,7 @@ export default {
   }
 }
 
-// Parse errors and return an array
+// Parses errors and returns an array
 const getErrors = function(message){
   let arrayOfErrors = [];
   if(typeof message === 'object'){

@@ -6,88 +6,103 @@ import * as actions from '../../redux/actions'
 
 import EditCollaborators from './EditCollaborators'
 
+// This component mounts when the Notes component mounts - it changes visibility and content based on user interaction
 class EditNote extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      title: '',
-      body: '',
       open: false
     }
   }
 
-  componentWillReceiveProps(nextProps){
-    this.setState({
-      title: nextProps.item.title,
-      body: nextProps.item.body
-    });
-  }
-
+  // Handles changes to title and body inputs
   handleInputChange = (event) => {
-    this.setState({
-      [event.target.id]: event.target.value
-    })
+    // Sets the current note with an updated value
+    this.props.setCurrentNote({...this.props.currentNote, ...{[event.target.id]: event.target.value}});
   }
 
+  // Updates the note's colour based on the button clicked
   updateColour = (event) => {
     let currentButton = event.currentTarget.id;
-    let selectedButton = document.querySelectorAll('.colour-selected');
-    if (selectedButton[0]){
-      selectedButton[0].classList.remove('colour-selected');
-    }
-    document.getElementById(currentButton).classList.toggle('colour-selected');
 
-    let elements = document.querySelectorAll('.' + this.props.currentNote.colour);
-    for (let i = 0; i < elements.length; i++){
-      if (elements[i].classList.contains('modal')){
-        elements[i].classList.remove(this.props.currentNote.colour);
-        elements[i].classList.add(currentButton);
-      }
-    }
-
+    // Runs through if block when the colour selected is a new one
     if(this.props.currentNote.colour !== currentButton){
+      // "De-selects" the originally selected button (will always be an array of one button)
+      let selectedButton = document.querySelectorAll('.colour-selected');
+      if (selectedButton[0]){
+        selectedButton[0].classList.remove('colour-selected');
+      }
+      // "Selects" the clicked button
+      document.getElementById(currentButton).classList.toggle('colour-selected');
+
+      // Updates the modal colour
+      let elements = document.querySelectorAll('.' + this.props.currentNote.colour);
+      for (let i = 0; i < elements.length; i++){
+        if (elements[i].classList.contains('modal')){
+          elements[i].classList.remove(this.props.currentNote.colour);
+          elements[i].classList.add(currentButton);
+        }
+      }
+
+      // Sets the current note with an updated colour
       let note = {...this.props.currentNote, ...{colour: currentButton}};
       this.props.setCurrentNote(note);
     }
   }
 
+  // Removes the collaborator associated with the clicked label
   removeCollaborator = (event) => {
-    this.props.removeCollaborator({id: this.props.currentNote.id, email: event.target.id});
+    this.props.removeCollaborator({id: this.props.currentNote.id, email: event.target.id, note: this.props.currentNote});
   }
 
+  // Deletes the currently opened note
   delete = () => {
-    if (this.props.currentNote.id){ // delete note if it has been created (no id if note wasn't added)
-      this.props.deleteNote(this.props.currentNote.id);
-    }
+    this.props.deleteNote(this.props.currentNote);
     this.props.close();
   }
 
+  // Closes the currently opened note (on outer click or 'Escape' key click)
   close = () => {
-    const note = {...this.props.currentNote, ...{title: this.state.title, body: this.state.body}};
-    if (note) { // undefined if closing on delete note button
-      if (note.id) { // if this note already exists
-        this.props.updateNote(note);
-      } else { // if this is a new note it won't have an id
-        this.props.addNote({note: note, id: this.props.user.id});
-      }
-    }
+    const note = {...this.props.currentNote};
+    this.props.updateNote(note); // Updates the note
     this.props.close();
   }
 
+  // Opens the 'Edit Collaborator' modal
   showCollab = () => {
     this.setState({
       open: true
     });
   }
 
+  // Closes the 'Edit Collaborator' modal
   closeCollab = () => {
     this.setState({
       open: false,
     });
   }
 
+  isOwner = () => {
+    if (this.props.currentNote){
+      return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Owner');
+    }
+  }
+
+  isEditor = () => {
+    if (this.props.currentNote){
+      return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Editor');
+    }
+  }
+
+  isViewer = () => {
+    if (this.props.currentNote){
+      return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Viewer');
+    }
+  }
+
   render(){
+    // Creates colour change buttons
     const colours_1 = ['white', 'lightgreen', 'lightskyblue'];
     const colours_2 = ['lightcoral', 'yellow', 'rosybrown'];
 
@@ -103,11 +118,18 @@ class EditNote extends Component {
       )
     })
 
+    // Creates a list of labels for the current note's collaborators (with an icon for removing collaborators)
     const collabList = (this.props.currentNote.collaborators !== undefined ?
       this.props.currentNote.collaborators.map((collaborator, i) => {
         return(
           <Label key={i}>
-            {collaborator} <Icon id={collaborator} name='delete' onClick={this.removeCollaborator} />
+            {collaborator.email} ({collaborator.type})
+            {
+              ((collaborator.type !== 'Owner') &&
+              !this.isViewer() &&
+              (collaborator.email !== this.props.user.email))
+              && <Icon id={collaborator.email} name='delete' onClick={this.removeCollaborator} />
+            }
           </Label>
         )
       })
@@ -116,12 +138,12 @@ class EditNote extends Component {
     return(
       <Modal dimmer='inverted' open={this.props.open} onClose={this.close} className={this.props.currentNote.colour}>
         <Modal.Header>
-          <Input id='title' fluid placeholder='Title' defaultValue={this.props.currentNote.title} onChange={this.handleInputChange} />
+          <Input id='title' fluid placeholder='Title' value={this.props.currentNote.title} onChange={this.handleInputChange} />
         </Modal.Header>
         <Modal.Content className='with-border'>
           <Modal.Description>
             <Form>
-              <TextArea id='body' autoHeight defaultValue={this.props.currentNote.body} onChange={this.handleInputChange} />
+              <TextArea id='body' autoHeight value={this.props.currentNote.body} onChange={this.handleInputChange} />
             </Form>
           </Modal.Description>
         </Modal.Content>
@@ -130,40 +152,46 @@ class EditNote extends Component {
             {collabList}
           </Modal.Description>
         </Modal.Content>
-        <Modal.Actions>
-          <Grid columns='equal'>
-            <Grid.Column textAlign='left'>
-              <Dropdown floating button className='icon inverted green bottom left' icon='paint brush' pointing>
-                <Dropdown.Menu>
-                  <Dropdown.Item className='with-grid'>{colourList_1}</Dropdown.Item>
-                  <Dropdown.Item className='with-grid'>{colourList_2}</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-              <Button inverted color='green' icon='add user' onClick={this.showCollab} />
-              <EditCollaborators open={this.state.open} close={this.closeCollab} />
-            </Grid.Column>
-            <Grid.Column textAlign='right'>
-              <Button inverted color='red' icon='trash' onClick={this.delete} />
-            </Grid.Column>
-          </Grid>
-        </Modal.Actions>
+        {!this.isViewer() &&
+          <Modal.Actions>
+            <Grid columns='equal'>
+              <Grid.Column textAlign='left'>
+                <Dropdown id='colour-dropdown' floating button className='icon inverted green bottom left' icon='paint brush' pointing>
+                  <Dropdown.Menu>
+                    <Dropdown.Item className='with-grid'>{colourList_1}</Dropdown.Item>
+                    <Dropdown.Item className='with-grid'>{colourList_2}</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                <Button inverted color='green' icon='add user' onClick={this.showCollab} />
+                <EditCollaborators open={this.state.open} close={this.closeCollab} />
+              </Grid.Column>
+              {this.isOwner() &&
+                <Grid.Column textAlign='right'>
+                  <Button inverted color='red' icon='trash' onClick={this.delete} />
+                </Grid.Column>
+              }
+            </Grid>
+          </Modal.Actions>
+        }
       </Modal>
     )
   }
 }
 
+// Maps state objects to props
 const stateToProps = (state) => ({
   user: state.user,
   currentNote: state.note.currentNote,
   notesById: state.note.notesById
 })
 
+// Maps dispatch functions to props
 const dispatchToProps = (dispatch) => ({
-  addNote: (params) => dispatch(actions.addNote(params)),
   updateNote: (params) => dispatch(actions.updateNote(params)),
   deleteNote: (params) => dispatch(actions.deleteNote(params)),
   removeCollaborator: (params) => dispatch(actions.removeCollaborator(params)),
   setCurrentNote: (params) => dispatch(actions.setCurrentNote(params))
 })
 
+// Connects state and dispatch functions to this component
 export default connect(stateToProps, dispatchToProps)(EditNote)

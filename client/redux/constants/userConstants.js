@@ -1,3 +1,4 @@
+// Constants used for User Reducer and User Actions
 export const userConstants = {
   REGISTER_REQUEST: 'REGISTER_REQUEST',
   REGISTER_SUCCESS: 'REGISTER_SUCCESS',
@@ -8,4 +9,6 @@ export const userConstants = {
   LOGIN_FAILURE: 'LOGIN_FAILURE',
 
   LOGOUT_USER: 'LOGOUT_USER',
+
+  SET_CLIENT_SOCKET: 'SET_CLIENT_SOCKET'
 }

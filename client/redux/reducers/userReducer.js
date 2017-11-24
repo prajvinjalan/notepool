@@ -4,9 +4,11 @@ const initialState = {
   loading: false,
   authenticated: false,
   id: "",
+  email: "",
   message: ""
 }
 
+// User state that handles registration, login, and logout
 const user = (state = initialState, action) => {
   switch (action.type) {
     case userConstants.REGISTER_REQUEST:
@@ -19,7 +21,8 @@ const user = (state = initialState, action) => {
       return {...state,
         loading: false,
         authenticated: true,
-        id: action.payload._id,
+        id: action.payload.id,
+        email: action.payload.local.email,
         message: ""
       };
 
@@ -41,7 +44,8 @@ const user = (state = initialState, action) => {
       return {...state,
         loading: false,
         authenticated: true,
-        id: action.payload._id,
+        id: action.payload.id,
+        email: action.payload.local.email,
         message: ""
       };
 
@@ -57,6 +61,7 @@ const user = (state = initialState, action) => {
         loading: false,
         authenticated: false,
         id: "",
+        email: "",
         message: ""
       };
 

@@ -4,21 +4,13 @@ import { APIManager } from '../../utils'
 // ACTION DISPATCHERS
 // equivalent to " ... => { return (dispatch) => { ... }} "
 
+// Action dispatcher for fetching all of a user's notes
 export const fetchNotes = (id) => (dispatch) => {
   dispatch(fetchingNotesAction());
 
-  APIManager.get(`/api/users/${id}`, null)
+  return APIManager.get(`/api/users/${id}`, null)
   .then(response => {
-    const params = { params: { collaborators: response.result.local.email }}
-    APIManager.get('/api/notes', params)
-    .then(response => {
-      //setTimeout(() => {dispatch(fetchNotesAction(response.result))}, 1000);
-      dispatch(fetchNotesAction(response.result));
-      return null;
-    })
-    .catch(error => {
-      console.log(error.message);
-    });
+    dispatch(fetchAllNotes(response.result.local.email))
     return null;
   })
   .catch(error => {
@@ -26,26 +18,45 @@ export const fetchNotes = (id) => (dispatch) => {
   });
 }
 
-export const addNote = (params) => (dispatch) => {
-  APIManager.get(`/api/users/${params.id}`, null)
+const fetchAllNotes = (email) => (dispatch) => {
+  return APIManager.get('/api/notes', null)
   .then(response => {
-    params.note.collaborators.push(response.result.local.email);
-    APIManager.post('/api/notes', params.note)
-    .then(response => {
-      dispatch(addNoteAction(response.result));
-    })
-    .catch(error => {
-      console.log(error.message);
-    });
-    return response;
+    dispatch(fetchUserNotes(email, response.result));
+    return null;
   })
   .catch(error => {
     console.log(error.message);
   });
 }
 
+const fetchUserNotes = (email, notes) => (dispatch) => {
+  let userNotes = [];
+  notes.forEach(note => {
+    note.collaborators.forEach(collaborator => {
+      if (collaborator['email'] === email){
+        userNotes.push(note);
+      }
+    });
+  });
+  //setTimeout(() => {dispatch(fetchNotesAction(response.result))}, 1000);
+  dispatch(fetchNotesAction(userNotes));
+}
+
+// Action dispatcher for adding a note
+export const addNote = (note) => (dispatch) => {
+  return APIManager.post('/api/notes', note)
+  .then(response => {
+    dispatch(addNoteAction(response.result));
+    return response.result;
+  })
+  .catch(error => {
+    console.log(error.message);
+  });
+}
+
+// Action dispatcher for updating a given note
 export const updateNote = (note) => (dispatch) => {
-  APIManager.put(`/api/notes/${note.id}`, {data: note})
+  return APIManager.put(`/api/notes/${note.id}`, {data: note})
   .then(response => {
     dispatch(updateNoteAction(response.result));
     return null;
@@ -55,10 +66,11 @@ export const updateNote = (note) => (dispatch) => {
   });
 }
 
-export const deleteNote = (id) => (dispatch) => {
-  APIManager.delete(`/api/notes/${id}`)
+// Action dispatcher for deleting a given note
+export const deleteNote = (note) => (dispatch) => {
+  return APIManager.delete(`/api/notes/${note.id}`)
   .then(response => {
-    dispatch(deleteNoteAction(id));
+    dispatch(deleteNoteAction(note));
     return null;
   })
   .catch(error => {
@@ -66,20 +78,25 @@ export const deleteNote = (id) => (dispatch) => {
   });
 }
 
+// Action dispatcher for setting a note as the current note, then updating the note
 export const setCurrentNote = (note) => (dispatch) => {
   dispatch(setCurrentNoteAction(note));
+  dispatch(updateNoteAction(note));
 }
 
+// Action dispatcher for adding a collaborator from a note
 export const addCollaborator = (params) => (dispatch) => {
   dispatch(addCollaboratorAction(params));
   dispatch(updateCollaborator(params));
 }
 
+// Action dispatcher for removing a collaborator from a note
 export const removeCollaborator = (params) => (dispatch) => {
   dispatch(removeCollaboratorAction(params));
   dispatch(updateCollaborator(params));
 }
 
+// Updates the note with the collaborator changes in the database and sets it as the current note
 const updateCollaborator = (params) => (dispatch, getState) => {
   const note = getState().note.notesById[params.id];
   //const data = { data: { email: params.email }}
@@ -112,25 +129,40 @@ const addNoteAction = (note) => ({
 
 const updateNoteAction = (note) => ({
   type: noteConstants.UPDATE_NOTE,
-  payload: note
+  payload: note,
+  meta: {
+    emit: true
+  }
 });
 
-const deleteNoteAction = (id) => ({
+const deleteNoteAction = (note) => ({
   type: noteConstants.DELETE_NOTE,
-  payload: id
+  payload: note,
+  meta: {
+    emit: true
+  }
 });
 
 const setCurrentNoteAction = (note) => ({
   type: noteConstants.SET_CURRENT_NOTE,
-  payload: note
+  payload: note,
+  meta: {
+    emit: true
+  }
 });
 
 const addCollaboratorAction = (params) => ({
   type: noteConstants.ADD_COLLABORATOR,
-  payload: params
+  payload: params,
+  meta: {
+    emit: true
+  }
 });
 
 const removeCollaboratorAction = (params) => ({
   type: noteConstants.REMOVE_COLLABORATOR,
-  payload: params
+  payload: params,
+  meta: {
+    emit: true
+  }
 });

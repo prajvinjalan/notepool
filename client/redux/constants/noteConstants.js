@@ -1,3 +1,4 @@
+// Constants used for Note Reducer and Note Actions
 export const noteConstants = {
   RECEIVING_NOTES: 'RECEIVING_NOTES',
   RECEIVE_NOTES: 'RECEIVE_NOTES',

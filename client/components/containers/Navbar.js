@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Button, Container, Dropdown, Header, Menu } from 'semantic-ui-react'
+import { Button, Container, Dropdown, Header, Icon, Menu } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
 
@@ -10,12 +10,17 @@ class Navbar extends Component {
     super(props);
   }
 
+  // Logs user out, then redirects to home page
   logoutUser = () => {
-    this.props.logout();
+    this.props.logout()
+    .then(() => {
+      this.props.history.push('/');
+    });
   }
 
   render(){
 
+    // Creates Login and Register links
     const LogRegLinks = () => {
       return(
         <Menu.Menu>
@@ -29,11 +34,12 @@ class Navbar extends Component {
       )
     }
 
+    // Creates Notes and Profile menu links
     const UserLinks = () => {
       return(
         <Menu.Menu>
           <Menu.Item name='notes' as={Link} to='/notes'>Notes</Menu.Item>
-          <Dropdown item pointing className='top right' text='Profile'>
+          <Dropdown item pointing className='top right' trigger={<Icon name='user circle' size='big'/>}>
             <Dropdown.Menu>
               <Dropdown.Item as={Link} icon='user' text='Details' to="/profile" />
               <Dropdown.Item icon='setting' text='Settings' />
@@ -59,12 +65,15 @@ class Navbar extends Component {
   }
 }
 
+// Maps state objects to props
 const stateToProps = (state) => ({
   user: state.user
 })
 
+// Maps dispatch functions to props
 const dispatchToProps = (dispatch) => ({
   logout: () => dispatch(actions.logout()),
 })
 
+// Connects state and dispatch functions to this component
 export default connect(stateToProps, dispatchToProps)(withRouter(Navbar))
