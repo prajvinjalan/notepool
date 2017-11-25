@@ -17,6 +17,24 @@ const UserSchema = new mongoose.Schema({
       default: '',
       required: true
     }
+  },
+  google: {
+    id: {
+      type: String,
+      required: true
+    },
+    token: {
+      type: String,
+      required: true
+    },
+    email: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    }
   }
 });
 
@@ -25,6 +43,11 @@ UserSchema.methods.summary = function(){
     local: {
       name: this.local.name,
       email: this.local.email
+    },
+    google: {
+      id: this.google.id,
+      email: this.google.email,
+      name: this.google.name
     },
     id: this._id.toString()
   }

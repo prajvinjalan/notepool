@@ -43,14 +43,14 @@ class Profile extends Component {
     // Creates the Login page
     const LoginPage = () => {
       return(
-        <LogReg title={this.state.login.title} description={this.state.login.description} switchDescription={this.state.login.switchDescription} isRegister={false} buttonClick={this.loginUser} />
+        <LogReg title={this.state.login.title} description={this.state.login.description} switchDescription={this.state.login.switchDescription} isRegister={false} buttonClick={this.loginUser} googleAuth={this.props.googleAuth}/>
       )
     }
 
     // Creates the Register page
     const RegisterPage = () => {
       return(
-        <LogReg title={this.state.register.title} description={this.state.register.description} switchDescription={this.state.register.switchDescription} isRegister={true} buttonClick={this.registerUser} />
+        <LogReg title={this.state.register.title} description={this.state.register.description} switchDescription={this.state.register.switchDescription} isRegister={true} buttonClick={this.registerUser} googleAuth={this.props.googleAuth}/>
       )
     }
 
@@ -93,7 +93,8 @@ const stateToProps = (state) => ({
 // Maps dispatch functions to props
 const dispatchToProps = (dispatch) => ({
   localRegister: (params) => dispatch(actions.localRegister(params)),
-  localLogin: (params) => dispatch(actions.localLogin(params))
+  localLogin: (params) => dispatch(actions.localLogin(params)),
+  googleAuth: () => dispatch(actions.googleAuth())
 })
 
 // Connects state and dispatch functions to this component

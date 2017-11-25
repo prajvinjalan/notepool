@@ -1,7 +1,9 @@
 import { Strategy as LocalStrategy } from 'passport-local'
+import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
 import bcrypt from 'bcryptjs'
 
 import User from '../models/User'
+import authConfig from './authConfig'
 
 export default function(passport) {
   // used to serialize the user for the session
@@ -88,4 +90,35 @@ export default function(passport) {
   }));
 
   // GOOGLE AUTHENTICATION
+  passport.use(new GoogleStrategy({
+    clientID: authConfig.googleAuth.clientID,
+    clientSecret: authConfig.googleAuth.clientSecret,
+    callbackURL: authConfig.googleAuth.callbackURL
+  }, (token, refreshToken, profile, done) => {
+    process.nextTick(() => {
+      User.findOne({'google.id' : profile.id}, (err, user) => {
+        if(err){
+          return done(err);
+        }
+        if(user){
+          return done(null, user);
+        } else {
+          let newUser = new User({
+            google: {
+              id: profile.id,
+              token: token,
+              email: profile.emails[0].value,
+              name: profile.displayName
+            }
+          });
+          newUser.save((err) => {
+            if(err){
+              return done(err);
+            }
+            return done(null, newUser);
+          })
+        }
+      });
+    });
+  }));
 }

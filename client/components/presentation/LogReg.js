@@ -30,6 +30,11 @@ class LogReg extends Component {
     this.props.buttonClick(user);
   }
 
+  googleAuth = () => {
+    console.log(1);
+    this.props.googleAuth();
+  }
+
   render(){
     return(
       <div>
@@ -58,7 +63,7 @@ class LogReg extends Component {
               </Button>
               <br />
               <Button size='medium' fluid color='google plus'>
-                <Icon name='google plus' /> Google
+                <Icon name='google plus' onClick={this.googleAuth} /> Google
               </Button>
             </Grid.Column>
           </Grid>

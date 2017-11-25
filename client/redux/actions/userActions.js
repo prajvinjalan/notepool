@@ -42,6 +42,18 @@ export const localLogin = (user) => (dispatch) => {
   });
 }
 
+// Action dispatcher for logging in with Google Authentication
+export const googleAuth = () => (dispatch) => {
+  console.log(1);
+  return APIManager.get('/auth/google', {headers: {"*": "Access-Control-Allow-Origin"}})
+  .then(response => {
+    console.log(response);
+  })
+  .catch(error => {
+    console.log(error.message)
+  })
+}
+
 // Action dispatcher for logging out
 export const logout = () => (dispatch) => {
   return APIManager.get('/auth/logout', null)
