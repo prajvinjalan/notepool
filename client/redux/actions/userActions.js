@@ -44,22 +44,20 @@ export const localLogin = (user) => (dispatch) => {
   });
 }
 
-// Action dispatcher for logging in with Google Authentication
-export const googleAuth = () => (dispatch) => {
-  return APIManager.get('/auth/google', null)
-  .then(response => {
-    // console.log(response);
-  })
-  .catch(error => {
-    console.log(error.message);
-  })
-}
-
-// Action dispatcher for successfully logging in with Google Authentication
+// Action dispatcher for successfully logging in with Social Media Authentication
 export const authSuccess = () => (dispatch) => {
   return APIManager.get('/auth/user', null)
   .then(response => {
-    dispatch(loginSuccessAction({id: response.user.id, email: response.user.google.email}));
+    const user = response.user;
+    let email = '';
+
+    if (user.google.email){
+      email = user.google.email;
+    } else if (user.facebook.email){
+      email = user.facebook.email;
+    }
+
+    dispatch(loginSuccessAction({id: user.id, email: email}));
     const emptyNote = {id: '', title: '', body: '', colour: '', collaborators: []};
     dispatch(setCurrentNoteAction(emptyNote));
     return null;

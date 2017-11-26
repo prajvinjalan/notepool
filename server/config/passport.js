@@ -1,5 +1,6 @@
 import { Strategy as LocalStrategy } from 'passport-local'
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
+import { Strategy as FacebookStrategy } from 'passport-facebook'
 import bcrypt from 'bcryptjs'
 
 import User from '../models/User'
@@ -108,6 +109,40 @@ export default function(passport) {
           newUser.google.token = token;
           newUser.google.name = profile.displayName;
           newUser.google.email = profile.emails[0].value;
+
+          newUser.save((err) => {
+            if(err){
+              return done(err);
+            }
+            return done(null, newUser);
+          })
+        }
+      });
+    });
+  }));
+
+  // FACEBOOK AUTHENTICATION
+  passport.use(new FacebookStrategy({
+    clientID: authConfig.facebookAuth.clientID,
+    clientSecret: authConfig.facebookAuth.clientSecret,
+    callbackURL: authConfig.facebookAuth.callbackURL,
+    profileURL: authConfig.facebookAuth.profileURL,
+    profileFields: authConfig.facebookAuth.profileFields
+  }, (token, refreshToken, profile, done) => {
+    process.nextTick(() => {
+      User.findOne({'facebook.id' : profile.id}, (err, user) => {
+        if(err){
+          return done(err);
+        }
+        if(user){
+          return done(null, user);
+        } else {
+          let newUser = new User();
+
+          newUser.facebook.id = profile.id;
+          newUser.facebook.token = token;
+          newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
+          newUser.facebook.email = profile.emails[0].value;
 
           newUser.save((err) => {
             if(err){

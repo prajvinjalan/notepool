@@ -73,13 +73,34 @@ router.get('/logout', (req, res, next) => {
   });
 });
 
-// Google Routes
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-router.get('/google/callback',
-  passport.authenticate('google', { successRedirect: '/auth_success', failureRedirect: '/login' }),
+// Google routes
+router.get('/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email']
+  })
 );
 
+router.get('/google/callback',
+  passport.authenticate('google', {
+    successRedirect: '/auth_success',
+    failureRedirect: '/login'
+  })
+);
+
+// Facebook routes
+router.get('/facebook',
+  passport.authenticate('facebook', {
+    display: 'popup',
+    scope: ['public_profile', 'email']
+  })
+);
+
+router.get('/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: '/auth_success',
+    failureRedirect: '/login'
+  })
+);
 
 // Get user route
 router.get('/user', (req, res, next) => {
