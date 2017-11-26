@@ -73,6 +73,22 @@ router.get('/logout', (req, res, next) => {
   });
 });
 
+// Google Routes
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/google/callback',
+  passport.authenticate('google', { successRedirect: '/auth_success', failureRedirect: '/login' }),
+);
+
+
+// Get user route
+router.get('/user', (req, res, next) => {
+  return res.json({
+    confirmation: 'success',
+    user: req.user.summary()
+  });
+});
+
 // Validate user inputs for registering
 const validateRegisterForm = (req) => {
   let isFormValid = true;

@@ -18,7 +18,7 @@ class Notes extends Component {
 
   // When the page loads ('/notes'), fetch all notes to display
   componentDidMount(){
-    this.props.fetchNotes(this.props.user.id);
+    this.props.fetchNotes(this.props.user.email);
   }
 
   // Adds a new blank note with the user as a collaborator, then opens the modal to edit the note

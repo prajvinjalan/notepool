@@ -1,4 +1,4 @@
-import { userConstants } from '../constants'
+import { userConstants, noteConstants } from '../constants'
 import { APIManager } from '../../utils'
 
 // ACTION DISPATCHERS
@@ -12,7 +12,7 @@ export const localRegister = (newUser) => (dispatch) => {
   return APIManager.post('/auth/register', newUser)
   .then(response => {
     console.log(response.message);
-    dispatch(registerSuccessAction(response.user));
+    dispatch(registerSuccessAction({id: response.user.id, email: response.user.local.email}));
     dispatch(localLogin({
       email: newUser.email,
       password: newUser.password
@@ -33,13 +33,40 @@ export const localLogin = (user) => (dispatch) => {
   .then(response => {
     console.log(response.message);
     //setTimeout(() => {dispatch(loginSuccessAction(response.user))}, 1000);
-    dispatch(loginSuccessAction(response.user));
+    dispatch(loginSuccessAction({id: response.user.id, email: response.user.local.email}));
+    const emptyNote = {id: '', title: '', body: '', colour: '', collaborators: []};
+    dispatch(setCurrentNoteAction(emptyNote));
     return null;
   })
   .catch(error => {
     console.log(error.message);
     dispatch(loginFailureAction(error.message));
   });
+}
+
+// Action dispatcher for logging in with Google Authentication
+export const googleAuth = () => (dispatch) => {
+  return APIManager.get('/auth/google', null)
+  .then(response => {
+    // console.log(response);
+  })
+  .catch(error => {
+    console.log(error.message);
+  })
+}
+
+// Action dispatcher for successfully logging in with Google Authentication
+export const authSuccess = () => (dispatch) => {
+  return APIManager.get('/auth/user', null)
+  .then(response => {
+    dispatch(loginSuccessAction({id: response.user.id, email: response.user.google.email}));
+    const emptyNote = {id: '', title: '', body: '', colour: '', collaborators: []};
+    dispatch(setCurrentNoteAction(emptyNote));
+    return null;
+  })
+  .catch(error => {
+    console.log(error.message);
+  })
 }
 
 // Action dispatcher for logging out
@@ -54,6 +81,7 @@ export const logout = () => (dispatch) => {
   });
 }
 
+// Action dispatcher for setting the current client's socket id
 export const setClientSocket = (user) => (dispatch) => {
   dispatch(setClientSocketAction(user));
 }
@@ -109,3 +137,8 @@ const setClientSocketAction = (user) => ({
     emit: true
   }
 });
+
+const setCurrentNoteAction = (note) => ({
+  type: noteConstants.SET_CURRENT_NOTE,
+  payload: note
+})
