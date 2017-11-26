@@ -26,7 +26,7 @@ export default createHandler({
 
   LOGIN_SUCCESS: (context, action) => {
     const { client, server } = context;
-    currentClients[client.id] = action.payload.local.email;
+    currentClients[client.id] = action.payload.email;
   },
 
   LOGOUT_USER: (context, action) => {

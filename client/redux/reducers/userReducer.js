@@ -22,7 +22,7 @@ const user = (state = initialState, action) => {
         loading: false,
         authenticated: true,
         id: action.payload.id,
-        email: action.payload.local.email,
+        email: action.payload.email,
         message: ""
       };
 
@@ -45,7 +45,7 @@ const user = (state = initialState, action) => {
         loading: false,
         authenticated: true,
         id: action.payload.id,
-        email: action.payload.local.email,
+        email: action.payload.email,
         message: ""
       };
 

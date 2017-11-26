@@ -2,7 +2,7 @@ import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 import Footer from './Footer'
-import { Home } from '../presentation'
+import { AuthSuccess, Home, Redirecting } from '../presentation'
 import Navbar from '../containers/Navbar'
 import Notes from '../containers/Notes'
 import Profile from '../containers/Profile'
@@ -17,6 +17,8 @@ const Main = () => (
         <Route exact path='/' component={Home}/>
         <PrivateRoute exact path='/notes' component={Notes}/>
         <Route path='/profile' component={Profile}/>
+        <Route path='/auth_success' component={AuthSuccess} />
+        <Route path='/redirect' component={Redirecting} />
         <RouteNotFound />
       </Switch>
     </main>

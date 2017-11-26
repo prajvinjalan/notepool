@@ -5,20 +5,9 @@ import { APIManager } from '../../utils'
 // equivalent to " ... => { return (dispatch) => { ... }} "
 
 // Action dispatcher for fetching all of a user's notes
-export const fetchNotes = (id) => (dispatch) => {
+export const fetchNotes = (email) => (dispatch) => {
   dispatch(fetchingNotesAction());
 
-  return APIManager.get(`/api/users/${id}`, null)
-  .then(response => {
-    dispatch(fetchAllNotes(response.result.local.email))
-    return null;
-  })
-  .catch(error => {
-    console.log(error.message);
-  });
-}
-
-const fetchAllNotes = (email) => (dispatch) => {
   return APIManager.get('/api/notes', null)
   .then(response => {
     dispatch(fetchUserNotes(email, response.result));
@@ -29,6 +18,7 @@ const fetchAllNotes = (email) => (dispatch) => {
   });
 }
 
+// Gets the notes corresponding to the logged in user and dispatches an action to fetch those notes
 const fetchUserNotes = (email, notes) => (dispatch) => {
   let userNotes = [];
   notes.forEach(note => {

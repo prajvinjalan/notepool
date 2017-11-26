@@ -4,36 +4,33 @@ const UserSchema = new mongoose.Schema({
   local: {
     name: {
       type: String,
-      default: '',
-      required: true
+      default: ''
     },
     email: {
       type: String,
-      default: '',
-      required: true
+      default: ''
     },
     password: {
       type: String,
-      default: '',
-      required: true
+      default: ''
     }
   },
   google: {
     id: {
       type: String,
-      required: true
+      default: ''
     },
     token: {
       type: String,
-      required: true
+      default: ''
     },
     email: {
       type: String,
-      required: true
+      default: ''
     },
     name: {
       type: String,
-      required: true
+      default: ''
     }
   }
 });

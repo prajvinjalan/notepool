@@ -76,26 +76,18 @@ router.get('/logout', (req, res, next) => {
 // Google Routes
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/google/callback', passport.authenticate('google', (err, user, info) => {
-  if(info){
-    return res.json({
-      confirmation: 'fail',
-      message: info.message
-    });
-  }
-  if(err){
-    return res.json({
-      confirmation: 'fail',
-      message: 'Could not process the form.'
-    });
-  }
+router.get('/google/callback',
+  passport.authenticate('google', { successRedirect: '/auth_success', failureRedirect: '/login' }),
+);
 
+
+// Get user route
+router.get('/user', (req, res, next) => {
   return res.json({
     confirmation: 'success',
-    message: 'You have successfully logged in!',
-    user: user.summary()
+    user: req.user.summary()
   });
-}));
+});
 
 // Validate user inputs for registering
 const validateRegisterForm = (req) => {
