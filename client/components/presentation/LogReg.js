@@ -30,10 +30,6 @@ class LogReg extends Component {
     this.props.buttonClick(user);
   }
 
-  googleAuth = () => {
-    this.props.googleAuth();
-  }
-
   render(){
     return(
       <div>
@@ -53,15 +49,11 @@ class LogReg extends Component {
               <Divider vertical>Or</Divider>
             </Grid.Column>
             <Grid.Column verticalAlign='middle'>
-              <Button size='medium' fluid color='google plus' onClick={this.googleAuth}>
+              <Button size='medium' fluid color='google plus' onClick={this.props.googleAuth}>
                 <Icon name='google plus' /> Google
               </Button>
               <br />
-              <Button size='medium' fluid color='twitter'>
-                <Icon name='twitter' /> Twitter
-              </Button>
-              <br />
-              <Button size='medium' fluid color='facebook'>
+              <Button size='medium' fluid color='facebook' onClick={this.props.facebookAuth}>
                 <Icon name='facebook' /> Facebook
               </Button>
             </Grid.Column>
