@@ -73,7 +73,7 @@
   color: #555;
 }
 
-// Login and Register Pages
+// Login, Register, Settings Pages
 
 .logreg.container {
   margin: 30px auto;
@@ -90,16 +90,23 @@
   text-align: center;
 }
 
-.logreg.header {
+.settings.container {
+  margin: 30px auto;
+  padding: 30px 40px;
+  width: 450px;
+  border: 1px solid #ddd;
+}
+
+.logreg.header, .settings.header {
   text-align: center;
 }
 
-.logreg.paragraph {
+.logreg.paragraph, .settings.paragraph {
   margin-bottom: 2rem;
   text-align: center;
 }
 
-.logreg.input {
+.logreg.input, .settings.input {
   margin-bottom: 1rem;
 }
 
@@ -162,13 +169,13 @@
   margin: 0.2rem;
 }
 
-#email-input.error {
+#email-input.error, .settings.input.error #newPass, .settings.input.error #newPassConfirm {
   background: rgba(255, 67, 67, 0.04);
   color: rgba(226, 101, 101, 0.89);
   border: 1px solid rgba(226, 101, 101, 0.89);
 }
 
-#email-input.success {
+#email-input.success, .settings.input.success #newPass, .settings.input.success #newPassConfirm {
   background: rgba(67, 255, 73, 0.04);
   color: rgb(84, 173, 107);
   border: 1px solid rgb(84, 173, 107);

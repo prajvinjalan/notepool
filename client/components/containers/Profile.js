@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import * as actions from '../../redux/actions'
 
-import { Loading, LogReg, ProfileDetails } from '../presentation'
+import { Loading, LogReg, ProfileDetails, Settings } from '../presentation'
 import { PrivateRoute, RouteNotFound } from '../layout/RouteHandler'
 
 class Profile extends Component {
@@ -53,6 +53,10 @@ class Profile extends Component {
     window.open(url, name, specs);
   }
 
+  saveSettings = (passwords) => {
+    console.log(passwords);
+  }
+
   render(){
     // Creates the Login page
     const LoginPage = () => {
@@ -68,22 +72,31 @@ class Profile extends Component {
       )
     }
 
+    // Creates the Settings page
+    const SettingsPage = () => {
+      return(
+        <Settings saveSettings={this.saveSettings}/>
+      )
+    }
+
     // Returns a Switch Component based on user authentication (to redirect appropriately)
     const AuthSwitch = () => {
       return(
         <div>
           {this.props.user.authenticated ?
             <Switch>
-              <Route exact path={this.state.path} component={ProfileDetails}/>
+              <Route exact path={this.state.path} component={ProfileDetails} />
+              <Route exact from={`${this.state.path}/settings`} component={SettingsPage} />
               <Redirect exact from={`${this.state.path}/login`} to={this.state.path} />
               <Redirect exact from={`${this.state.path}/register`} to={this.state.path} />
               <RouteNotFound />
             </Switch>
             :
             <Switch>
-              <Route exact path={`${this.state.path}/login`} component={LoginPage}/>
-              <Route exact path={`${this.state.path}/register`} component={RegisterPage}/>
+              <Route exact path={`${this.state.path}/login`} component={LoginPage} />
+              <Route exact path={`${this.state.path}/register`} component={RegisterPage} />
               <PrivateRoute exact path={this.state.path} />
+              <PrivateRoute exact path={`${this.state.path}/settings`} component={Settings} />
               <RouteNotFound />
             </Switch>
           }

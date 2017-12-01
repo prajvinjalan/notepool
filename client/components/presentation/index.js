@@ -5,6 +5,7 @@ import LogReg from './LogReg'
 import Note from './Note'
 import NotFound from './NotFound'
 import ProfileDetails from './ProfileDetails'
+import Settings from './Settings'
 
 export {
   AuthSuccess,
@@ -13,5 +14,6 @@ export {
   LogReg,
   Note,
   NotFound,
-  ProfileDetails
+  ProfileDetails,
+  Settings
 }
