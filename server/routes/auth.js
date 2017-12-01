@@ -106,6 +106,7 @@ router.get('/facebook/callback',
 router.get('/user', (req, res, next) => {
   return res.json({
     confirmation: 'success',
+    message: 'You have successfully logged in!',
     user: req.user.summary()
   });
 });

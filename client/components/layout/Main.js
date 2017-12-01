@@ -2,10 +2,11 @@ import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 import Footer from './Footer'
-import { AuthSuccess, Home, Redirecting } from '../presentation'
+import { AuthSuccess, Home } from '../presentation'
 import Navbar from '../containers/Navbar'
 import Notes from '../containers/Notes'
 import Profile from '../containers/Profile'
+import Redirecting from '../containers/Redirecting'
 import { PrivateRoute, RouteNotFound } from './RouteHandler'
 
 // Main application layout with base routes

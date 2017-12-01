@@ -1,3 +1,5 @@
+@import '../node_modules/react-redux-toastr/src/styles/index';
+
 // Note attributes affected by colour -> cards, modals, options within modals
 
 @each $colour in white, lightgreen, lightskyblue, lightcoral, yellow, rosybrown {
