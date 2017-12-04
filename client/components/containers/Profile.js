@@ -54,7 +54,10 @@ class Profile extends Component {
   }
 
   saveSettings = (passwords) => {
-    console.log(passwords);
+    this.props.changePassword({passwords: passwords, id: this.props.user.id, email: this.props.user.email})
+    .then(() => {
+      this.props.history.push('/profile/settings');
+    });
   }
 
   render(){
@@ -120,7 +123,8 @@ const stateToProps = (state) => ({
 // Maps dispatch functions to props
 const dispatchToProps = (dispatch) => ({
   localRegister: (params) => dispatch(actions.localRegister(params)),
-  localLogin: (params) => dispatch(actions.localLogin(params))
+  localLogin: (params) => dispatch(actions.localLogin(params)),
+  changePassword: (params) => dispatch(actions.changePassword(params))
 })
 
 // Connects state and dispatch functions to this component

@@ -31,8 +31,9 @@ Specifying ```NODE_ENV=dev``` will apply the Redux Logger middleware.
 - [x] Socket.io for real-time collaborating
 - [x] Different types of collaborators (editor, viewer)
 - [x] Add Google/Facebook authentication
-- [ ] Password related - change password, forgot password (send email), minimum requirements when registering (?)
+- [x] Change password
+- [ ] Forgot password (send email) (?), minimum requirements when registering (?)
 - [ ] More complicated notes (lists and other formatting?)
 - [ ] React-grid-layout for notes? (will need a lot of refactoring)
 - [x] Refactor express code to use ES6 notation
-- [ ] Notifications (e.g. for login/register confirmations and validations)
+- [x] Notifications (e.g. for login/register confirmations and validations)

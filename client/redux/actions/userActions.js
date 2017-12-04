@@ -47,6 +47,17 @@ export const localLogin = (user) => (dispatch) => {
   });
 }
 
+// Action dispatcher for changing local password
+export const changePassword = (params) => (dispatch) => {
+  return APIManager.post('/auth/changepassword', params)
+  .then(response => {
+    dispatch(displayNotification(response.message, 'success'));
+  })
+  .catch(error => {
+    dispatch(displayNotification(error.message, 'error'));
+  });
+}
+
 // Action dispatcher for successfully logging in with Social Media Authentication
 export const authSuccess = () => (dispatch) => {
   return APIManager.get('/auth/user', null)
