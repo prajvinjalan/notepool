@@ -78,7 +78,7 @@ class Profile extends Component {
     // Creates the Settings page
     const SettingsPage = () => {
       return(
-        <Settings saveSettings={this.saveSettings}/>
+        <Settings saveSettings={this.saveSettings} localAuth={this.props.user.localAuth} />
       )
     }
 

@@ -3,6 +3,7 @@ import { userConstants } from '../constants'
 const initialState = {
   loading: false,
   authenticated: false,
+  localAuth: false,
   id: "",
   email: ""
 }
@@ -19,6 +20,7 @@ const user = (state = initialState, action) => {
       return {...state,
         loading: false,
         authenticated: true,
+        localAuth: action.payload.localAuth,
         id: action.payload.id,
         email: action.payload.email
       };
@@ -26,7 +28,8 @@ const user = (state = initialState, action) => {
     case userConstants.REGISTER_FAILURE:
       return {...state,
         loading: false,
-        authenticated: false
+        authenticated: false,
+        localAuth: false
       };
 
     case userConstants.LOGIN_REQUEST:
@@ -39,6 +42,7 @@ const user = (state = initialState, action) => {
       return {...state,
         loading: false,
         authenticated: true,
+        localAuth: action.payload.localAuth,
         id: action.payload.id,
         email: action.payload.email
       };
@@ -46,13 +50,15 @@ const user = (state = initialState, action) => {
     case userConstants.LOGIN_FAILURE:
       return {...state,
         loading: false,
-        authenticated: false
+        authenticated: false,
+        localAuth: false
       };
 
     case userConstants.LOGOUT_USER:
       return {...state,
         loading: false,
         authenticated: false,
+        localAuth: false,
         id: "",
         email: ""
       };

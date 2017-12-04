@@ -35,7 +35,7 @@ export const localLogin = (user) => (dispatch) => {
   .then(response => {
     console.log(response.message);
     //setTimeout(() => {dispatch(loginSuccessAction(response.user))}, 1000);
-    dispatch(loginSuccess({id: response.user.id, email: response.user.local.email, message: response.message}));
+    dispatch(loginSuccess({id: response.user.id, email: response.user.local.email, message: response.message, localAuth: true}));
     const emptyNote = {id: '', title: '', body: '', colour: '', collaborators: []};
     dispatch(setCurrentNoteAction(emptyNote));
     return null;
@@ -71,7 +71,7 @@ export const authSuccess = () => (dispatch) => {
       email = user.facebook.email;
     }
 
-    dispatch(loginSuccess({id: user.id, email: email, message: response.message}));
+    dispatch(loginSuccess({id: user.id, email: email, message: response.message, localAuth: false}));
     const emptyNote = {id: '', title: '', body: '', colour: '', collaborators: []};
     dispatch(setCurrentNoteAction(emptyNote));
     return null;
@@ -101,7 +101,7 @@ export const setClientSocket = (user) => (dispatch) => {
 
 // Dispatches a login success action and notification
 const loginSuccess = (payload) => (dispatch) => {
-  dispatch(loginSuccessAction({id: payload.id, email: payload.email}));
+  dispatch(loginSuccessAction({id: payload.id, email: payload.email, localAuth: payload.localAuth}));
   dispatch(displayNotification(payload.message, 'success'));
 }
 
@@ -140,9 +140,9 @@ const loginRequestAction = () => ({
   payload: null
 });
 
-const loginSuccessAction = (user) => ({
+const loginSuccessAction = (params) => ({
   type: userConstants.LOGIN_SUCCESS,
-  payload: user,
+  payload: params,
   meta: {
     emit: true
   }
