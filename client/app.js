@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, withRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { connect } from 'react-redux'
+import ReduxToastr from 'react-redux-toastr'
 
 import store from './redux/store'
 import * as actions from './redux/actions'
@@ -28,11 +29,21 @@ class AppContainer extends Component {
   render(){
     return(
       <Provider store={this.props.store}>
-        <Router basename="/">
-          <CaptureRouteNotFound>
-            <Main></Main>
-          </CaptureRouteNotFound>
-        </Router>
+        <div>
+          <Router basename="/">
+            <CaptureRouteNotFound>
+              <Main></Main>
+            </CaptureRouteNotFound>
+          </Router>
+          <ReduxToastr
+            timeOut={4000}
+            newestOnTop={false}
+            preventDuplicates
+            position="top-center"
+            transitionIn="fadeIn"
+            transitionOut="fadeOut"
+          />
+        </div>
       </Provider>
     )
   }

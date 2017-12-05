@@ -41,9 +41,9 @@ class Navbar extends Component {
           <Menu.Item id='notes-item' name='notes' as={Link} to='/notes'><Icon name='book' size='big' /></Menu.Item>
           <Dropdown id='profile-item' item pointing className='top right' trigger={<Icon name='user circle outline' size='big'/>}>
             <Dropdown.Menu>
-              <Dropdown.Item as={Link} icon='user' text='Details' to="/profile" />
-              <Dropdown.Item icon='setting' text='Settings' />
-              <Dropdown.Item as={Link} icon='sign out' text='Logout' onClick={this.logoutUser} to="/" />
+              <Dropdown.Item as={Link} icon='user' text='Details' to='/profile' />
+              <Dropdown.Item as={Link} icon='setting' text='Settings' to='/profile/settings' />
+              <Dropdown.Item as={Link} icon='sign out' text='Logout' onClick={this.logoutUser} to='/' />
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Menu>

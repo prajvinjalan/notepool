@@ -1,5 +1,6 @@
 import { userConstants, noteConstants } from '../constants'
 import { APIManager } from '../../utils'
+import { toastr } from 'react-redux-toastr'
 
 // ACTION DISPATCHERS
 // equivalent to " ... => { return (dispatch) => { ... }} "
@@ -21,7 +22,8 @@ export const localRegister = (newUser) => (dispatch) => {
   })
   .catch(error => {
     console.log(error.message);
-    dispatch(registerFailureAction(error.message));
+    dispatch(registerFailureAction());
+    dispatch(displayNotification(error.message, 'error'));
   });
 }
 
@@ -33,14 +35,26 @@ export const localLogin = (user) => (dispatch) => {
   .then(response => {
     console.log(response.message);
     //setTimeout(() => {dispatch(loginSuccessAction(response.user))}, 1000);
-    dispatch(loginSuccessAction({id: response.user.id, email: response.user.local.email}));
+    dispatch(loginSuccess({id: response.user.id, email: response.user.local.email, message: response.message, localAuth: true}));
     const emptyNote = {id: '', title: '', body: '', colour: '', collaborators: []};
     dispatch(setCurrentNoteAction(emptyNote));
     return null;
   })
   .catch(error => {
     console.log(error.message);
-    dispatch(loginFailureAction(error.message));
+    dispatch(loginFailureAction());
+    dispatch(displayNotification(error.message, 'error'));
+  });
+}
+
+// Action dispatcher for changing local password
+export const changePassword = (params) => (dispatch) => {
+  return APIManager.post('/auth/changepassword', params)
+  .then(response => {
+    dispatch(displayNotification(response.message, 'success'));
+  })
+  .catch(error => {
+    dispatch(displayNotification(error.message, 'error'));
   });
 }
 
@@ -57,13 +71,14 @@ export const authSuccess = () => (dispatch) => {
       email = user.facebook.email;
     }
 
-    dispatch(loginSuccessAction({id: user.id, email: email}));
+    dispatch(loginSuccess({id: user.id, email: email, message: response.message, localAuth: false}));
     const emptyNote = {id: '', title: '', body: '', colour: '', collaborators: []};
     dispatch(setCurrentNoteAction(emptyNote));
     return null;
   })
   .catch(error => {
     console.log(error.message);
+    dispatch(displayNotification(error.message, 'error'));
   })
 }
 
@@ -84,6 +99,24 @@ export const setClientSocket = (user) => (dispatch) => {
   dispatch(setClientSocketAction(user));
 }
 
+// Dispatches a login success action and notification
+const loginSuccess = (payload) => (dispatch) => {
+  dispatch(loginSuccessAction({id: payload.id, email: payload.email, localAuth: payload.localAuth}));
+  dispatch(displayNotification(payload.message, 'success'));
+}
+
+// Dispatches a toastr action to display notification(s) after authentication
+const displayNotification = (message, type) => (dispatch) => {
+  let messages = message.split(',');
+  for (let i = 0; i < messages.length; i++){
+    if (type === 'success'){
+      toastr.success(messages[i]);
+    } else if (type === 'error'){
+      toastr.error(messages[i]);
+    }
+  }
+}
+
 // ACTION CREATORS
 // equivalent to " ... => { return { ... } } "
 
@@ -97,9 +130,9 @@ const registerSuccessAction = (user) => ({
   payload: user
 });
 
-const registerFailureAction = (error) => ({
+const registerFailureAction = () => ({
   type: userConstants.REGISTER_FAILURE,
-  payload: error
+  payload: null
 });
 
 const loginRequestAction = () => ({
@@ -107,17 +140,17 @@ const loginRequestAction = () => ({
   payload: null
 });
 
-const loginSuccessAction = (user) => ({
+const loginSuccessAction = (params) => ({
   type: userConstants.LOGIN_SUCCESS,
-  payload: user,
+  payload: params,
   meta: {
     emit: true
   }
 });
 
-const loginFailureAction = (error) => ({
+const loginFailureAction = () => ({
   type: userConstants.LOGIN_FAILURE,
-  payload: error
+  payload: null
 });
 
 const logoutUserAction = () => ({

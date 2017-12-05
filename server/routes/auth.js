@@ -1,6 +1,9 @@
 import express from 'express'
 import passport from 'passport'
 const router = express.Router();
+import bcrypt from 'bcryptjs'
+
+import User from '../models/User'
 
 // Register route
 router.post('/register', (req, res, next) => {
@@ -64,6 +67,76 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
+// Change password route
+router.post('/changepassword', (req, res, next) => {
+  let passwords = req.body.passwords;
+  User.findOne({'local.email': req.body.email}, (err, user) => {
+    if (err){
+      return res.json({
+        confirmation: 'fail',
+        message: err
+      });
+    }
+    if (!user){
+      return res.json({
+        confirmation: 'fail',
+        message: 'That user was not found.'
+      });
+    }
+
+    //Match Password
+    bcrypt.compare(passwords.oldPass, user.local.password, (err, isMatch) => {
+      if (err){
+        return res.json({
+          confirmation: 'fail',
+          message: err
+        });
+      }
+      if (isMatch){
+        bcrypt.genSalt(10, (err, salt) => {
+          if (err){
+            return res.json({
+              confirmation: 'fail',
+              message: err
+            });
+          }
+          bcrypt.hash(passwords.newPass, salt, (err, hash) => {
+            if (err){
+              return res.json({
+                confirmation: 'fail',
+                message: err
+              });
+            }
+            let data = {
+              $set: {
+                'local.password': hash
+              }
+            }
+            User.findByIdAndUpdate({_id: req.body.id}, data, (err) => {
+              if (err){
+                return res.json({
+                  confirmation: 'fail',
+                  message: err
+                });
+              } else {
+                return res.json({
+                  confirmation: 'success',
+                  message: 'You have successfully updated your password!'
+                })
+              }
+            });
+          })
+        });
+      } else {
+        return res.json({
+          confirmation: 'fail',
+          message: 'Your old password was incorrect.'
+        });
+      }
+    });
+  });
+});
+
 // Logout route
 router.get('/logout', (req, res, next) => {
   req.logout();
@@ -106,6 +179,7 @@ router.get('/facebook/callback',
 router.get('/user', (req, res, next) => {
   return res.json({
     confirmation: 'success',
+    message: 'You have successfully logged in!',
     user: req.user.summary()
   });
 });
