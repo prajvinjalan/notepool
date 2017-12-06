@@ -5,6 +5,7 @@ import { Button, Dropdown, Form, Grid, Icon, Input, Label, Modal, TextArea } fro
 import * as actions from '../../redux/actions'
 
 import EditCollaborators from './EditCollaborators'
+import EditListItems from './EditListItems'
 
 // This component mounts when the Notes component mounts - it changes visibility and content based on user interaction
 class EditNote extends Component {
@@ -142,9 +143,10 @@ class EditNote extends Component {
         </Modal.Header>
         <Modal.Content className='with-border'>
           <Modal.Description>
-            <Form>
+            {/* <Form>
               <TextArea id='body' autoHeight value={this.props.currentNote.body} onChange={this.handleInputChange} />
-            </Form>
+            </Form> */}
+            <EditListItems />
           </Modal.Description>
         </Modal.Content>
         <Modal.Content>

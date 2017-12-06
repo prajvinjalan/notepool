@@ -73,6 +73,25 @@
   color: #555;
 }
 
+// Other modal content (when editing list notes)
+
+.ui.input.list-item {
+  width: 95%;
+}
+
+.ui.checkbox.list-item {
+  padding: 4px 0px;
+}
+
+.ui.input.list-item input.checked {
+  text-decoration: line-through;
+}
+
+.list-items-button-container {
+  display: grid;
+  padding: 25px 25px 0px 0px;
+}
+
 // Login, Register, Settings Pages
 
 .logreg.container {
