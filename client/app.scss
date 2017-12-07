@@ -79,11 +79,19 @@
   width: 95%;
 }
 
+.ui.input.list-item input.selected + i {
+  display: inline-block;
+}
+
+.ui.input.list-item i {
+  display: none;
+}
+
 .ui.checkbox.list-item {
   padding: 4px 0px;
 }
 
-.ui.input.list-item input.checked {
+.ui.input.list-item.checked input {
   text-decoration: line-through;
 }
 

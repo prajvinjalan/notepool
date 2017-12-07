@@ -11,64 +11,106 @@ class EditListItems extends Component {
     this.state = {
       items: [
         {
-          body: '',
+          text: '',
           checked: false
         }
       ]
     }
   }
 
+  // Handles changes to item inputs in body
   handleInputChange = (index) => (event) => {
-    const newItems = this.state.items.map((item, i) => {
-      if (index !== i){
-        return item;
-      }
-      return {...item, body: event.target.value};
-    });
-
-    this.setState({
-      items: newItems
-    });
+    // const newItems = this.state.items.map((item, i) => {
+    //   if (index !== i){
+    //     return item;
+    //   }
+    //   return {...item, text: event.target.value};
+    // });
+    //
+    // this.setState({
+    //   items: newItems
+    // });
+    this.props.updateItem({note: this.props.currentNote, text: event.target.value, index: index});
   }
 
-  checkItem = (index) => (event) => {
-    document.getElementById(`input-${index}`).classList.toggle('checked');
-
-    const newItems = this.state.items.map((item, i) => {
-      if (index !== i){
-        return item;
+  // Handles keydown events for inputs
+  handleKeyDown = (index) => (event) => {
+    if (event.keyCode === 13){ // pressed Enter key
+      // Add new input if at last one, otherwise go to next input
+      if (index === (this.props.currentNote.listBody.length - 1)){
+        this.props.addItem({note: this.props.currentNote})
+        .then(() => {
+          document.getElementById(`input-${index + 1}`).focus();
+        });
+      } else {
+        document.getElementById(`input-${index + 1}`).focus();
       }
-      return {...item, checked: !this.state.items[i].checked};
-    });
+    }
+    if (event.keyCode === 8){ // pressed Backspace key
 
-    this.setState({
-      items: newItems
-    });
+    }
   }
 
+  // Adds an input to the list of items
   addItem = (event) => {
-    const newItems = this.state.items.concat([{ body: '' }]);
-
-    this.setState({
-      items: newItems
+    // const newItems = this.state.items.concat([{ text: '' }]);
+    //
+    // this.setState({
+    //   items: newItems
+    // });
+    this.props.addItem({note: this.props.currentNote})
+    .then(() => {
+      document.getElementById(`input-${this.props.currentNote.listBody.length - 1}`).focus();
     });
   }
 
+  // Removes an input from the list of items
   removeItem = (index) => (event) => {
-    const newItems = this.state.items.filter((item, i) => i !== index);
+    // const newItems = this.state.items.filter((item, i) => i !== index);
+    //
+    // this.setState({
+    //   items: newItems
+    // });
+    this.props.removeItem({note: this.props.currentNote, index: index});
+  }
 
-    this.setState({
-      items: newItems
-    });
+  // Toggles the input and based on the checkbox
+  checkItem = (index) => (event) => {
+    document.getElementById(`input-${index}`).parentElement.classList.toggle('checked');
+
+    // const newItems = this.state.items.map((item, i) => {
+    //   if (index !== i){
+    //     return item;
+    //   }
+    //   return {...item, checked: !this.state.items[i].checked};
+    // });
+    //
+    // this.setState({
+    //   items: newItems
+    // });
+    console.log('note', this.props.currentNote);
+    this.props.checkItem({note: this.props.currentNote, index: index});
+  }
+
+  // Occurs when an input is focused
+  onFocus = (event) => {
+    document.getElementById(event.target.id).classList.add('selected');
+  }
+
+  // Occurs when an input loses focus
+  onBlur = (event) => {
+    document.getElementById(event.target.id).classList.remove('selected');
   }
 
   render(){
-    const listItems = this.state.items.map((item, i) => {
+    const listItems = this.props.currentNote.listBody.map((item, i) => {
       return(
         <div key={i}>
-          <Checkbox className='list-item' onClick={this.checkItem(i)} />
-          <Input id={`input-${i}`} placeholder='Add Item...' value={item.body} onChange={this.handleInputChange(i)} className='list-item'
-            icon={<Icon link name='remove circle' onClick={this.removeItem(i)} />}
+          <Checkbox className='list-item' defaultChecked={item.checked} onClick={this.checkItem(i)} />
+          <Input id={`input-${i}`} placeholder='Add Item...' value={item.text}
+            onChange={this.handleInputChange(i)} onFocus={this.onFocus} onBlur={this.onBlur}
+            onKeyDown={this.handleKeyDown(i)} className={'list-item ' + (item.checked ? 'checked' : '')}
+            icon={<Icon link name='remove circle' onMouseDown={this.removeItem(i)} />}
           />
         </div>
       )
@@ -90,10 +132,13 @@ const stateToProps = (state) => ({
   currentNote: state.note.currentNote
 })
 
-// // Maps dispatch functions to props
-// const dispatchToProps = (state) => ({
-//
-// })
+// Maps dispatch functions to props
+const dispatchToProps = (dispatch) => ({
+  addItem: (params) => dispatch(actions.addItem(params)),
+  updateItem: (params) => dispatch(actions.updateItem(params)),
+  removeItem: (params) => dispatch(actions.removeItem(params)),
+  checkItem: (params) => dispatch(actions.checkItem(params))
+})
 
 // Connects state and dispatch functions to this component
-export default connect(stateToProps, null)(EditListItems)
+export default connect(stateToProps, dispatchToProps)(EditListItems)

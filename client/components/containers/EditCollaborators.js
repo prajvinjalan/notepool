@@ -68,6 +68,7 @@ class EditCollaborators extends Component {
     }
   }
 
+  // Handles change to dropdown (add collaborator as Editor or Viewer)
   handleDropdownChange = (event, { value }) => {
     this.setState({
       value: value

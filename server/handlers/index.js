@@ -24,6 +24,22 @@ export default createHandler({
     dispatchToSingleClient(context, action, 'DELETE_NOTE');
   },
 
+  ADD_ITEM: (context, action) => {
+    dispatchToMultipleClients(context, action, 'ADD_ITEM');
+  },
+
+  UPDATE_ITEM: (context, action) => {
+    dispatchToMultipleClients(context, action, 'UPDATE_ITEM');
+  },
+
+  REMOVE_ITEM: (context, action) => {
+    dispatchToMultipleClients(context, action, 'REMOVE_ITEM');
+  },
+
+  CHECK_ITEM: (context, action) => {
+    dispatchToMultipleClients(context, action, 'CHECK_ITEM');
+  },
+
   LOGIN_SUCCESS: (context, action) => {
     const { client, server } = context;
     currentClients[client.id] = action.payload.email;
@@ -49,8 +65,20 @@ export default createHandler({
 const dispatchToMultipleClients = (context, action, dispatchType) => {
   const { client, dispatchTo } = context;
   const payload = action.payload;
+  let otherClients = {};
   // console.log(action, client.id);
-  const otherClients = getCollaboratingClients(client.id, payload);
+  switch(dispatchType){
+    case 'ADD_ITEM':
+    case 'UPDATE_ITEM':
+    case 'REMOVE_ITEM':
+    case 'CHECK_ITEM':
+      otherClients = getCollaboratingClients(client.id, payload.note);
+      break;
+
+    default:
+      otherClients = getCollaboratingClients(client.id, payload);
+      break;
+  }
   // console.log(otherClients);
   let clientId;
   for (clientId in otherClients){
@@ -62,7 +90,7 @@ const dispatchToMultipleClients = (context, action, dispatchType) => {
 }
 
 // Dispatch an action to a single client based on user's email
-const dispatchToSingleClient = (context, action, dispatchType, note) => {
+const dispatchToSingleClient = (context, action, dispatchType) => {
   const { client, dispatchTo } = context;
   const payload = action.payload;
   // console.log(action, client.id);
@@ -70,16 +98,16 @@ const dispatchToSingleClient = (context, action, dispatchType, note) => {
   const clientId = getClientId(payload.email ? payload.email : payload.collaborator.email);
   dispatchTo(clientId, {
     type: dispatchType,
-    payload: (note ? note : payload.note)
+    payload: payload.note
   });
-  //console.log(currentClients);
+  // console.log(currentClients);
 }
 
 // Get all clients that have users who are collaborating on a certain note
 const getCollaboratingClients = (clientId, note) => {
   let otherClients = Object.assign({}, currentClients);
   delete otherClients[clientId]; // remove client who dispatched action
-
+  
   // remove clients who aren't collaborating
   let id;
   for (id in otherClients){
@@ -98,7 +126,7 @@ const getCollaboratingClients = (clientId, note) => {
 
 // Get single client id based on user's email
 const getClientId = (email) => {
-  console.log(currentClients)
+  // console.log(currentClients)
   let id;
   for (id in currentClients){
     if (currentClients[id] === email){

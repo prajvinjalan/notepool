@@ -68,19 +68,19 @@ export const deleteNote = (note) => (dispatch) => {
   });
 }
 
-// Action dispatcher for setting a note as the current note, then updating the note
+// Action dispatcher for setting a note as the current note, then updating the note (state change, emits to other users, no API call)
 export const setCurrentNote = (note) => (dispatch) => {
   dispatch(setCurrentNoteAction(note));
   dispatch(updateNoteAction(note));
 }
 
-// Action dispatcher for adding a collaborator from a note
+// Action dispatcher for adding a collaborator from a note (params are id, collaborator object, note object)
 export const addCollaborator = (params) => (dispatch) => {
   dispatch(addCollaboratorAction(params));
   dispatch(updateCollaborator(params));
 }
 
-// Action dispatcher for removing a collaborator from a note
+// Action dispatcher for removing a collaborator from a note (params are id, email, note object)
 export const removeCollaborator = (params) => (dispatch) => {
   dispatch(removeCollaboratorAction(params));
   dispatch(updateCollaborator(params));
@@ -98,6 +98,33 @@ const updateCollaborator = (params) => (dispatch, getState) => {
   .catch(error => {
     console.log(error.message);
   });
+}
+
+// Switches types from plain to list type note (and vice versa)
+export const changeType = (params) => (dispatch) => {
+
+}
+
+// Adds a list item to a list type note (params is note)
+export const addItem = (params) => (dispatch) => {
+  return new Promise((resolve, reject) => {
+    resolve(dispatch(addItemAction(params)));
+  });
+}
+
+// Updates a list item in a list type note (params are note, text, index)
+export const updateItem = (params) => (dispatch) => {
+  return dispatch(updateItemAction(params));
+}
+
+// Removes a list item from a list type note (params are note, index)
+export const removeItem = (params) => (dispatch) => {
+  return dispatch(removeItemAction(params));
+}
+
+// Selects checkbox of a list item in a list type note (params are note, index)
+export const checkItem = (params) => (dispatch) => {
+  return dispatch(checkItemAction(params));
 }
 
 // ACTION CREATORS
@@ -151,6 +178,38 @@ const addCollaboratorAction = (params) => ({
 
 const removeCollaboratorAction = (params) => ({
   type: noteConstants.REMOVE_COLLABORATOR,
+  payload: params,
+  meta: {
+    emit: true
+  }
+});
+
+const addItemAction = (params) => ({
+  type: noteConstants.ADD_ITEM,
+  payload: params,
+  meta: {
+    emit: true
+  }
+});
+
+const updateItemAction = (params) => ({
+  type: noteConstants.UPDATE_ITEM,
+  payload: params,
+  meta: {
+    emit: true
+  }
+});
+
+const removeItemAction = (params) => ({
+  type: noteConstants.REMOVE_ITEM,
+  payload: params,
+  meta: {
+    emit: true
+  }
+});
+
+const checkItemAction = (params) => ({
+  type: noteConstants.CHECK_ITEM,
   payload: params,
   meta: {
     emit: true

@@ -14,7 +14,7 @@ const notes = (state = [], action) => {
 
     case noteConstants.UPDATE_NOTE:
       return state.map(note => {
-        if(note.id === action.payload.id){
+        if (note.id === action.payload.id){
           return action.payload;
         }
         return note;
@@ -25,7 +25,7 @@ const notes = (state = [], action) => {
 
     case noteConstants.ADD_COLLABORATOR:
       return state.map(note => {
-        if(note.id === action.payload.id){
+        if (note.id === action.payload.id){
           let selectedNote = {...note};
           selectedNote.collaborators.push(action.payload.collaborator);
           return selectedNote;
@@ -35,14 +35,61 @@ const notes = (state = [], action) => {
 
     case noteConstants.REMOVE_COLLABORATOR:
       return state.map(note => {
-        if(note.id === action.payload.id){
+        if (note.id === action.payload.id){
           let selectedNote = {...note};
           for(let i = 0; i < selectedNote.collaborators.length; i++){
-            if(selectedNote.collaborators[i].email === action.payload.email){
+            if (selectedNote.collaborators[i].email === action.payload.email){
               selectedNote.collaborators.splice(i, 1);
             }
           }
           return selectedNote;
+        }
+        return note;
+      });
+
+    case noteConstants.ADD_ITEM:
+      return state.map(note => {
+        if (note.id === action.payload.note.id){
+          let newListBody = note.listBody.concat([{text: '', checked: false}]);
+          return {...note, listBody: newListBody};
+        }
+        return note;
+      });
+
+    case noteConstants.UPDATE_ITEM:
+      return state.map(note => {
+        if (note.id === action.payload.note.id){
+          let newListBody = note.listBody.map((item, index) => {
+            if (action.payload.index === index){
+              return {...item, text: action.payload.text};
+            }
+            return item;
+          });
+          return {...note, listBody: newListBody};
+        }
+        return note;
+      });
+
+    case noteConstants.REMOVE_ITEM:
+      return state.map(note => {
+        if (note.id === action.payload.note.id){
+          let newListBody = note.listBody.filter((item, index) => index !== action.payload.index);
+          return {...note, listBody: newListBody};
+        }
+        return note;
+      });
+
+    case noteConstants.CHECK_ITEM:
+      return state.map(note => {
+        if (note.id === action.payload.note.id){
+          let newListBody = note.listBody.map((item, index) => {
+            if (action.payload.index === index){
+              console.log(item.checked);
+              return {...item, checked: !item.checked};
+            }
+            return item;
+          });
+          return {...note, listBody: newListBody};
         }
         return note;
       });
@@ -58,6 +105,7 @@ const notes = (state = [], action) => {
 // NotesById reducer that contains a user's notes as a lookup table with note ids as keys
 const notesById = (state = {}, action) => {
   let nextState = {};
+  let updatedListBody = {};
 
   switch (action.type){
     case noteConstants.RECEIVE_NOTES:
@@ -73,6 +121,38 @@ const notesById = (state = {}, action) => {
     case noteConstants.DELETE_NOTE:
       nextState = {...state};
       delete nextState[action.payload.id];
+      return nextState;
+
+    case noteConstants.ADD_ITEM:
+      nextState = {...state};
+      nextState[action.payload.note.id].listBody.concat([{text: '', checked: false}]);
+      return nextState;
+
+    case noteConstants.UPDATE_ITEM:
+      nextState = {...state};
+      updatedListBody = nextState[action.payload.note.id].listBody.map((item, index) => {
+        if (action.payload.index === index){
+          return {...item, text: action.payload.text};
+        }
+        return item;
+      });
+      nextState[action.payload.note.id] = {...nextState[action.payload.note.id], listBody: updatedListBody};
+      return nextState;
+
+    case noteConstants.REMOVE_ITEM:
+      nextState = {...state};
+      nextState[action.payload.note.id].listBody.filter((item, index) => index !== action.payload.index);
+      return nextState;
+
+    case noteConstants.CHECK_ITEM:
+      nextState = {...state};
+      updatedListBody = nextState[action.payload.note.id].listBody.map((item, index) => {
+        if (action.payload.index === index){
+          return {...item, checked: !item.checked};
+        }
+        return item;
+      });
+      nextState[action.payload.note.id] = {...nextState[action.payload.note.id], listBody: updatedListBody};
       return nextState;
 
     case userConstants.LOGOUT_USER:
@@ -113,6 +193,38 @@ const currentNote = (state = {}, action) => {
     case noteConstants.DELETE_NOTE:
       if (state.id === action.payload.id){
         return emptyNote;
+      }
+
+    case noteConstants.ADD_ITEM:
+      if (state.id === action.payload.note.id){
+        return {...action.payload.note, listBody: action.payload.note.listBody.concat([{text: '', checked: false}])}
+      }
+
+    case noteConstants.UPDATE_ITEM:
+      if (state.id === action.payload.note.id){
+        let newListBody = action.payload.note.listBody.map((item, index) => {
+          if (action.payload.index === index){
+            return {...item, text: action.payload.text};
+          }
+          return item;
+        });
+        return {...action.payload.note, listBody: newListBody};
+      }
+
+    case noteConstants.REMOVE_ITEM:
+      if (state.id === action.payload.note.id){
+        return {...action.payload.note, listBody: action.payload.note.listBody.filter((item, index) => index !== action.payload.index)}
+      }
+
+    case noteConstants.CHECK_ITEM:
+      if (state.id === action.payload.note.id){
+        let newListBody = action.payload.note.listBody.map((item, index) => {
+          if (action.payload.index === index){
+            return {...item, checked: !item.checked};
+          }
+          return item;
+        });
+        return {...action.payload.note, listBody: newListBody};
       }
 
     default:

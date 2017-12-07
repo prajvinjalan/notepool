@@ -66,7 +66,7 @@ class EditNote extends Component {
   // Closes the currently opened note (on outer click or 'Escape' key click)
   close = () => {
     const note = {...this.props.currentNote};
-    this.props.updateNote(note); // Updates the note
+    this.props.updateNote(note); // Updates the note (API call)
     this.props.close();
   }
 
@@ -84,18 +84,21 @@ class EditNote extends Component {
     });
   }
 
+  // Checks whether the current user is the owner
   isOwner = () => {
     if (this.props.currentNote){
       return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Owner');
     }
   }
 
+  // Checks whether the current user is an editor
   isEditor = () => {
     if (this.props.currentNote){
       return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Editor');
     }
   }
 
+  // Checks whether the current user is a viewer
   isViewer = () => {
     if (this.props.currentNote){
       return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Viewer');
