@@ -84,7 +84,6 @@ const notes = (state = [], action) => {
         if (note.id === action.payload.note.id){
           let newListBody = note.listBody.map((item, index) => {
             if (action.payload.index === index){
-              console.log(item.checked);
               return {...item, checked: !item.checked};
             }
             return item;

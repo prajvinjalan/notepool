@@ -114,17 +114,23 @@ export const addItem = (params) => (dispatch) => {
 
 // Updates a list item in a list type note (params are note, text, index)
 export const updateItem = (params) => (dispatch) => {
-  return dispatch(updateItemAction(params));
+  return new Promise((resolve, reject) => {
+    resolve(dispatch(updateItemAction(params)));
+  });
 }
 
 // Removes a list item from a list type note (params are note, index)
 export const removeItem = (params) => (dispatch) => {
-  return dispatch(removeItemAction(params));
+  return new Promise((resolve, reject) => {
+    resolve(dispatch(removeItemAction(params)));
+  });
 }
 
 // Selects checkbox of a list item in a list type note (params are note, index)
 export const checkItem = (params) => (dispatch) => {
-  return dispatch(checkItemAction(params));
+  return new Promise((resolve, reject) => {
+    resolve(dispatch(checkItemAction(params)));
+  });
 }
 
 // ACTION CREATORS

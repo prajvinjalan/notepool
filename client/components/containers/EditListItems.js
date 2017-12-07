@@ -7,34 +7,15 @@ import * as actions from '../../redux/actions'
 class EditListItems extends Component {
   constructor(props){
     super(props);
-
-    this.state = {
-      items: [
-        {
-          text: '',
-          checked: false
-        }
-      ]
-    }
   }
 
   // Handles changes to item inputs in body
   handleInputChange = (index) => (event) => {
-    // const newItems = this.state.items.map((item, i) => {
-    //   if (index !== i){
-    //     return item;
-    //   }
-    //   return {...item, text: event.target.value};
-    // });
-    //
-    // this.setState({
-    //   items: newItems
-    // });
     this.props.updateItem({note: this.props.currentNote, text: event.target.value, index: index});
   }
 
-  // Handles keydown events for inputs
-  handleKeyDown = (index) => (event) => {
+  // Handles keyup events for inputs
+  handleKeyUp = (index) => (event) => {
     if (event.keyCode === 13){ // pressed Enter key
       // Add new input if at last one, otherwise go to next input
       if (index === (this.props.currentNote.listBody.length - 1)){
@@ -47,17 +28,18 @@ class EditListItems extends Component {
       }
     }
     if (event.keyCode === 8){ // pressed Backspace key
-
+      // Go to previous input if input is empty and not the first input
+      if ((index !== 0) && (event.target.value === '')){
+        this.props.removeItem({note: this.props.currentNote, index: index})
+        .then(() => {
+          document.getElementById(`input-${index - 1}`).focus();
+        });
+      }
     }
   }
 
   // Adds an input to the list of items
   addItem = (event) => {
-    // const newItems = this.state.items.concat([{ text: '' }]);
-    //
-    // this.setState({
-    //   items: newItems
-    // });
     this.props.addItem({note: this.props.currentNote})
     .then(() => {
       document.getElementById(`input-${this.props.currentNote.listBody.length - 1}`).focus();
@@ -66,29 +48,22 @@ class EditListItems extends Component {
 
   // Removes an input from the list of items
   removeItem = (index) => (event) => {
-    // const newItems = this.state.items.filter((item, i) => i !== index);
-    //
-    // this.setState({
-    //   items: newItems
-    // });
-    this.props.removeItem({note: this.props.currentNote, index: index});
+    this.props.removeItem({note: this.props.currentNote, index: index})
+    .then(() => {
+      console.log('i did it')
+      if (index !== 0){
+        console.log('yes', document.getElementById(`input-${index - 1}`))
+        document.getElementById(`input-${index - 1}`).focus();
+      } else {
+        console.log('no', document.getElementById(`input-${index}`))
+        document.getElementById(`input-${index}`).focus();
+      }
+    });
   }
 
   // Toggles the input and based on the checkbox
   checkItem = (index) => (event) => {
     document.getElementById(`input-${index}`).parentElement.classList.toggle('checked');
-
-    // const newItems = this.state.items.map((item, i) => {
-    //   if (index !== i){
-    //     return item;
-    //   }
-    //   return {...item, checked: !this.state.items[i].checked};
-    // });
-    //
-    // this.setState({
-    //   items: newItems
-    // });
-    console.log('note', this.props.currentNote);
     this.props.checkItem({note: this.props.currentNote, index: index});
   }
 
@@ -106,11 +81,11 @@ class EditListItems extends Component {
     const listItems = this.props.currentNote.listBody.map((item, i) => {
       return(
         <div key={i}>
-          <Checkbox className='list-item' defaultChecked={item.checked} onClick={this.checkItem(i)} />
+          <Checkbox className='list-item' checked={item.checked} onClick={this.checkItem(i)} />
           <Input id={`input-${i}`} placeholder='Add Item...' value={item.text}
             onChange={this.handleInputChange(i)} onFocus={this.onFocus} onBlur={this.onBlur}
-            onKeyDown={this.handleKeyDown(i)} className={'list-item ' + (item.checked ? 'checked' : '')}
-            icon={<Icon link name='remove circle' onMouseDown={this.removeItem(i)} />}
+            onKeyUp={this.handleKeyUp(i)} className={'list-item ' + (item.checked ? 'checked' : '')}
+            icon={(this.props.currentNote.listBody.length !== 1) && <Icon link name='remove circle' onMouseDown={this.removeItem(i)} />}
           />
         </div>
       )
