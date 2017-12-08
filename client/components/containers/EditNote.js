@@ -145,7 +145,7 @@ class EditNote extends Component {
           <Input id='title' fluid placeholder='Title' value={this.props.currentNote.title} onChange={this.handleInputChange} />
         </Modal.Header>
         <Modal.Content className='with-border'>
-          <Modal.Description>
+          <Modal.Description className={this.isViewer() ? 'viewer' : ''}>
             {/* <Form>
               <TextArea id='body' autoHeight value={this.props.currentNote.body} onChange={this.handleInputChange} />
             </Form> */}

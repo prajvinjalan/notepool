@@ -77,14 +77,21 @@ class EditListItems extends Component {
     document.getElementById(event.target.id).classList.remove('selected');
   }
 
+  // Checks whether the current user is a viewer
+  isViewer = () => {
+    if (this.props.currentNote){
+      return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Viewer');
+    }
+  }
+
   render(){
     const listItems = this.props.currentNote.listBody.map((item, i) => {
       return(
         <div key={i}>
           <Checkbox className='list-item' checked={item.checked} onClick={this.checkItem(i)} />
-          <Input id={`input-${i}`} placeholder='Add Item...' value={item.text}
+          <Input id={`input-${i}`} value={item.text} onKeyUp={this.handleKeyUp(i)}
             onChange={this.handleInputChange(i)} onFocus={this.onFocus} onBlur={this.onBlur}
-            onKeyUp={this.handleKeyUp(i)} className={'list-item ' + (item.checked ? 'checked' : '')}
+            className={'list-item ' + (item.checked ? 'checked' : '')}
             icon={(this.props.currentNote.listBody.length !== 1) && <Icon link name='remove circle' onMouseDown={this.removeItem(i)} />}
           />
         </div>
@@ -95,7 +102,7 @@ class EditListItems extends Component {
       <div>
         {listItems}
         <div className='list-items-button-container'>
-          <Button circular icon='plus' size='small' color='teal' className='right-aligned-button' onClick={this.addItem}></Button>
+          {!this.isViewer() && <Button circular icon='plus' size='small' color='teal' className='right-aligned-button' onClick={this.addItem}></Button>}
         </div>
       </div>
     )
@@ -104,7 +111,8 @@ class EditListItems extends Component {
 
 // Maps state objects to props
 const stateToProps = (state) => ({
-  currentNote: state.note.currentNote
+  currentNote: state.note.currentNote,
+  user: state.user
 })
 
 // Maps dispatch functions to props
