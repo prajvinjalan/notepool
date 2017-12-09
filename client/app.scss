@@ -106,26 +106,20 @@
 
 // Login, Register, Settings Pages
 
-.logreg.container {
+.logreg.container, .logreg.container.bottom, .settings.container {
   margin: 30px auto;
   padding: 30px 40px;
   width: 600px;
   border: 1px solid #ddd;
+  background: #eee;
 }
 
 .logreg.container.bottom {
-  margin: 30px auto;
-  padding: 30px 40px;
-  width: 600px;
-  border: 1px solid #ddd;
   text-align: center;
 }
 
 .settings.container {
-  margin: 30px auto;
-  padding: 30px 40px;
   width: 450px;
-  border: 1px solid #ddd;
 }
 
 .logreg.header, .settings.header {
@@ -149,9 +143,11 @@
 
 .navbar, footer {
   padding: 1rem;
-  background: #f9f9f9;
+  background: #eee;
   text-align: center;
   height: 70px;
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
 }
 
 .navbar .ui.huge.header {
@@ -177,6 +173,10 @@
 }
 
 // Other views
+
+.main-container {
+  min-height: calc(100vh - 140px);
+}
 
 .ui.centered.card, .ui.centered.card:hover {
   box-shadow: none;
