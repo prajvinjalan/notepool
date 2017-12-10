@@ -215,3 +215,15 @@
   color: rgb(84, 173, 107);
   border: 1px solid rgb(84, 173, 107);
 }
+
+span.list-item {
+  padding-left: 5px;
+}
+
+span.list-item.checked {
+  text-decoration: line-through;
+}
+
+.ui.card > .content > .description.note-card {
+  pointer-events: none;
+}

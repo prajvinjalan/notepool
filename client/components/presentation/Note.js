@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Card, Label } from 'semantic-ui-react'
+import { Card, Checkbox, Label } from 'semantic-ui-react'
 
 const Note = (props) => {
   // Creates a list of labels for the current note's collaborators
@@ -15,12 +15,24 @@ const Note = (props) => {
     props.show(props.currentNote);
   }
 
+  const listItems = props.currentNote.listBody.map((item, i) => {
+    return(
+      <div key={i}>
+        <Checkbox className='list-item' checked={item.checked} />
+        <span className={'list-item ' + (item.checked ? 'checked' : '')}>{item.text}</span>
+      </div>
+    )
+  })
+
   return(
     <Card centered onClick={show} className={props.currentNote.colour}>
       <Card.Content>
         <Card.Header content={props.currentNote.title} />
-        <Card.Description>
+        <Card.Description className='note-card'>
+          {props.currentNote.type === 'text' ?
           <span className='note-body'>{props.currentNote.body}</span>
+          :
+          listItems}
         </Card.Description>
       </Card.Content>
       <Card.Content extra>
