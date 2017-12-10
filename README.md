@@ -33,7 +33,7 @@ Specifying ```NODE_ENV=dev``` will apply the Redux Logger middleware.
 - [x] Add Google/Facebook authentication
 - [x] Change password
 - [ ] Forgot password (send email) (?), minimum requirements when registering (?)
-- [ ] More complicated notes (lists and other formatting?)
+- [x] List type notes
 - [ ] React-grid-layout for notes? (will need a lot of refactoring)
 - [x] Refactor express code to use ES6 notation
 - [x] Notifications (e.g. for login/register confirmations and validations)
