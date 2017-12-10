@@ -40,6 +40,14 @@ export default createHandler({
     dispatchToMultipleClients(context, action, 'CHECK_ITEM');
   },
 
+  SWITCH_TYPE: (context, action) => {
+    dispatchToMultipleClients(context, action, 'SWITCH_TYPE');
+  },
+
+  SWITCH_BODY: (context, action) => {
+    dispatchToMultipleClients(context, action, 'SWITCH_BODY');
+  },
+
   LOGIN_SUCCESS: (context, action) => {
     const { client, server } = context;
     currentClients[client.id] = action.payload.email;
@@ -107,7 +115,7 @@ const dispatchToSingleClient = (context, action, dispatchType) => {
 const getCollaboratingClients = (clientId, note) => {
   let otherClients = Object.assign({}, currentClients);
   delete otherClients[clientId]; // remove client who dispatched action
-  
+
   // remove clients who aren't collaborating
   let id;
   for (id in otherClients){

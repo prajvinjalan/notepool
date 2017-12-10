@@ -100,9 +100,12 @@ const updateCollaborator = (params) => (dispatch, getState) => {
   });
 }
 
-// Switches types from plain to list type note (and vice versa)
-export const changeType = (params) => (dispatch) => {
-
+// Switches types from text to list type note (and vice versa)(params is note)
+export const switchType = (params) => (dispatch) => {
+  return Promise.all([
+    dispatch(switchTypeAction(params)),
+    dispatch(switchBodyAction(params))
+  ]);
 }
 
 // Adds a list item to a list type note (params is note)
@@ -217,6 +220,22 @@ const removeItemAction = (params) => ({
 const checkItemAction = (params) => ({
   type: noteConstants.CHECK_ITEM,
   payload: params,
+  meta: {
+    emit: true
+  }
+});
+
+const switchTypeAction = (note) => ({
+  type: noteConstants.SWITCH_TYPE,
+  payload: note,
+  meta: {
+    emit: true
+  }
+});
+
+const switchBodyAction = (note) => ({
+  type: noteConstants.SWITCH_BODY,
+  payload: note,
   meta: {
     emit: true
   }

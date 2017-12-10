@@ -24,7 +24,7 @@ class Notes extends Component {
   // Adds a new blank note with the user as a collaborator, then opens the modal to edit the note
   addNote = () => {
     const note = {
-      type: '',
+      type: 'text',
       title: '',
       body: '',
       listBody: [{text: '', checked: false}],

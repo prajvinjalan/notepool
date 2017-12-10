@@ -65,8 +65,7 @@ class EditNote extends Component {
 
   // Closes the currently opened note (on outer click or 'Escape' key click)
   close = () => {
-    const note = {...this.props.currentNote};
-    this.props.updateNote(note); // Updates the note (API call)
+    this.props.updateNote(this.props.currentNote); // Updates the note (API call)
     this.props.close();
   }
 
@@ -103,6 +102,11 @@ class EditNote extends Component {
     if (this.props.currentNote){
       return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Viewer');
     }
+  }
+
+  // Changes the type of the note (from text to list and vice-versa)
+  switchType = () => {
+    this.props.switchType(this.props.currentNote);
   }
 
   render(){
@@ -146,10 +150,11 @@ class EditNote extends Component {
         </Modal.Header>
         <Modal.Content className='with-border'>
           <Modal.Description className={this.isViewer() ? 'viewer' : ''}>
-            {/* <Form>
+            {this.props.currentNote.type === 'text' ?
+            <Form>
               <TextArea id='body' autoHeight value={this.props.currentNote.body} onChange={this.handleInputChange} />
-            </Form> */}
-            <EditListItems />
+            </Form>
+            : <EditListItems />}
           </Modal.Description>
         </Modal.Content>
         <Modal.Content>
@@ -168,6 +173,7 @@ class EditNote extends Component {
                   </Dropdown.Menu>
                 </Dropdown>
                 <Button inverted color='green' icon='add user' onClick={this.showCollab} />
+                <Button inverted color='green' icon={this.props.currentNote.type === 'text' ? 'list' : 'sticky note'} onClick={this.switchType} />
                 <EditCollaborators open={this.state.open} close={this.closeCollab} />
               </Grid.Column>
               {this.isOwner() &&
@@ -195,7 +201,8 @@ const dispatchToProps = (dispatch) => ({
   updateNote: (params) => dispatch(actions.updateNote(params)),
   deleteNote: (params) => dispatch(actions.deleteNote(params)),
   removeCollaborator: (params) => dispatch(actions.removeCollaborator(params)),
-  setCurrentNote: (params) => dispatch(actions.setCurrentNote(params))
+  setCurrentNote: (params) => dispatch(actions.setCurrentNote(params)),
+  switchType: (params) => dispatch(actions.switchType(params))
 })
 
 // Connects state and dispatch functions to this component
