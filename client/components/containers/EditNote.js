@@ -130,8 +130,9 @@ class EditNote extends Component {
     const collabList = (this.props.currentNote.collaborators !== undefined ?
       this.props.currentNote.collaborators.map((collaborator, i) => {
         return(
-          <Label key={i}>
-            {collaborator.email} ({collaborator.type})
+          <Label key={i} color='teal'>
+            {collaborator.email}
+            <Label.Detail content={collaborator.type} />
             {
               ((collaborator.type !== 'Owner') &&
               !this.isViewer() &&

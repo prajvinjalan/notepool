@@ -227,3 +227,7 @@ span.list-item.checked {
 .ui.card > .content > .description.note-card {
   pointer-events: none;
 }
+
+.ui.label:first-child {
+  margin: 0.2rem;
+}

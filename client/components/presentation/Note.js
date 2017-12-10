@@ -6,7 +6,10 @@ const Note = (props) => {
   // Creates a list of labels for the current note's collaborators
   const collabList = props.currentNote.collaborators.map((collaborator, i) => {
     return(
-      <Label key={i}>{collaborator.email}</Label>
+      <Label key={i} color='teal'>
+        {collaborator.email}
+        <Label.Detail content={collaborator.type} />
+      </Label>
     )
   })
 
