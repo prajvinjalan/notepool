@@ -13,7 +13,7 @@ import { PrivateRoute, RouteNotFound } from './RouteHandler'
 const Main = () => (
   <div>
     <Navbar />
-    <main style={{minHeight: '38rem'}}>
+    <main className='main-container'>
       <Switch>
         <Route exact path='/' component={Home}/>
         <PrivateRoute exact path='/notes' component={Notes}/>

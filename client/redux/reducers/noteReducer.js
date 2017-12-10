@@ -14,7 +14,7 @@ const notes = (state = [], action) => {
 
     case noteConstants.UPDATE_NOTE:
       return state.map(note => {
-        if(note.id === action.payload.id){
+        if (note.id === action.payload.id){
           return action.payload;
         }
         return note;
@@ -25,7 +25,7 @@ const notes = (state = [], action) => {
 
     case noteConstants.ADD_COLLABORATOR:
       return state.map(note => {
-        if(note.id === action.payload.id){
+        if (note.id === action.payload.id){
           let selectedNote = {...note};
           selectedNote.collaborators.push(action.payload.collaborator);
           return selectedNote;
@@ -35,14 +35,89 @@ const notes = (state = [], action) => {
 
     case noteConstants.REMOVE_COLLABORATOR:
       return state.map(note => {
-        if(note.id === action.payload.id){
+        if (note.id === action.payload.id){
           let selectedNote = {...note};
           for(let i = 0; i < selectedNote.collaborators.length; i++){
-            if(selectedNote.collaborators[i].email === action.payload.email){
+            if (selectedNote.collaborators[i].email === action.payload.email){
               selectedNote.collaborators.splice(i, 1);
             }
           }
           return selectedNote;
+        }
+        return note;
+      });
+
+    case noteConstants.ADD_ITEM:
+      return state.map(note => {
+        if (note.id === action.payload.note.id){
+          let newListBody = note.listBody.concat([{text: '', checked: false}]);
+          return {...note, listBody: newListBody};
+        }
+        return note;
+      });
+
+    case noteConstants.UPDATE_ITEM:
+      return state.map(note => {
+        if (note.id === action.payload.note.id){
+          let newListBody = note.listBody.map((item, index) => {
+            if (action.payload.index === index){
+              return {...item, text: action.payload.text};
+            }
+            return item;
+          });
+          return {...note, listBody: newListBody};
+        }
+        return note;
+      });
+
+    case noteConstants.REMOVE_ITEM:
+      return state.map(note => {
+        if (note.id === action.payload.note.id){
+          let newListBody = note.listBody.filter((item, index) => index !== action.payload.index);
+          return {...note, listBody: newListBody};
+        }
+        return note;
+      });
+
+    case noteConstants.CHECK_ITEM:
+      return state.map(note => {
+        if (note.id === action.payload.note.id){
+          let newListBody = note.listBody.map((item, index) => {
+            if (action.payload.index === index){
+              return {...item, checked: !item.checked};
+            }
+            return item;
+          });
+          return {...note, listBody: newListBody};
+        }
+        return note;
+      });
+
+    case noteConstants.SWITCH_TYPE:
+      return state.map(note => {
+        if (note.id === action.payload.id){
+          return {...note, type: (action.payload.type === 'text' ? 'list' : 'text')};
+        }
+        return note;
+      });
+
+    case noteConstants.SWITCH_BODY:
+      return state.map(note => {
+        if (note.id === action.payload.id){
+          if (action.payload.type === 'text'){ // switch from text to list
+            let textBody = action.payload.body.split('\n');
+            let newListBody = textBody.map(text => {
+              return {text: text, checked: false};
+            });
+            return {...note, listBody: newListBody};
+          } else { // switch from list to text
+            let textBody = '';
+            note.listBody.forEach(item => {
+              textBody = textBody.concat(item.text + '\n');
+            });
+            let text = textBody.slice(0, (textBody.length - 1));
+            return {...note, body: text};
+          }
         }
         return note;
       });
@@ -58,6 +133,7 @@ const notes = (state = [], action) => {
 // NotesById reducer that contains a user's notes as a lookup table with note ids as keys
 const notesById = (state = {}, action) => {
   let nextState = {};
+  let updatedListBody = {};
 
   switch (action.type){
     case noteConstants.RECEIVE_NOTES:
@@ -75,8 +151,149 @@ const notesById = (state = {}, action) => {
       delete nextState[action.payload.id];
       return nextState;
 
+    case noteConstants.ADD_ITEM:
+      nextState = {...state};
+      nextState[action.payload.note.id].listBody.concat([{text: '', checked: false}]);
+      return nextState;
+
+    case noteConstants.UPDATE_ITEM:
+      nextState = {...state};
+      updatedListBody = nextState[action.payload.note.id].listBody.map((item, index) => {
+        if (action.payload.index === index){
+          return {...item, text: action.payload.text};
+        }
+        return item;
+      });
+      nextState[action.payload.note.id] = {...nextState[action.payload.note.id], listBody: updatedListBody};
+      return nextState;
+
+    case noteConstants.REMOVE_ITEM:
+      nextState = {...state};
+      nextState[action.payload.note.id].listBody.filter((item, index) => index !== action.payload.index);
+      return nextState;
+
+    case noteConstants.CHECK_ITEM:
+      nextState = {...state};
+      updatedListBody = nextState[action.payload.note.id].listBody.map((item, index) => {
+        if (action.payload.index === index){
+          return {...item, checked: !item.checked};
+        }
+        return item;
+      });
+      nextState[action.payload.note.id] = {...nextState[action.payload.note.id], listBody: updatedListBody};
+      return nextState;
+
+    case noteConstants.SWITCH_TYPE:
+      nextState = {...state};
+      nextState[action.payload.id] = {...nextState[action.payload.id], type: (nextState[action.payload.id].type === 'text' ? 'list' : 'text')};
+      return nextState;
+
+    case noteConstants.SWITCH_BODY:
+      nextState = {...state};
+      if (action.payload.type === 'text'){ // switch from text to list
+        let textBody = action.payload.body.split('\n');
+        let newListBody = textBody.map(text => {
+          return {text: text, checked: false};
+        });
+        nextState[action.payload.id] = {...nextState[action.payload.id], listBody: newListBody};
+      } else { // switch from list to text
+        let textBody = '';
+        nextState[action.payload.id].listBody.forEach(item => {
+          textBody = textBody.concat(item['text'] + '\n');
+        });
+        let text = textBody.slice(0, (textBody.length - 1));
+        nextState[action.payload.id] = {...nextState[action.payload.id], body: text};
+      }
+      return nextState;
+
     case userConstants.LOGOUT_USER:
       return {};
+
+    default:
+      return state;
+  }
+}
+
+const emptyNote = {id: '', title: '', body: '', colour: '', collaborators: []};
+
+// CurrentNote reducer that holds the current note (for the 'Edit Note' modal)
+const currentNote = (state = {}, action) => {
+  switch (action.type){
+    case noteConstants.SET_CURRENT_NOTE:
+      return action.payload;
+
+    case noteConstants.UPDATE_NOTE:
+      if (state.id === action.payload.id){
+        return action.payload;
+      }
+      return state;
+
+    case noteConstants.DELETE_NOTE:
+      if (state.id === action.payload.id){
+        return emptyNote;
+      }
+      return state;
+
+    case noteConstants.ADD_ITEM:
+      if (state.id === action.payload.note.id){
+        return {...action.payload.note, listBody: action.payload.note.listBody.concat([{text: '', checked: false}])}
+      }
+      return state;
+
+    case noteConstants.UPDATE_ITEM:
+      if (state.id === action.payload.note.id){
+        let newListBody = action.payload.note.listBody.map((item, index) => {
+          if (action.payload.index === index){
+            return {...item, text: action.payload.text};
+          }
+          return item;
+        });
+        return {...action.payload.note, listBody: newListBody};
+      }
+      return state;
+
+    case noteConstants.REMOVE_ITEM:
+      if (state.id === action.payload.note.id){
+        return {...action.payload.note, listBody: action.payload.note.listBody.filter((item, index) => index !== action.payload.index)}
+      }
+      return state;
+
+    case noteConstants.CHECK_ITEM:
+      if (state.id === action.payload.note.id){
+        let newListBody = action.payload.note.listBody.map((item, index) => {
+          if (action.payload.index === index){
+            return {...item, checked: !item.checked};
+          }
+          return item;
+        });
+        return {...action.payload.note, listBody: newListBody};
+      }
+      return state;
+
+    case noteConstants.SWITCH_TYPE:
+      if (state.id === action.payload.id){
+        return {...state, type: (state.type === 'text' ? 'list' : 'text')}
+      }
+      return state;
+
+    case noteConstants.SWITCH_BODY:
+      if (state.id === action.payload.id){
+        if (action.payload.type === 'text'){ // switch from text to list
+          let textBody = action.payload.body.split('\n');
+          let newListBody = textBody.map(text => {
+            return {text: text, checked: false};
+          });
+          return {...state, listBody: newListBody};
+        } else { // switch from list to text
+          let textBody = '';
+          state.listBody.forEach(item => {
+            textBody = textBody.concat(item.text + '\n');
+          });
+          let text = textBody.slice(0, (textBody.length - 1));
+          return {...state, body: text};
+        }
+      }
+      return state;
 
     default:
       return state;
@@ -97,35 +314,12 @@ const loading = (state = false, action) => {
   }
 }
 
-const emptyNote = {id: '', title: '', body: '', colour: '', collaborators: []};
-
-// CurrentNote reducer that holds the current note (for the 'Edit Note' modal)
-const currentNote = (state = {}, action) => {
-  switch (action.type){
-    case noteConstants.SET_CURRENT_NOTE:
-      return action.payload;
-
-    case noteConstants.UPDATE_NOTE:
-      if (state.id === action.payload.id){
-        return action.payload;
-      }
-
-    case noteConstants.DELETE_NOTE:
-      if (state.id === action.payload.id){
-        return emptyNote;
-      }
-
-    default:
-      return state;
-  }
-}
-
 // Combines all the above reducers
 export default combineReducers({
   notes,
   notesById,
-  loading,
-  currentNote
+  currentNote,
+  loading
 });
 
 // Function to get a note by its id

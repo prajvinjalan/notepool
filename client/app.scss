@@ -54,6 +54,10 @@
   border-bottom: 1px solid rgba(34,36,38,.15);
 }
 
+.ui.modal > .content.with-border > .description.viewer {
+  pointer-events: none;
+}
+
 #colour-dropdown.ui.dropdown {
   .menu > .item:hover {
     background: none;
@@ -73,28 +77,49 @@
   color: #555;
 }
 
+// Other modal content (when editing list notes)
+
+.ui.input.list-item {
+  width: 95%;
+}
+
+.ui.input.list-item input.selected + i {
+  display: inline-block;
+}
+
+.ui.input.list-item i {
+  display: none;
+}
+
+.ui.checkbox.list-item {
+  padding: 4px 0px;
+}
+
+.ui.input.list-item.checked input {
+  text-decoration: line-through;
+}
+
+.list-items-button-container {
+  display: grid;
+  padding: 25px 25px 0px 0px;
+}
+
 // Login, Register, Settings Pages
 
-.logreg.container {
+.logreg.container, .logreg.container.bottom, .settings.container {
   margin: 30px auto;
   padding: 30px 40px;
   width: 600px;
   border: 1px solid #ddd;
+  background: #eee;
 }
 
 .logreg.container.bottom {
-  margin: 30px auto;
-  padding: 30px 40px;
-  width: 600px;
-  border: 1px solid #ddd;
   text-align: center;
 }
 
 .settings.container {
-  margin: 30px auto;
-  padding: 30px 40px;
   width: 450px;
-  border: 1px solid #ddd;
 }
 
 .logreg.header, .settings.header {
@@ -118,9 +143,11 @@
 
 .navbar, footer {
   padding: 1rem;
-  background: #f9f9f9;
+  background: #eee;
   text-align: center;
   height: 70px;
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
 }
 
 .navbar .ui.huge.header {
@@ -146,6 +173,10 @@
 }
 
 // Other views
+
+.main-container {
+  min-height: calc(100vh - 140px);
+}
 
 .ui.centered.card, .ui.centered.card:hover {
   box-shadow: none;
@@ -183,4 +214,20 @@
   background: rgba(67, 255, 73, 0.04);
   color: rgb(84, 173, 107);
   border: 1px solid rgb(84, 173, 107);
+}
+
+span.list-item {
+  padding-left: 5px;
+}
+
+span.list-item.checked {
+  text-decoration: line-through;
+}
+
+.ui.card > .content > .description.note-card {
+  pointer-events: none;
+}
+
+.ui.label:first-child {
+  margin: 0.2rem;
 }

@@ -5,6 +5,7 @@ import { Button, Dropdown, Form, Grid, Icon, Input, Label, Modal, TextArea } fro
 import * as actions from '../../redux/actions'
 
 import EditCollaborators from './EditCollaborators'
+import EditListItems from './EditListItems'
 
 // This component mounts when the Notes component mounts - it changes visibility and content based on user interaction
 class EditNote extends Component {
@@ -64,8 +65,7 @@ class EditNote extends Component {
 
   // Closes the currently opened note (on outer click or 'Escape' key click)
   close = () => {
-    const note = {...this.props.currentNote};
-    this.props.updateNote(note); // Updates the note
+    this.props.updateNote(this.props.currentNote); // Updates the note (API call)
     this.props.close();
   }
 
@@ -83,22 +83,30 @@ class EditNote extends Component {
     });
   }
 
+  // Checks whether the current user is the owner
   isOwner = () => {
     if (this.props.currentNote){
       return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Owner');
     }
   }
 
+  // Checks whether the current user is an editor
   isEditor = () => {
     if (this.props.currentNote){
       return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Editor');
     }
   }
 
+  // Checks whether the current user is a viewer
   isViewer = () => {
     if (this.props.currentNote){
       return ((this.props.currentNote.collaborators.filter(collaborator => collaborator.email === this.props.user.email))[0].type === 'Viewer');
     }
+  }
+
+  // Changes the type of the note (from text to list and vice-versa)
+  switchType = () => {
+    this.props.switchType(this.props.currentNote);
   }
 
   render(){
@@ -122,8 +130,9 @@ class EditNote extends Component {
     const collabList = (this.props.currentNote.collaborators !== undefined ?
       this.props.currentNote.collaborators.map((collaborator, i) => {
         return(
-          <Label key={i}>
-            {collaborator.email} ({collaborator.type})
+          <Label key={i} color='teal'>
+            {collaborator.email}
+            <Label.Detail content={collaborator.type} />
             {
               ((collaborator.type !== 'Owner') &&
               !this.isViewer() &&
@@ -141,10 +150,12 @@ class EditNote extends Component {
           <Input id='title' fluid placeholder='Title' value={this.props.currentNote.title} onChange={this.handleInputChange} />
         </Modal.Header>
         <Modal.Content className='with-border'>
-          <Modal.Description>
+          <Modal.Description className={this.isViewer() ? 'viewer' : ''}>
+            {this.props.currentNote.type === 'text' ?
             <Form>
               <TextArea id='body' autoHeight value={this.props.currentNote.body} onChange={this.handleInputChange} />
             </Form>
+            : <EditListItems />}
           </Modal.Description>
         </Modal.Content>
         <Modal.Content>
@@ -163,6 +174,7 @@ class EditNote extends Component {
                   </Dropdown.Menu>
                 </Dropdown>
                 <Button inverted color='green' icon='add user' onClick={this.showCollab} />
+                <Button inverted color='green' icon={this.props.currentNote.type === 'text' ? 'list' : 'sticky note'} onClick={this.switchType} />
                 <EditCollaborators open={this.state.open} close={this.closeCollab} />
               </Grid.Column>
               {this.isOwner() &&
@@ -190,7 +202,8 @@ const dispatchToProps = (dispatch) => ({
   updateNote: (params) => dispatch(actions.updateNote(params)),
   deleteNote: (params) => dispatch(actions.deleteNote(params)),
   removeCollaborator: (params) => dispatch(actions.removeCollaborator(params)),
-  setCurrentNote: (params) => dispatch(actions.setCurrentNote(params))
+  setCurrentNote: (params) => dispatch(actions.setCurrentNote(params)),
+  switchType: (params) => dispatch(actions.switchType(params))
 })
 
 // Connects state and dispatch functions to this component
