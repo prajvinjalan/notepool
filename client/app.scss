@@ -54,7 +54,7 @@
   border-bottom: 1px solid rgba(34,36,38,.15);
 }
 
-.ui.modal > .content.with-border > .description.viewer {
+.ui.modal > .content.with-border > .description.viewer, .ui.modal > .header.viewer {
   pointer-events: none;
 }
 
@@ -230,4 +230,8 @@ span.list-item.checked {
 
 .ui.label:first-child {
   margin: 0.2rem;
+}
+
+.ui.label.corner.right {
+  padding: 8px 0px 0px 20px;
 }

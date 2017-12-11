@@ -5,12 +5,14 @@ import { Card, Checkbox, Label } from 'semantic-ui-react'
 const Note = (props) => {
   // Creates a list of labels for the current note's collaborators
   const collabList = props.currentNote.collaborators.map((collaborator, i) => {
-    return(
-      <Label key={i} color='teal'>
-        {collaborator.email}
-        <Label.Detail content={collaborator.type} />
-      </Label>
-    )
+    if (collaborator.type === 'Owner'){
+      return(
+        <Label key={i} color='teal' image>
+          {collaborator.type}
+          <Label.Detail content={collaborator.email} />
+        </Label>
+      )
+    }
   })
 
   // Calls prop function to open 'Edit Note' modal on clicking the note
@@ -41,6 +43,7 @@ const Note = (props) => {
       <Card.Content extra>
         {collabList}
       </Card.Content>
+      <Label color='teal' corner='right'>{props.currentNote.collaborators.length}</Label>
     </Card>
   )
 }

@@ -65,7 +65,7 @@ class Notes extends Component {
     const listItems = this.props.notes.map((note, i) => {
       return(
         <Grid.Column key={note.id}>
-          <Note show={this.show} currentNote={note} />
+          <Note show={this.show} currentNote={note} user={this.props.user} />
         </Grid.Column>
       )
     })
