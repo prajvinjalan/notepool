@@ -9,7 +9,7 @@ import reducers from './reducers'
 
 // Sets up thunk and logger middleware
 const middleware = [ thunk ];
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'dev') {
   middleware.push(createLogger());
 }
 

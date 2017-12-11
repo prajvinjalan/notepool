@@ -88,6 +88,7 @@ const dispatchToMultipleClients = (context, action, dispatchType) => {
       break;
   }
   // console.log(otherClients);
+  // console.log(dispatchType);
   let clientId;
   for (clientId in otherClients){
     dispatchTo(clientId, {

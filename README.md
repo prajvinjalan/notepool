@@ -15,7 +15,7 @@ webpack
 ```
 npm start
 ```
-**App will be running on: http://localhost:3000** (can also specify port using ```PORT=<port> npm start```)
+**App will be running on: http://localhost:3010** (can also specify port using ```PORT=<port> npm start```)
 
 ### Alternative Options:
 
@@ -27,7 +27,7 @@ npm run devstart
 Specifying ```DEBUG=notepool:server``` will enable the debug function for the server.  
 Specifying ```NODE_ENV=dev``` will apply the Redux Logger middleware.
 
-## TODO (eventually?)
+## TODO
 - [x] Socket.io for real-time collaborating
 - [x] Different types of collaborators (editor, viewer)
 - [x] Add Google/Facebook authentication
@@ -37,3 +37,4 @@ Specifying ```NODE_ENV=dev``` will apply the Redux Logger middleware.
 - [ ] React-grid-layout for notes? (will need a lot of refactoring)
 - [x] Refactor express code to use ES6 notation
 - [x] Notifications (e.g. for login/register confirmations and validations)
+- [ ] Home/Settings/Profile Details pages
