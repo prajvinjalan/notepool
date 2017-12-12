@@ -17,14 +17,14 @@ class EditListItems extends Component {
   // Handles keyup events for inputs
   handleKeyUp = (index) => (event) => {
     if (event.keyCode === 13){ // pressed Enter key
-      // Add new input if at last one, otherwise go to next input
-      if (index === (this.props.currentNote.listBody.length - 1)){
+      // Add new input if at last unchecked item, otherwise go to next unchecked input
+      if (!this.getNextUncheckedItemIndex(index)){
         this.props.addItem({note: this.props.currentNote})
         .then(() => {
-          document.getElementById(`input-${index + 1}`).focus();
+          document.getElementById(`input-${this.getNextUncheckedItemIndex(index)}`).focus();
         });
       } else {
-        document.getElementById(`input-${index + 1}`).focus();
+        document.getElementById(`input-${this.getNextUncheckedItemIndex(index)}`).focus();
       }
     }
     if (event.keyCode === 8){ // pressed Backspace key
@@ -36,6 +36,16 @@ class EditListItems extends Component {
         });
       }
     }
+  }
+
+  // Returns the index of the next unchecked item in the list
+  getNextUncheckedItemIndex = (index) => {
+    for (let i = index + 1; i < this.props.currentNote.listBody.length; i++){
+      if (!this.props.currentNote.listBody[i].checked){
+        return i;
+      }
+    }
+    return false; // if there is no next unchecked item, returns false
   }
 
   // Adds an input to the list of items
@@ -70,11 +80,13 @@ class EditListItems extends Component {
   // Occurs when an input is focused
   onFocus = (event) => {
     document.getElementById(event.target.id).classList.add('selected');
+    document.getElementById(event.target.id).parentElement.parentElement.classList.add('selected');
   }
 
   // Occurs when an input loses focus
   onBlur = (event) => {
     document.getElementById(event.target.id).classList.remove('selected');
+    document.getElementById(event.target.id).parentElement.parentElement.classList.remove('selected');
   }
 
   // Checks whether the current user is a viewer
@@ -85,25 +97,43 @@ class EditListItems extends Component {
   }
 
   render(){
-    const listItems = this.props.currentNote.listBody.map((item, i) => {
-      return(
-        <div key={i} className='list-item-container'>
-          <Checkbox className='list-item' checked={item.checked} onClick={this.checkItem(i)} />
-          <Input id={`input-${i}`} value={item.text} onKeyUp={this.handleKeyUp(i)}
-            onChange={this.handleInputChange(i)} onFocus={this.onFocus} onBlur={this.onBlur}
-            className={'list-item ' + (item.checked ? 'checked' : '')}
-            icon={(this.props.currentNote.listBody.length !== 1) && <Icon link name='remove circle' onMouseDown={this.removeItem(i)} />}
-          />
-        </div>
-      )
+    const uncheckedItems = this.props.currentNote.listBody.map((item, i) => {
+      if (!item.checked){
+        return(
+          <div key={i} className='list-item-container'>
+            <Checkbox className='list-item' checked={item.checked} onClick={this.checkItem(i)} />
+            <Input id={`input-${i}`} value={item.text} onKeyUp={this.handleKeyUp(i)}
+              onChange={this.handleInputChange(i)} onFocus={this.onFocus} onBlur={this.onBlur}
+              className={'list-item ' + (item.checked ? 'checked' : '')}
+              icon={(this.props.currentNote.listBody.length !== 1) && <Icon link name='remove circle' onMouseDown={this.removeItem(i)} />}
+            />
+          </div>
+        )
+      }
+    })
+
+    const checkedItems = this.props.currentNote.listBody.map((item, i) => {
+      if (item.checked){
+        return(
+          <div key={i} className='list-item-container'>
+            <Checkbox className='list-item' checked={item.checked} onClick={this.checkItem(i)} />
+            <Input id={`input-${i}`} value={item.text} onKeyUp={this.handleKeyUp(i)}
+              onChange={this.handleInputChange(i)} onFocus={this.onFocus} onBlur={this.onBlur}
+              className={'list-item ' + (item.checked ? 'checked' : '')}
+              icon={(this.props.currentNote.listBody.length !== 1) && <Icon link name='remove circle' onMouseDown={this.removeItem(i)} />}
+            />
+          </div>
+        )
+      }
     })
 
     return(
       <div>
-        {listItems}
+        {uncheckedItems}
         <div className='list-items-button-container'>
           {!this.isViewer() && <Button circular icon='plus' size='small' color='teal' className='right-aligned-button' onClick={this.addItem}></Button>}
         </div>
+        {checkedItems}
       </div>
     )
   }

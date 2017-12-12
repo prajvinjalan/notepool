@@ -37,9 +37,25 @@
   .ui.modal.#{$colour} textarea {
     background: #{$colour};
   }
+
+  .ui.modal.#{$colour} .list-item-container {
+    border-top: 1px solid #{$colour};
+    border-bottom: 1px solid #{$colour};
+    display: grid;
+    grid-template-columns: 18px 1fr;
+  }
+
+  .ui.modal.#{$colour} .list-item-container.selected {
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+  }
 }
 
 // Modal content (when editing notes)
+
+.ui.modal .header.without-border {
+  border-bottom: none;
+}
 
 .ui.modal input {
   border: none;
@@ -97,6 +113,7 @@
 
 .ui.input.list-item.checked input {
   text-decoration: line-through;
+  color: #666;
 }
 
 .list-items-button-container {
@@ -104,11 +121,8 @@
   padding: 25px 25px 0px 0px;
 }
 
-.list-item-container {
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  display: grid;
-  grid-template-columns: 18px 1fr;
+.ui.icon.input>i.icon:after, .ui.icon.input>i.icon:before {
+  color: #666;
 }
 
 // Login, Register, Settings Pages
