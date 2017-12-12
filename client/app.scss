@@ -79,9 +79,9 @@
 
 // Other modal content (when editing list notes)
 
-.ui.input.list-item {
-  width: 95%;
-}
+// .ui.input.list-item {
+//   width: 95%;
+// }
 
 .ui.input.list-item input.selected + i {
   display: inline-block;
@@ -92,7 +92,7 @@
 }
 
 .ui.checkbox.list-item {
-  padding: 4px 0px;
+  margin: auto;
 }
 
 .ui.input.list-item.checked input {
@@ -102,6 +102,13 @@
 .list-items-button-container {
   display: grid;
   padding: 25px 25px 0px 0px;
+}
+
+.list-item-container {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  display: grid;
+  grid-template-columns: 18px 1fr;
 }
 
 // Login, Register, Settings Pages

@@ -87,7 +87,7 @@ class EditListItems extends Component {
   render(){
     const listItems = this.props.currentNote.listBody.map((item, i) => {
       return(
-        <div key={i}>
+        <div key={i} className='list-item-container'>
           <Checkbox className='list-item' checked={item.checked} onClick={this.checkItem(i)} />
           <Input id={`input-${i}`} value={item.text} onKeyUp={this.handleKeyUp(i)}
             onChange={this.handleInputChange(i)} onFocus={this.onFocus} onBlur={this.onBlur}
