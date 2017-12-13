@@ -245,6 +245,11 @@ span.list-item.checked {
   text-decoration: line-through;
 }
 
+span.subtitle {
+  font-style: italic;
+  font-weight: bold;
+}
+
 .ui.card > .content > .description.note-card {
   pointer-events: none;
 }

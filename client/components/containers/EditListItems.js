@@ -17,23 +17,54 @@ class EditListItems extends Component {
   // Handles keyup events for inputs
   handleKeyUp = (index) => (event) => {
     if (event.keyCode === 13){ // pressed Enter key
-      // Add new input if at last unchecked item, otherwise go to next unchecked input
-      if (!this.getNextUncheckedItemIndex(index)){
-        this.props.addItem({note: this.props.currentNote})
-        .then(() => {
+      // going through unchecked items
+      if (!this.props.currentNote.listBody[index].checked){
+        // Add new input if at last unchecked item, otherwise go to next unchecked input
+        if (!this.getNextUncheckedItemIndex(index)){
+          this.props.addItem({note: this.props.currentNote})
+          .then(() => {
+            document.getElementById(`input-${this.getNextUncheckedItemIndex(index)}`).focus();
+          });
+        } else {
           document.getElementById(`input-${this.getNextUncheckedItemIndex(index)}`).focus();
-        });
-      } else {
-        document.getElementById(`input-${this.getNextUncheckedItemIndex(index)}`).focus();
+        }
+      } else { // going through checked items
+        // Go to next checked input if it exists
+        if (this.getNextCheckedItemIndex(index)){
+          document.getElementById(`input-${this.getNextCheckedItemIndex(index)}`).focus();
+        }
       }
     }
     if (event.keyCode === 8){ // pressed Backspace key
-      // Go to previous input if input is empty and not the first input
-      if ((index !== 0) && (event.target.value === '')){
-        this.props.removeItem({note: this.props.currentNote, index: index})
-        .then(() => {
-          document.getElementById(`input-${index - 1}`).focus();
-        });
+      // going through unchecked items
+      if (!this.props.currentNote.listBody[index].checked){
+        // Go to previous/next unchecked input if input is empty and list has more items
+        if ((this.props.currentNote.listBody.length !== 1) && (event.target.value === '')){
+          this.props.removeItem({note: this.props.currentNote, index: index})
+          .then(() => {
+            if (this.getPreviousUncheckedItemIndex(index)){ // go to the previous unchecked item
+              document.getElementById(`input-${this.getPreviousUncheckedItemIndex(index)}`).focus();
+            } else if (this.getNextUncheckedItemIndex(index)){ // go to the next unchecked item if there is no previous
+              document.getElementById(`input-${this.getNextUncheckedItemIndex(index)}`).focus();
+            } else { // go to the first checked item since this is the last unchecked item
+              document.getElementById(`input-${0}`).focus();
+            }
+          });
+        }
+      } else { // going through checked items
+        // Go to previous/next checked input if input is empty and list has more items
+        if ((this.props.currentNote.listBody.length !== 1) && (event.target.value === '')){
+          this.props.removeItem({note: this.props.currentNote, index: index})
+          .then(() => {
+            if (this.getPreviousCheckedItemIndex(index)){ // go to the previous checked item
+              document.getElementById(`input-${this.getPreviousCheckedItemIndex(index)}`).focus();
+            } else if (this.getNextCheckedItemIndex(index)){ // go to the next checked item if there is no previous
+              document.getElementById(`input-${this.getNextCheckedItemIndex(index)}`).focus();
+            } else { // go to the first unchecked item since this is the last checked item
+              document.getElementById(`input-${0}`).focus();
+            }
+          });
+        }
       }
     }
   }
@@ -45,7 +76,37 @@ class EditListItems extends Component {
         return i;
       }
     }
-    return false; // if there is no next unchecked item, returns false
+    return false; // if there is no next unchecked item, returns false (last item)
+  }
+
+  // Returns the index of the next checked item in the list
+  getNextCheckedItemIndex = (index) => {
+    for (let i = index + 1; i < this.props.currentNote.listBody.length; i++){
+      if (this.props.currentNote.listBody[i].checked){
+        return i;
+      }
+    }
+    return false; // if there is no next checked item, returns false (last item)
+  }
+
+  // Returns the index of the previous unchecked item in the list
+  getPreviousUncheckedItemIndex = (index) => {
+    for (let i = index - 1; i >= 0; i--){
+      if (!this.props.currentNote.listBody[i].checked){
+        return i;
+      }
+    }
+    return false; // if there is no previous unchecked item, returns false (last item)
+  }
+
+  // Returns the index of the previous checked item in the list
+  getPreviousCheckedItemIndex = (index) => {
+    for (let i = index - 1; i >= 0; i--){
+      if (this.props.currentNote.listBody[i].checked){
+        return i;
+      }
+    }
+    return false; // if there is no previous checked item, returns false (last item)
   }
 
   // Adds an input to the list of items
@@ -127,13 +188,16 @@ class EditListItems extends Component {
       }
     })
 
+    console.log(checkedItems.length);
+
     return(
       <div>
-        {uncheckedItems}
+        {(uncheckedItems.length !== 0) && uncheckedItems}
         <div className='list-items-button-container'>
           {!this.isViewer() && <Button circular icon='plus' size='small' color='teal' className='right-aligned-button' onClick={this.addItem}></Button>}
         </div>
-        {checkedItems}
+        {(checkedItems.length !== 0) && <span className='subtitle'>Checked Items</span>}
+        {(checkedItems.length !== 0) && checkedItems}
       </div>
     )
   }
