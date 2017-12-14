@@ -118,7 +118,7 @@
 
 .list-items-button-container {
   display: grid;
-  padding: 25px 25px 0px 0px;
+  padding: 12px 25px 12px 0px;
 }
 
 .ui.icon.input>i.icon:after, .ui.icon.input>i.icon:before {
@@ -248,6 +248,7 @@ span.list-item.checked {
 span.subtitle {
   font-style: italic;
   font-weight: bold;
+  color: #666;
 }
 
 .ui.card > .content > .description.note-card {

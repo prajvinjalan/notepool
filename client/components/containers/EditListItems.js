@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Checkbox, Icon, Input } from 'semantic-ui-react'
+import { Button, Checkbox, Divider, Icon, Input } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
 
@@ -58,8 +58,8 @@ class EditListItems extends Component {
           .then(() => {
             if (this.getPreviousCheckedItemIndex(index)){ // go to the previous checked item
               document.getElementById(`input-${this.getPreviousCheckedItemIndex(index)}`).focus();
-            } else if (this.getNextCheckedItemIndex(index)){ // go to the next checked item if there is no previous
-              document.getElementById(`input-${this.getNextCheckedItemIndex(index)}`).focus();
+            } else if (this.getNextCheckedItemIndex(index - 1)){ // go to the next checked item if there is no previous (but start at the spot that the removed item was at)
+              document.getElementById(`input-${this.getNextCheckedItemIndex(index - 1)}`).focus();
             } else { // go to the first unchecked item since this is the last checked item
               document.getElementById(`input-${0}`).focus();
             }
@@ -119,17 +119,7 @@ class EditListItems extends Component {
 
   // Removes an input from the list of items
   removeItem = (index) => (event) => {
-    this.props.removeItem({note: this.props.currentNote, index: index})
-    .then(() => {
-      console.log('i did it')
-      if (index !== 0){
-        console.log('yes', document.getElementById(`input-${index - 1}`))
-        document.getElementById(`input-${index - 1}`).focus();
-      } else {
-        console.log('no', document.getElementById(`input-${index}`))
-        document.getElementById(`input-${index}`).focus();
-      }
-    });
+    this.props.removeItem({note: this.props.currentNote, index: index});
   }
 
   // Toggles the input and based on the checkbox
@@ -188,16 +178,23 @@ class EditListItems extends Component {
       }
     })
 
-    console.log(checkedItems.length);
+    const isUncheckedItemsUndefined = uncheckedItems.every((value) => {
+      return value === undefined;
+    })
+
+    const isCheckedItemsUndefined = checkedItems.every((value) => {
+      return value === undefined;
+    })
 
     return(
       <div>
-        {(uncheckedItems.length !== 0) && uncheckedItems}
+        {(!isUncheckedItemsUndefined) && uncheckedItems}
         <div className='list-items-button-container'>
           {!this.isViewer() && <Button circular icon='plus' size='small' color='teal' className='right-aligned-button' onClick={this.addItem}></Button>}
         </div>
-        {(checkedItems.length !== 0) && <span className='subtitle'>Checked Items</span>}
-        {(checkedItems.length !== 0) && checkedItems}
+        {(!isCheckedItemsUndefined) && <span className='subtitle'>Checked Items</span>}
+        {(!isCheckedItemsUndefined) && <Divider />}
+        {(!isCheckedItemsUndefined) && checkedItems}
       </div>
     )
   }
