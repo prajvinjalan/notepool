@@ -146,7 +146,7 @@ class EditNote extends Component {
 
     return(
       <Modal dimmer='inverted' open={this.props.open} onClose={this.close} className={this.props.currentNote.colour}>
-        <Modal.Header>
+        <Modal.Header className={'without-border ' + (this.isViewer() ? 'viewer' : '')}>
           <Input id='title' fluid placeholder='Title' value={this.props.currentNote.title} onChange={this.handleInputChange} />
         </Modal.Header>
         <Modal.Content className='with-border'>

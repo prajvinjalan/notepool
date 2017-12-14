@@ -1,16 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Card, Checkbox, Label } from 'semantic-ui-react'
+import { Card, Checkbox, Divider, Label } from 'semantic-ui-react'
 
 const Note = (props) => {
-  // Creates a list of labels for the current note's collaborators
+  // Array of labels for the current note's collaborators
   const collabList = props.currentNote.collaborators.map((collaborator, i) => {
-    return(
-      <Label key={i} color='teal'>
-        {collaborator.email}
-        <Label.Detail content={collaborator.type} />
-      </Label>
-    )
+    if (collaborator.type === 'Owner'){
+      return(
+        <Label key={i} color='teal' image>
+          {collaborator.type}
+          <Label.Detail content={collaborator.email} />
+        </Label>
+      )
+    }
   })
 
   // Calls prop function to open 'Edit Note' modal on clicking the note
@@ -18,14 +20,50 @@ const Note = (props) => {
     props.show(props.currentNote);
   }
 
-  const listItems = props.currentNote.listBody.map((item, i) => {
+  // Array of all unchecked list items
+  const uncheckedItems = props.currentNote.listBody.map((item, i) => {
+    if (!item.checked){
+      return(
+        <div key={i}>
+          <Checkbox className='list-item' checked={item.checked} />
+          <span className={'list-item ' + (item.checked ? 'checked' : '')}>{item.text}</span>
+        </div>
+      )
+    }
+  })
+
+  // Array of all checked list items
+  const checkedItems = props.currentNote.listBody.map((item, i) => {
+    if (item.checked){
+      return(
+        <div key={i}>
+          <Checkbox className='list-item' checked={item.checked} />
+          <span className={'list-item ' + (item.checked ? 'checked' : '')}>{item.text}</span>
+        </div>
+      )
+    }
+  })
+
+  // Whether or not every value in the unchecked item list is undefined (therefore no unchecked items)
+  const isUncheckedItemsUndefined = uncheckedItems.every((value) => {
+    return value === undefined;
+  })
+
+  // Whether or not every value in the checked item list is undefined (therefore no checked items)
+  const isCheckedItemsUndefined = checkedItems.every((value) => {
+    return value === undefined;
+  })
+
+  // Component that renders the list items
+  const ListItems = () => {
     return(
-      <div key={i}>
-        <Checkbox className='list-item' checked={item.checked} />
-        <span className={'list-item ' + (item.checked ? 'checked' : '')}>{item.text}</span>
+      <div>
+        {(!isUncheckedItemsUndefined) && uncheckedItems}
+        {(!isCheckedItemsUndefined) && <Divider />}
+        {(!isCheckedItemsUndefined) && checkedItems}
       </div>
     )
-  })
+  }
 
   return(
     <Card centered onClick={show} className={props.currentNote.colour}>
@@ -35,12 +73,13 @@ const Note = (props) => {
           {props.currentNote.type === 'text' ?
           <span className='note-body'>{props.currentNote.body}</span>
           :
-          listItems}
+          <ListItems />}
         </Card.Description>
       </Card.Content>
       <Card.Content extra>
         {collabList}
       </Card.Content>
+      <Label color='teal' corner='right'>{props.currentNote.collaborators.length}</Label>
     </Card>
   )
 }

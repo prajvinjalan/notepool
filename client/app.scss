@@ -37,9 +37,26 @@
   .ui.modal.#{$colour} textarea {
     background: #{$colour};
   }
+
+  .ui.modal.#{$colour} .list-item-container {
+    border-top: 1px solid #{$colour};
+    border-bottom: 1px solid #{$colour};
+    display: grid;
+    grid-template-columns: 18px 1fr;
+  }
+
+  .ui.modal.#{$colour} .list-item-container.selected {
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+  }
 }
 
 // Modal content (when editing notes)
+
+.ui.modal .header.without-border {
+  border-bottom: none;
+  padding: 14px;
+}
 
 .ui.modal input {
   border: none;
@@ -52,9 +69,10 @@
 
 .ui.modal > .content.with-border {
   border-bottom: 1px solid rgba(34,36,38,.15);
+  padding: 0px 20px 20px 20px;
 }
 
-.ui.modal > .content.with-border > .description.viewer {
+.ui.modal > .content.with-border > .description.viewer, .ui.modal > .header.viewer {
   pointer-events: none;
 }
 
@@ -79,9 +97,9 @@
 
 // Other modal content (when editing list notes)
 
-.ui.input.list-item {
-  width: 95%;
-}
+// .ui.input.list-item {
+//   width: 95%;
+// }
 
 .ui.input.list-item input.selected + i {
   display: inline-block;
@@ -92,16 +110,17 @@
 }
 
 .ui.checkbox.list-item {
-  padding: 4px 0px;
+  margin: auto;
 }
 
 .ui.input.list-item.checked input {
   text-decoration: line-through;
+  color: #666;
 }
 
 .list-items-button-container {
   display: grid;
-  padding: 25px 25px 0px 0px;
+  padding: 12px 25px 12px 0px;
 }
 
 // Login, Register, Settings Pages
@@ -138,6 +157,13 @@
 .logreg.input, .settings.input {
   margin-bottom: 1rem;
 }
+
+// Profile Details page
+
+.profile-details.container {
+  margin: 30px auto;
+}
+
 
 // Navbar
 
@@ -222,6 +248,13 @@ span.list-item {
 
 span.list-item.checked {
   text-decoration: line-through;
+  color: #666;
+}
+
+span.subtitle {
+  font-style: italic;
+  font-weight: bold;
+  color: #666;
 }
 
 .ui.card > .content > .description.note-card {
@@ -230,4 +263,28 @@ span.list-item.checked {
 
 .ui.label:first-child {
   margin: 0.2rem;
+}
+
+.ui.label.corner.right {
+  padding: 8px 0px 0px 20px;
+}
+
+.note-card .list-item {
+  padding-top: 3px;
+}
+
+// Overwriting some Semantic-UI-React CSS
+
+.ui.icon.input>i.icon:after, .ui.icon.input>i.icon:before {
+  color: #666;
+}
+
+.ui.checkbox input:checked~.box:after, .ui.checkbox input:checked~label:after {
+  background: #666;
+  border-radius: 0.2rem;
+  color: white;
+}
+
+.ui.checkbox input:checked:focus~.box:after, .ui.checkbox input:checked:focus~label:after, .ui.checkbox input:not([type=radio]):indeterminate:focus~.box:after, .ui.checkbox input:not([type=radio]):indeterminate:focus~label:after {
+  color: white;
 }
