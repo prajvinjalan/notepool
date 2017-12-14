@@ -55,6 +55,7 @@
 
 .ui.modal .header.without-border {
   border-bottom: none;
+  padding: 14px;
 }
 
 .ui.modal input {
@@ -68,6 +69,7 @@
 
 .ui.modal > .content.with-border {
   border-bottom: 1px solid rgba(34,36,38,.15);
+  padding: 0px 20px 20px 20px;
 }
 
 .ui.modal > .content.with-border > .description.viewer, .ui.modal > .header.viewer {
@@ -243,6 +245,7 @@ span.list-item {
 
 span.list-item.checked {
   text-decoration: line-through;
+  color: #666;
 }
 
 span.subtitle {
@@ -261,4 +264,8 @@ span.subtitle {
 
 .ui.label.corner.right {
   padding: 8px 0px 0px 20px;
+}
+
+.note-card .list-item {
+  padding-top: 3px;
 }

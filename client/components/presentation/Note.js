@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Card, Checkbox, Label } from 'semantic-ui-react'
+import { Card, Checkbox, Divider, Label } from 'semantic-ui-react'
 
 const Note = (props) => {
   // Creates a list of labels for the current note's collaborators
@@ -20,14 +20,45 @@ const Note = (props) => {
     props.show(props.currentNote);
   }
 
-  const listItems = props.currentNote.listBody.map((item, i) => {
+  const uncheckedItems = props.currentNote.listBody.map((item, i) => {
+    if (!item.checked){
+      return(
+        <div key={i}>
+          <Checkbox className='list-item' checked={item.checked} />
+          <span className={'list-item ' + (item.checked ? 'checked' : '')}>{item.text}</span>
+        </div>
+      )
+    }
+  })
+
+  const checkedItems = props.currentNote.listBody.map((item, i) => {
+    if (item.checked){
+      return(
+        <div key={i}>
+          <Checkbox className='list-item' checked={item.checked} />
+          <span className={'list-item ' + (item.checked ? 'checked' : '')}>{item.text}</span>
+        </div>
+      )
+    }
+  })
+
+  const isUncheckedItemsUndefined = uncheckedItems.every((value) => {
+    return value === undefined;
+  })
+
+  const isCheckedItemsUndefined = checkedItems.every((value) => {
+    return value === undefined;
+  })
+
+  const ListItems = () => {
     return(
-      <div key={i}>
-        <Checkbox className='list-item' checked={item.checked} />
-        <span className={'list-item ' + (item.checked ? 'checked' : '')}>{item.text}</span>
+      <div>
+        {(!isUncheckedItemsUndefined) && uncheckedItems}
+        {(!isCheckedItemsUndefined) && <Divider />}
+        {(!isCheckedItemsUndefined) && checkedItems}
       </div>
     )
-  })
+  }
 
   return(
     <Card centered onClick={show} className={props.currentNote.colour}>
@@ -37,7 +68,7 @@ const Note = (props) => {
           {props.currentNote.type === 'text' ?
           <span className='note-body'>{props.currentNote.body}</span>
           :
-          listItems}
+          <ListItems />}
         </Card.Description>
       </Card.Content>
       <Card.Content extra>
