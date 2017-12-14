@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Card, Checkbox, Divider, Label } from 'semantic-ui-react'
 
 const Note = (props) => {
-  // Creates a list of labels for the current note's collaborators
+  // Array of labels for the current note's collaborators
   const collabList = props.currentNote.collaborators.map((collaborator, i) => {
     if (collaborator.type === 'Owner'){
       return(
@@ -20,6 +20,7 @@ const Note = (props) => {
     props.show(props.currentNote);
   }
 
+  // Array of all unchecked list items
   const uncheckedItems = props.currentNote.listBody.map((item, i) => {
     if (!item.checked){
       return(
@@ -31,6 +32,7 @@ const Note = (props) => {
     }
   })
 
+  // Array of all checked list items
   const checkedItems = props.currentNote.listBody.map((item, i) => {
     if (item.checked){
       return(
@@ -42,14 +44,17 @@ const Note = (props) => {
     }
   })
 
+  // Whether or not every value in the unchecked item list is undefined (therefore no unchecked items)
   const isUncheckedItemsUndefined = uncheckedItems.every((value) => {
     return value === undefined;
   })
 
+  // Whether or not every value in the checked item list is undefined (therefore no checked items)
   const isCheckedItemsUndefined = checkedItems.every((value) => {
     return value === undefined;
   })
 
+  // Component that renders the list items
   const ListItems = () => {
     return(
       <div>

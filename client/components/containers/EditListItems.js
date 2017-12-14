@@ -148,6 +148,7 @@ class EditListItems extends Component {
   }
 
   render(){
+    // Array of all unchecked list items
     const uncheckedItems = this.props.currentNote.listBody.map((item, i) => {
       if (!item.checked){
         return(
@@ -163,6 +164,7 @@ class EditListItems extends Component {
       }
     })
 
+    // Array of all checked list items
     const checkedItems = this.props.currentNote.listBody.map((item, i) => {
       if (item.checked){
         return(
@@ -178,10 +180,12 @@ class EditListItems extends Component {
       }
     })
 
+    // Whether or not every value in the unchecked item list is undefined (therefore no unchecked items)
     const isUncheckedItemsUndefined = uncheckedItems.every((value) => {
       return value === undefined;
     })
 
+    // Whether or not every value in the checked item list is undefined (therefore no checked items)
     const isCheckedItemsUndefined = checkedItems.every((value) => {
       return value === undefined;
     })

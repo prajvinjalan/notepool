@@ -123,10 +123,6 @@
   padding: 12px 25px 12px 0px;
 }
 
-.ui.icon.input>i.icon:after, .ui.icon.input>i.icon:before {
-  color: #666;
-}
-
 // Login, Register, Settings Pages
 
 .logreg.container, .logreg.container.bottom, .settings.container {
@@ -161,6 +157,13 @@
 .logreg.input, .settings.input {
   margin-bottom: 1rem;
 }
+
+// Profile Details page
+
+.profile-details.container {
+  margin: 30px auto;
+}
+
 
 // Navbar
 
@@ -268,4 +271,20 @@ span.subtitle {
 
 .note-card .list-item {
   padding-top: 3px;
+}
+
+// Overwriting some Semantic-UI-React CSS
+
+.ui.icon.input>i.icon:after, .ui.icon.input>i.icon:before {
+  color: #666;
+}
+
+.ui.checkbox input:checked~.box:after, .ui.checkbox input:checked~label:after {
+  background: #666;
+  border-radius: 0.2rem;
+  color: white;
+}
+
+.ui.checkbox input:checked:focus~.box:after, .ui.checkbox input:checked:focus~label:after, .ui.checkbox input:not([type=radio]):indeterminate:focus~.box:after, .ui.checkbox input:not([type=radio]):indeterminate:focus~label:after {
+  color: white;
 }
