@@ -139,6 +139,7 @@
 
 .settings.container {
   width: 450px;
+  text-align: center;
 }
 
 .logreg.header, .settings.header, .details.header {
@@ -149,8 +150,14 @@
   margin: 1rem 0;
 }
 
-.settings.inner.header {
+.ui.huge.settings.inner.header {
   font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.ui.small.header.name {
+  margin: 1rem;
 }
 
 .logreg.paragraph, .settings.paragraph {

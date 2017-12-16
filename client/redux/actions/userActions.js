@@ -13,7 +13,7 @@ export const localRegister = (newUser) => (dispatch) => {
   return APIManager.post('/auth/register', newUser)
   .then(response => {
     console.log(response.message);
-    dispatch(registerSuccessAction({id: response.user.id, email: response.user.local.email}));
+    dispatch(registerSuccessAction({id: response.user.id, email: response.user.local.email, name: response.user.local.name}));
     dispatch(localLogin({
       email: newUser.email,
       password: newUser.password
@@ -35,7 +35,13 @@ export const localLogin = (user) => (dispatch) => {
   .then(response => {
     console.log(response.message);
     //setTimeout(() => {dispatch(loginSuccessAction(response.user))}, 1000);
-    dispatch(loginSuccess({id: response.user.id, email: response.user.local.email, message: response.message, localAuth: true}));
+    dispatch(loginSuccess({
+      id: response.user.id,
+      email: response.user.local.email,
+      name: response.user.local.name,
+      message: response.message,
+      localAuth: true
+    }));
     const emptyNote = {id: '', title: '', body: '', colour: '', collaborators: []};
     dispatch(setCurrentNoteAction(emptyNote));
     return null;
@@ -64,14 +70,17 @@ export const authSuccess = () => (dispatch) => {
   .then(response => {
     const user = response.user;
     let email = '';
+    let name = '';
 
     if (user.google.email){
       email = user.google.email;
+      name = user.google.name;
     } else if (user.facebook.email){
       email = user.facebook.email;
+      name = user.facebook.name;
     }
 
-    dispatch(loginSuccess({id: user.id, email: email, message: response.message, localAuth: false}));
+    dispatch(loginSuccess({id: user.id, email: email, name: name, message: response.message, localAuth: false}));
     const emptyNote = {id: '', title: '', body: '', colour: '', collaborators: []};
     dispatch(setCurrentNoteAction(emptyNote));
     return null;
@@ -101,7 +110,7 @@ export const setClientSocket = (user) => (dispatch) => {
 
 // Dispatches a login success action and notification
 const loginSuccess = (payload) => (dispatch) => {
-  dispatch(loginSuccessAction({id: payload.id, email: payload.email, localAuth: payload.localAuth}));
+  dispatch(loginSuccessAction({id: payload.id, email: payload.email, name: payload.name, localAuth: payload.localAuth}));
   dispatch(displayNotification(payload.message, 'success'));
 }
 

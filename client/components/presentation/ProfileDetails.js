@@ -8,15 +8,22 @@ const ProfileDetails = (props) => {
   return(
     <Container>
       <Header size='huge' className='details'>Details</Header>
-      <Grid container stackable columns='equal' textAlign='center' className='details container'>
-        <Grid.Column width={3} verticalAlign='middle'>
+      <Grid container stackable columns='equal' textAlign='center' className='details container' verticalAlign='middle'>
+        <Grid.Column width={4}>
           <Icon name='user circle outline' size='huge' />
+          <Header size='small' className='name'>{props.user.name}</Header>
         </Grid.Column>
         <Grid.Column width={1}>
           <div className='details divider'></div>
         </Grid.Column>
         <Grid.Column>
-          <Container content='Profile Details' />
+          <Header size='large' icon>
+            <Icon name='clock' />
+            Coming Soon
+            <Header.Subheader>
+              User bio, note statistics, and other details....
+            </Header.Subheader>
+          </Header>
         </Grid.Column>
       </Grid>
     </Container>
