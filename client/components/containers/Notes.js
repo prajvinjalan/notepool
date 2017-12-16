@@ -64,7 +64,7 @@ class Notes extends Component {
     // Creates a Grid Column item with each note
     const listItems = this.props.notes.map((note, i) => {
       return(
-        <Grid.Column key={note.id}>
+        <Grid.Column key={note.id} mobile={16} tablet={8} computer={5}>
           <Note show={this.show} currentNote={note} />
         </Grid.Column>
       )
@@ -76,7 +76,7 @@ class Notes extends Component {
           <Loading />
           :
           <Container style={{marginTop: '2rem'}}>
-            <Grid columns={3} stackable>
+            <Grid columns='equal' stackable>
               <Grid.Row>
                 {listItems}
               </Grid.Row>

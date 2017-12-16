@@ -4,8 +4,9 @@ const initialState = {
   loading: false,
   authenticated: false,
   localAuth: false,
-  id: "",
-  email: ""
+  id: '',
+  email: '',
+  name: ''
 }
 
 // User state that handles registration, login, and logout
@@ -22,7 +23,8 @@ const user = (state = initialState, action) => {
         authenticated: true,
         localAuth: action.payload.localAuth,
         id: action.payload.id,
-        email: action.payload.email
+        email: action.payload.email,
+        name: action.payload.name
       };
 
     case userConstants.REGISTER_FAILURE:
@@ -44,7 +46,8 @@ const user = (state = initialState, action) => {
         authenticated: true,
         localAuth: action.payload.localAuth,
         id: action.payload.id,
-        email: action.payload.email
+        email: action.payload.email,
+        name: action.payload.name
       };
 
     case userConstants.LOGIN_FAILURE:
@@ -59,8 +62,9 @@ const user = (state = initialState, action) => {
         loading: false,
         authenticated: false,
         localAuth: false,
-        id: "",
-        email: ""
+        id: '',
+        email: '',
+        name: ''
       };
 
     default:

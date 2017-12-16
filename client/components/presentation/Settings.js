@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Container, Header, Input } from 'semantic-ui-react'
+import { Button, Container, Header, Icon, Input } from 'semantic-ui-react'
 
 // Component for user's settings (currently just to change password)
 class Settings extends Component {
@@ -29,7 +29,6 @@ class Settings extends Component {
     const passChangeForm =
       <Container className='settings container'>
         <Header size='huge' className='settings inner header'>Change Password</Header>
-        <p className='logreg paragraph'>{this.props.description}</p>
         <Input fluid id="oldPass" icon='lock' iconPosition='left' placeholder='Old Password' type='password' onChange={this.handleInputChange} className='settings input' />
         <Input fluid id="newPass" icon='lock' iconPosition='left' placeholder='New Password' type='password' onChange={this.handleInputChange}
           className={'settings input ' +
@@ -46,10 +45,22 @@ class Settings extends Component {
         }>Save</Button>
       </Container>
 
+    const comingSoon =
+      <Container className='settings container'>
+        <Header size='large' icon>
+          <Icon name='clock' />
+          Coming Soon
+          <Header.Subheader>
+            Settings for Google/Facebook users....
+          </Header.Subheader>
+        </Header>
+      </Container>
+
     return(
       <div>
-        <h1 className='settings header' style={{margin: '1rem 0'}}>Settings</h1>
+        <Header size='huge' className='settings'>Settings</Header>
         {this.props.localAuth && passChangeForm}
+        {!this.props.localAuth && comingSoon}
       </div>
     )
   }

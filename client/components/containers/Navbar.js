@@ -43,6 +43,7 @@ class Navbar extends Component {
             <Dropdown.Menu>
               <Dropdown.Item as={Link} icon='user' text='Details' to='/profile' />
               <Dropdown.Item as={Link} icon='setting' text='Settings' to='/profile/settings' />
+              <Dropdown.Divider />
               <Dropdown.Item as={Link} icon='sign out' text='Logout' onClick={this.logoutUser} to='/' />
             </Dropdown.Menu>
           </Dropdown>

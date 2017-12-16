@@ -82,13 +82,20 @@ class Profile extends Component {
       )
     }
 
+    // Creates the Details page
+    const DetailsPage = () => {
+      return(
+        <ProfileDetails user={this.props.user} />
+      )
+    }
+
     // Returns a Switch Component based on user authentication (to redirect appropriately)
     const AuthSwitch = () => {
       return(
         <div>
           {this.props.user.authenticated ?
             <Switch>
-              <Route exact path={this.state.path} component={ProfileDetails} />
+              <Route exact path={this.state.path} component={DetailsPage} />
               <Route exact from={`${this.state.path}/settings`} component={SettingsPage} />
               <Redirect exact from={`${this.state.path}/login`} to={this.state.path} />
               <Redirect exact from={`${this.state.path}/register`} to={this.state.path} />

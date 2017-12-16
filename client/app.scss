@@ -123,9 +123,9 @@
   padding: 12px 25px 12px 0px;
 }
 
-// Login, Register, Settings Pages
+// Login, Register, Setting, Details Pages
 
-.logreg.container, .logreg.container.bottom, .settings.container {
+.logreg.container, .logreg.container.bottom, .settings.container, .details.container {
   margin: 30px auto;
   padding: 30px 40px;
   width: 600px;
@@ -139,14 +139,25 @@
 
 .settings.container {
   width: 450px;
-}
-
-.logreg.header, .settings.header {
   text-align: center;
 }
 
-.settings.inner.header {
+.logreg.header, .settings.header, .details.header {
+  text-align: center;
+}
+
+.ui.huge.settings.header, .ui.huge.details.header {
+  margin: 1rem 0;
+}
+
+.ui.huge.settings.inner.header {
   font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.ui.small.header.name {
+  margin: 1rem;
 }
 
 .logreg.paragraph, .settings.paragraph {
@@ -158,12 +169,11 @@
   margin-bottom: 1rem;
 }
 
-// Profile Details page
-
-.profile-details.container {
-  margin: 30px auto;
+.details.divider {
+  border-right: 1px solid #ddd;
+  width: 1rem;
+  height: 20rem;
 }
-
 
 // Navbar
 
@@ -202,6 +212,7 @@
 
 .main-container {
   min-height: calc(100vh - 140px);
+  padding: 0.1rem;
 }
 
 .ui.centered.card, .ui.centered.card:hover {
