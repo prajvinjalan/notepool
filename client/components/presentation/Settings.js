@@ -48,7 +48,7 @@ class Settings extends Component {
 
     return(
       <div>
-        <h1 className='settings header' style={{margin: '1rem 0'}}>Settings</h1>
+        <Header size='huge' className='settings'>Settings</Header>
         {this.props.localAuth && passChangeForm}
       </div>
     )
