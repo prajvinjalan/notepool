@@ -134,7 +134,7 @@
   display: none !important;
 }
 
-// Login, Register, Setting, Details Pages
+// Login, Register, Home, Setting, Details Pages
 
 .logreg.container, .logreg.container.bottom, .settings.container, .details.container {
   margin: 30px auto;
@@ -184,6 +184,23 @@
   border-right: 1px solid #ddd;
   width: 1rem;
   height: 20rem;
+}
+
+.home.container {
+  width: 100%;
+}
+
+.home.section {
+  padding: 1rem;
+  text-align: center;
+
+  &:nth-child(even) {
+    background: #eee;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+  }
 }
 
 // Navbar
