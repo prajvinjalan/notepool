@@ -14,3 +14,8 @@ export default combineReducers({
 export const getNoteById = (state, id) => {
   return fromNoteReducer.getNoteById(state, id);
 }
+
+// Function to get notes by search term
+export const getNotesByTerm = (state) => {
+  return fromNoteReducer.getNotesByTerm(state.note);
+}

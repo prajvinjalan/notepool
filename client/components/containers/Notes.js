@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Button, Container, Grid, Icon, Input, Modal } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
+import { getNotesByTerm } from '../../redux/reducers'
 
 import { Loading, Note } from '../presentation'
 import EditNote from './EditNote'
@@ -55,14 +56,17 @@ class Notes extends Component {
     });
   }
 
-
+  // Handles input changes to search box
+  handleInputChange = (event) => {
+    this.props.setSearchTerm(event.target.value.toLowerCase());
+  }
 
   render(){
     // Creates a button to add notes
     const noteButton = <Button circular icon='plus' size='big' color='teal' className='right-aligned-button' onClick={this.addNote}></Button>
 
     // Creates a Grid Column item with each note
-    const listItems = this.props.notes.map((note, i) => {
+    const listItems = this.props.searchedNotes.map((note, i) => {
       return(
         <Grid.Column key={note.id} mobile={16} tablet={8} computer={5}>
           <Note show={this.show} currentNote={note} />
@@ -78,12 +82,15 @@ class Notes extends Component {
           <Container style={{marginTop: '2rem'}}>
             <Grid columns='equal' stackable style={{marginTop: '1rem'}}>
               <Grid.Row>
-                <Grid.Column style={{paddingRight: '0px'}}>
-                  <Input fluid icon='search' placeholder='Search...' />
+                <Grid.Column style={{padding: '14px 0px'}}>
+                  <Input fluid icon='search' placeholder='Search...' onChange={this.handleInputChange}/>
                 </Grid.Column>
-                <Grid.Column width={1} style={{padding: '15px 15px 15px 0px'}}>
+                {/* <Grid.Column width={1} style={{padding: '15px'}}>
                   <Button icon='paint brush' size='medium' color='teal' />
                 </Grid.Column>
+                <Grid.Column width={1} style={{padding: '15px'}}>
+                  <Button icon='paint brush' size='medium' color='teal' />
+                </Grid.Column> */}
               </Grid.Row>
               <Grid.Row>
                 {listItems}
@@ -107,14 +114,16 @@ const stateToProps = (state) => ({
   notes: state.note.notes,
   currentNote: state.note.currentNote,
   user: state.user,
-  loading: state.note.loading
+  loading: state.note.loading,
+  searchedNotes: getNotesByTerm(state)
 })
 
 // Maps dispatch functions to props
 const dispatchToProps = (dispatch) => ({
   fetchNotes: (params) => dispatch(actions.fetchNotes(params)),
   addNote: (params) => dispatch(actions.addNote(params)),
-  setCurrentNote: (params) => dispatch(actions.setCurrentNote(params))
+  setCurrentNote: (params) => dispatch(actions.setCurrentNote(params)),
+  setSearchTerm: (params) => dispatch(actions.setSearchTerm(params))
 })
 
 // Connects state and dispatch functions to this component

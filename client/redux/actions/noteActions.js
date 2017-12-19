@@ -136,6 +136,13 @@ export const checkItem = (params) => (dispatch) => {
   });
 }
 
+// Sets the term that the user is searching for
+export const setSearchTerm = (term) => (dispatch) => {
+  return new Promise((resolve, reject) => {
+    resolve(dispatch(setSearchTermAction(term)));
+  });
+}
+
 // ACTION CREATORS
 // equivalent to " ... => { return { ... } } "
 
@@ -239,4 +246,9 @@ const switchBodyAction = (note) => ({
   meta: {
     emit: true
   }
+});
+
+const setSearchTermAction = (term) => ({
+  type: noteConstants.SET_SEARCH_TERM,
+  payload: term
 });
