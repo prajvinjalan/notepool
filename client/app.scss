@@ -88,6 +88,7 @@
   .menu > .item.with-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    cursor: default;
   }
 }
 
@@ -282,6 +283,16 @@ span.subtitle {
 
 .note-card .list-item {
   padding-top: 3px;
+}
+
+// Search bar
+
+.item.filter.nested.dropdown {
+  padding: 0 !important;
+
+  .ui.dropdown {
+    padding: .78571429rem 1.655rem;
+  }
 }
 
 // Overwriting some Semantic-UI-React CSS

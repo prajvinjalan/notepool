@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Container, Grid, Icon, Input, Modal } from 'semantic-ui-react'
+import { Button, Container, Dropdown, Grid, Icon, Input, Label, Modal } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
 import { getNotesByTerm } from '../../redux/reducers'
@@ -81,16 +81,46 @@ class Notes extends Component {
           :
           <Container style={{marginTop: '2rem'}}>
             <Grid columns='equal' stackable style={{marginTop: '1rem'}}>
-              <Grid.Row>
+              <Grid.Row style={{paddingBottom: '0'}}>
                 <Grid.Column style={{padding: '14px 0px'}}>
                   <Input fluid icon='search' placeholder='Search...' onChange={this.handleInputChange}/>
                 </Grid.Column>
-                {/* <Grid.Column width={1} style={{padding: '15px'}}>
-                  <Button icon='paint brush' size='medium' color='teal' />
-                </Grid.Column>
                 <Grid.Column width={1} style={{padding: '15px'}}>
-                  <Button icon='paint brush' size='medium' color='teal' />
-                </Grid.Column> */}
+                  <Dropdown icon='filter' floating button pointing className='icon teal top right'>
+                    <Dropdown.Menu>
+                      <Dropdown.Header content='Filter' />
+                      <Dropdown.Divider />
+                      <Dropdown.Item className='filter nested dropdown'>
+                        <Dropdown icon='paint brush' pointing className='left'>
+                          <Dropdown.Menu className='left'>
+                            <Dropdown.Header icon='paint brush' content='Filter by colour' />
+                            <Dropdown.Divider />
+                            <Dropdown.Item label={{ color: 'red', empty: true, circular: true }} text='Important' />
+                            <Dropdown.Item label={{ color: 'blue', empty: true, circular: true }} text='Announcement' />
+                            <Dropdown.Item label={{ color: 'black', empty: true, circular: true }} text='Discussion' />
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </Dropdown.Item>
+                      <Dropdown.Item className='filter nested dropdown'>
+                        <Dropdown icon='user' pointing className='left'>
+                          <Dropdown.Menu className='left'>
+                            <Dropdown.Header icon='user' content='Filter by authority' />
+                            <Dropdown.Divider />
+                            <Dropdown.Item label={{ color: 'red', empty: true, circular: true }} text='Important' />
+                            <Dropdown.Item label={{ color: 'blue', empty: true, circular: true }} text='Announcement' />
+                            <Dropdown.Item label={{ color: 'black', empty: true, circular: true }} text='Discussion' />
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row style={{padding: '0', margin: '-2.7rem 0 0 0'}}>
+                <Label color='teal' style={{margin: '0'}}>
+                  hello
+                  <Icon name='delete' />
+                </Label>
               </Grid.Row>
               <Grid.Row>
                 {listItems}
