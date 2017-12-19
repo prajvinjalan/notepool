@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Container, Grid, Modal } from 'semantic-ui-react'
+import { Button, Container, Grid, Icon, Input, Modal } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
 
@@ -76,7 +76,15 @@ class Notes extends Component {
           <Loading />
           :
           <Container style={{marginTop: '2rem'}}>
-            <Grid columns='equal' stackable>
+            <Grid columns='equal' stackable style={{marginTop: '1rem'}}>
+              <Grid.Row>
+                <Grid.Column style={{paddingRight: '0px'}}>
+                  <Input fluid icon='search' placeholder='Search...' />
+                </Grid.Column>
+                <Grid.Column width={1} style={{padding: '15px 15px 15px 0px'}}>
+                  <Button icon='paint brush' size='medium' color='teal' />
+                </Grid.Column>
+              </Grid.Row>
               <Grid.Row>
                 {listItems}
               </Grid.Row>
