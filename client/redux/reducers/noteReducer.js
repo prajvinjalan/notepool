@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import _ from 'lodash'
 
 import { noteConstants } from '../constants'
 import { userConstants } from '../constants'
@@ -341,15 +342,21 @@ export const getNoteById = (state, id) => state.notesById[id];
 
 // Function to get notes by search term
 export const getNotesByTerm = (state) => state.notes.filter(note => {
+  let bodyText = note.body.replace(/\n/g, ' ');
+  let listBodyArray = [];
   let listBodyText = '';
+  let searchTermArray = state.searchTerm.split(' ');
+
   note.listBody.forEach(item => {
+    listBodyArray.push(item.text);
     listBodyText = listBodyText.concat(item.text + ' ');
   });
   listBodyText = listBodyText.slice(0, (listBodyText.length - 1));
 
   return(
-    (note.title.includes(state.searchTerm))
-    || (note.body.includes(state.searchTerm))
-    || (listBodyText.includes(state.searchTerm))
+    (note.title.includes(state.searchTerm)) // title comparison
+    || (bodyText.includes(state.searchTerm)) // body comparison
+    || (_.difference(searchTermArray, listBodyArray).length === 0) // list item comparison (when multiple search words)
+    || (listBodyText.includes(state.searchTerm)) // text comparison for each individual list item
   )
 });

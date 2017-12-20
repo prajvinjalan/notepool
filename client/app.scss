@@ -1,6 +1,6 @@
 @import '../node_modules/react-redux-toastr/src/styles/index';
 
-// Note attributes affected by colour -> cards, modals, options within modals
+// Note attributes affected by colour -> cards, modals, dropdown menu options
 
 @each $colour in white, lightgreen, lightskyblue, lightcoral, yellow, rosybrown {
   .ui.card.#{$colour} > .content {
@@ -48,6 +48,12 @@
   .ui.modal.#{$colour} .list-item-container.selected {
     border-top: 1px solid #666;
     border-bottom: 1px solid #666;
+  }
+
+  .ui.circular.empty.label.#{$colour} {
+    background-color: #{$colour} !important;
+    border: 1px solid #666 !important;
+    margin-bottom: -1px;
   }
 }
 

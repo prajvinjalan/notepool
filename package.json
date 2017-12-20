@@ -46,6 +46,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.7",
+    "lodash-webpack-plugin": "^0.11.4",
     "node-sass": "^4.6.1",
     "nodemon": "^1.12.1",
     "sass-loader": "^6.0.6",

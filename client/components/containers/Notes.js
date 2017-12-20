@@ -80,7 +80,7 @@ class Notes extends Component {
           <Loading />
           :
           <Container style={{marginTop: '2rem'}}>
-            <Grid columns='equal' stackable style={{marginTop: '1rem'}}>
+            <Grid columns='equal' style={{marginTop: '1rem'}}>
               <Grid.Row style={{paddingBottom: '0'}}>
                 <Grid.Column style={{padding: '14px 0px'}}>
                   <Input fluid icon='search' placeholder='Search...' onChange={this.handleInputChange}/>
@@ -93,22 +93,25 @@ class Notes extends Component {
                       <Dropdown.Item className='filter nested dropdown'>
                         <Dropdown icon='paint brush' pointing className='left'>
                           <Dropdown.Menu className='left'>
-                            <Dropdown.Header icon='paint brush' content='Filter by colour' />
+                            <Dropdown.Header content='By colour' />
                             <Dropdown.Divider />
-                            <Dropdown.Item label={{ color: 'red', empty: true, circular: true }} text='Important' />
-                            <Dropdown.Item label={{ color: 'blue', empty: true, circular: true }} text='Announcement' />
-                            <Dropdown.Item label={{ color: 'black', empty: true, circular: true }} text='Discussion' />
+                            <Dropdown.Item label={{ className: 'white', empty: true, circular: true }} text='White' />
+                            <Dropdown.Item label={{ className: 'lightgreen', empty: true, circular: true }} text='Green' />
+                            <Dropdown.Item label={{ className: 'lightskyblue', empty: true, circular: true }} text='Blue' />
+                            <Dropdown.Item label={{ className: 'lightcoral', empty: true, circular: true }} text='Red' />
+                            <Dropdown.Item label={{ className: 'yellow', empty: true, circular: true }} text='Yellow' />
+                            <Dropdown.Item label={{ className: 'rosybrown', empty: true, circular: true }} text='Brown' />
                           </Dropdown.Menu>
                         </Dropdown>
                       </Dropdown.Item>
                       <Dropdown.Item className='filter nested dropdown'>
                         <Dropdown icon='user' pointing className='left'>
                           <Dropdown.Menu className='left'>
-                            <Dropdown.Header icon='user' content='Filter by authority' />
+                            <Dropdown.Header content='By my permissions' />
                             <Dropdown.Divider />
-                            <Dropdown.Item label={{ color: 'red', empty: true, circular: true }} text='Important' />
-                            <Dropdown.Item label={{ color: 'blue', empty: true, circular: true }} text='Announcement' />
-                            <Dropdown.Item label={{ color: 'black', empty: true, circular: true }} text='Discussion' />
+                            <Dropdown.Item text='Owner' />
+                            <Dropdown.Item text='Editor' />
+                            <Dropdown.Item text='Viewer' />
                           </Dropdown.Menu>
                         </Dropdown>
                       </Dropdown.Item>
