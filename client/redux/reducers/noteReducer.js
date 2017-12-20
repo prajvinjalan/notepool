@@ -315,13 +315,26 @@ const loading = (state = false, action) => {
   }
 }
 
-const searchTerm = (state = '', action) => {
+const emptySearch = {term: '', filters: []};
+
+// Search/Filter reducer
+const search = (state = {}, action) => {
+  let newFilterList = [];
+
   switch (action.type){
     case noteConstants.RECEIVE_NOTES:
-      return '';
+      return emptySearch;
 
     case noteConstants.SET_SEARCH_TERM:
-      return action.payload;
+      return {...state, term: action.payload};
+
+    case noteConstants.ADD_SEARCH_FILTER:
+      newFilterList = state.filters.concat(action.payload);
+      return {...state, filters: newFilterList};
+
+    case noteConstants.REMOVE_SEARCH_FILTER:
+      newFilterList = state.filters.filter(filter => filter.name !== action.payload);
+      return {...state, filters: newFilterList};
 
     default:
       return state;
@@ -334,7 +347,7 @@ export default combineReducers({
   notesById,
   currentNote,
   loading,
-  searchTerm
+  search
 });
 
 // Function to get a note by its id
@@ -345,7 +358,19 @@ export const getNotesByTerm = (state) => state.notes.filter(note => {
   let bodyText = note.body.replace(/\n/g, ' ');
   let listBodyArray = [];
   let listBodyText = '';
-  let searchTermArray = state.searchTerm.split(' ');
+  let searchTermArray = state.search.term.split(' ');
+  let colourArray = [];
+  let colourIncluded = true;
+
+  state.search.filters.forEach(filter => {
+    if (filter.type === 'colour'){
+      colourArray.push(filter.item);
+    }
+  });
+
+  if (colourArray.length !== 0){
+    colourIncluded = colourArray.includes(note.colour);
+  }
 
   note.listBody.forEach(item => {
     listBodyArray.push(item.text);
@@ -354,9 +379,10 @@ export const getNotesByTerm = (state) => state.notes.filter(note => {
   listBodyText = listBodyText.slice(0, (listBodyText.length - 1));
 
   return(
-    (note.title.includes(state.searchTerm)) // title comparison
-    || (bodyText.includes(state.searchTerm)) // body comparison
+    ((note.title.includes(state.search.term)) // title comparison
+    || (bodyText.includes(state.search.term)) // body comparison
     || (_.difference(searchTermArray, listBodyArray).length === 0) // list item comparison (when multiple search words)
-    || (listBodyText.includes(state.searchTerm)) // text comparison for each individual list item
+    || (listBodyText.includes(state.search.term))) // text comparison for each individual list item
+    && (colourIncluded) // colour comparison
   )
 });

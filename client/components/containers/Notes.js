@@ -61,16 +61,39 @@ class Notes extends Component {
     this.props.setSearchTerm(event.target.value.toLowerCase());
   }
 
+  // Adds a filter option
+  addSearchFilter = (event, { label, text }) => {
+    if (label){
+      this.props.addSearchFilter({name: text, item: label.className, type: 'colour'});
+    } else {
+      this.props.addSearchFilter({name: text, item: text, type: 'permission'});
+    }
+  }
+
+  // Removes a filter option
+  removeSearchFilter = (event) => {
+    this.props.removeSearchFilter(event.target.id);
+  }
+
   render(){
     // Creates a button to add notes
     const noteButton = <Button circular icon='plus' size='big' color='teal' className='right-aligned-button' onClick={this.addNote}></Button>
 
     // Creates a Grid Column item with each note
-    const listItems = this.props.searchedNotes.map((note, i) => {
+    const noteItems = this.props.searchedNotes.map((note, i) => {
       return(
         <Grid.Column key={note.id} mobile={16} tablet={8} computer={5}>
           <Note show={this.show} currentNote={note} />
         </Grid.Column>
+      )
+    })
+
+    const filterLabels = this.props.searchDetails.filters.map((filter, i) => {
+      return(
+        <Label key={i} color='teal'>
+          {filter.name}
+          <Icon id={filter.name} name='delete' onClick={this.removeSearchFilter} />
+        </Label>
       )
     })
 
@@ -80,10 +103,10 @@ class Notes extends Component {
           <Loading />
           :
           <Container style={{marginTop: '2rem'}}>
-            <Grid columns='equal' style={{marginTop: '1rem'}}>
-              <Grid.Row style={{paddingBottom: '0'}}>
+            <Grid columns='equal'>
+              <Grid.Row className='search'>
                 <Grid.Column style={{padding: '14px 0px'}}>
-                  <Input fluid icon='search' placeholder='Search...' onChange={this.handleInputChange}/>
+                  <Input fluid icon='search' placeholder='Search...' onChange={this.handleInputChange} />
                 </Grid.Column>
                 <Grid.Column width={1} style={{padding: '15px'}}>
                   <Dropdown icon='filter' floating button pointing className='icon teal top right'>
@@ -95,12 +118,12 @@ class Notes extends Component {
                           <Dropdown.Menu className='left'>
                             <Dropdown.Header content='By colour' />
                             <Dropdown.Divider />
-                            <Dropdown.Item label={{ className: 'white', empty: true, circular: true }} text='White' />
-                            <Dropdown.Item label={{ className: 'lightgreen', empty: true, circular: true }} text='Green' />
-                            <Dropdown.Item label={{ className: 'lightskyblue', empty: true, circular: true }} text='Blue' />
-                            <Dropdown.Item label={{ className: 'lightcoral', empty: true, circular: true }} text='Red' />
-                            <Dropdown.Item label={{ className: 'yellow', empty: true, circular: true }} text='Yellow' />
-                            <Dropdown.Item label={{ className: 'rosybrown', empty: true, circular: true }} text='Brown' />
+                            <Dropdown.Item label={{ className: 'white', empty: true, circular: true }} text='White' onClick={this.addSearchFilter} />
+                            <Dropdown.Item label={{ className: 'lightgreen', empty: true, circular: true }} text='Green' onClick={this.addSearchFilter} />
+                            <Dropdown.Item label={{ className: 'lightskyblue', empty: true, circular: true }} text='Blue' onClick={this.addSearchFilter} />
+                            <Dropdown.Item label={{ className: 'lightcoral', empty: true, circular: true }} text='Red' onClick={this.addSearchFilter} />
+                            <Dropdown.Item label={{ className: 'yellow', empty: true, circular: true }} text='Yellow' onClick={this.addSearchFilter} />
+                            <Dropdown.Item label={{ className: 'rosybrown', empty: true, circular: true }} text='Brown' onClick={this.addSearchFilter} />
                           </Dropdown.Menu>
                         </Dropdown>
                       </Dropdown.Item>
@@ -109,9 +132,9 @@ class Notes extends Component {
                           <Dropdown.Menu className='left'>
                             <Dropdown.Header content='By my permissions' />
                             <Dropdown.Divider />
-                            <Dropdown.Item text='Owner' />
-                            <Dropdown.Item text='Editor' />
-                            <Dropdown.Item text='Viewer' />
+                            <Dropdown.Item text='Owner' onClick={this.addSearchFilter} />
+                            <Dropdown.Item text='Editor' onClick={this.addSearchFilter} />
+                            <Dropdown.Item text='Viewer' onClick={this.addSearchFilter} />
                           </Dropdown.Menu>
                         </Dropdown>
                       </Dropdown.Item>
@@ -119,14 +142,11 @@ class Notes extends Component {
                   </Dropdown>
                 </Grid.Column>
               </Grid.Row>
-              <Grid.Row style={{padding: '0', margin: '-2.7rem 0 0 0'}}>
-                <Label color='teal' style={{margin: '0'}}>
-                  hello
-                  <Icon name='delete' />
-                </Label>
+              <Grid.Row className='search labels'>
+                {filterLabels}
               </Grid.Row>
               <Grid.Row>
-                {listItems}
+                {noteItems}
               </Grid.Row>
               <Grid.Row>
                 {noteButton}
@@ -148,6 +168,7 @@ const stateToProps = (state) => ({
   currentNote: state.note.currentNote,
   user: state.user,
   loading: state.note.loading,
+  searchDetails: state.note.search,
   searchedNotes: getNotesByTerm(state)
 })
 
@@ -156,7 +177,9 @@ const dispatchToProps = (dispatch) => ({
   fetchNotes: (params) => dispatch(actions.fetchNotes(params)),
   addNote: (params) => dispatch(actions.addNote(params)),
   setCurrentNote: (params) => dispatch(actions.setCurrentNote(params)),
-  setSearchTerm: (params) => dispatch(actions.setSearchTerm(params))
+  setSearchTerm: (params) => dispatch(actions.setSearchTerm(params)),
+  addSearchFilter: (params) => dispatch(actions.addSearchFilter(params)),
+  removeSearchFilter: (params) => dispatch(actions.removeSearchFilter(params))
 })
 
 // Connects state and dispatch functions to this component

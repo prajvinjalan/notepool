@@ -143,6 +143,20 @@ export const setSearchTerm = (term) => (dispatch) => {
   });
 }
 
+// Sets the term that the user is searching for (params are name, item, type)
+export const addSearchFilter = (params) => (dispatch) => {
+  return new Promise((resolve, reject) => {
+    resolve(dispatch(addSearchFilterAction(params)));
+  });
+}
+
+// Sets the term that the user is searching for (params is name)
+export const removeSearchFilter = (params) => (dispatch) => {
+  return new Promise((resolve, reject) => {
+    resolve(dispatch(removeSearchFilterAction(params)));
+  });
+}
+
 // ACTION CREATORS
 // equivalent to " ... => { return { ... } } "
 
@@ -251,4 +265,14 @@ const switchBodyAction = (note) => ({
 const setSearchTermAction = (term) => ({
   type: noteConstants.SET_SEARCH_TERM,
   payload: term
+});
+
+const addSearchFilterAction = (params) => ({
+  type: noteConstants.ADD_SEARCH_FILTER,
+  payload: params
+});
+
+const removeSearchFilterAction = (params) => ({
+  type: noteConstants.REMOVE_SEARCH_FILTER,
+  payload: params
 });

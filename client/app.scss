@@ -301,6 +301,17 @@ span.subtitle {
   }
 }
 
+.ui.grid {
+  .row.search {
+    padding-bottom: 0;
+  }
+
+  .row.search.labels {
+    padding: 0;
+    margin: -2.7rem 0 0 0;
+  }
+}
+
 // Overwriting some Semantic-UI-React CSS
 
 .ui.icon.input>i.icon:after, .ui.icon.input>i.icon:before {
@@ -315,4 +326,18 @@ span.subtitle {
 
 .ui.checkbox input:checked:focus~.box:after, .ui.checkbox input:checked:focus~label:after, .ui.checkbox input:not([type=radio]):indeterminate:focus~.box:after, .ui.checkbox input:not([type=radio]):indeterminate:focus~label:after {
   color: white;
+}
+
+// Responsiveness
+
+@media only screen and (max-width: 767px) and (min-width: 320px) {
+  .ui.grid {
+    .row.search {
+      margin: 0 2.5rem;
+    }
+
+    .row.search.labels {
+      margin: -2.7rem 2.5rem 0 2.5rem
+    }
+  }
 }
