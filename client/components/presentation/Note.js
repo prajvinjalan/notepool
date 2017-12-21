@@ -4,7 +4,7 @@ import { Card, Checkbox, Divider, Label } from 'semantic-ui-react'
 
 const Note = (props) => {
   // Array of labels for the current note's collaborators
-  const collabList = props.currentNote.collaborators.map((collaborator, i) => {
+  const owner = props.currentNote.collaborators.map((collaborator, i) => {
     if (collaborator.type === 'Owner'){
       return(
         <Label key={i} color='teal' image>
@@ -76,8 +76,8 @@ const Note = (props) => {
           <ListItems />}
         </Card.Description>
       </Card.Content>
-      <Card.Content extra>
-        {collabList}
+      <Card.Content extra className='not mobile'>
+        {owner}
       </Card.Content>
       <Label color='teal' corner='right'>{props.currentNote.collaborators.length}</Label>
     </Card>

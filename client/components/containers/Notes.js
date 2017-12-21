@@ -82,7 +82,7 @@ class Notes extends Component {
     // Creates a Grid Column item with each note
     const noteItems = this.props.searchedNotes.map((note, i) => {
       return(
-        <Grid.Column key={note.id} mobile={16} tablet={8} computer={5}>
+        <Grid.Column key={note.id} mobile={8} tablet={8} computer={5}>
           <Note show={this.show} currentNote={note} />
         </Grid.Column>
       )

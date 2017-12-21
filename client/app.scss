@@ -104,10 +104,6 @@
 
 // Other modal content (when editing list notes)
 
-// .ui.input.list-item {
-//   width: 95%;
-// }
-
 .ui.input.list-item input.selected + i {
   display: inline-block;
 }
@@ -128,6 +124,14 @@
 .list-items-button-container {
   display: grid;
   padding: 12px 25px 12px 0px;
+}
+
+#duplicate-popup, #duplicate-popup:before {
+  background: #ffa8a8;
+}
+
+#duplicate-popup.disabled {
+  display: none !important;
 }
 
 // Login, Register, Setting, Details Pages
@@ -225,6 +229,7 @@
 .ui.centered.card, .ui.centered.card:hover {
   box-shadow: none;
   border: 1px solid #d4d4d5;
+  min-height: 4rem;
 }
 
 .note-body {
@@ -337,7 +342,15 @@ span.subtitle {
     }
 
     .row.search.labels {
-      margin: -2.7rem 2.5rem 0 2.5rem
+      margin: -2.7rem 2.5rem 0 2.5rem;
     }
+  }
+
+  .ui.container {
+    margin-right: 2rem !important;
+  }
+
+  .ui.card > .content.not.mobile {
+    display: none;
   }
 }
