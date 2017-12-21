@@ -38,3 +38,5 @@ Specifying ```NODE_ENV=dev``` will apply the Redux Logger middleware.
 - [x] Refactor express code to use ES6 notation
 - [x] Notifications (e.g. for login/register confirmations and validations)
 - [ ] Home/Settings/Profile Details pages
+- [x] Search bar for notes
+- [ ] Filter options for notes (colour, permissions, collaborators?, type of note?)

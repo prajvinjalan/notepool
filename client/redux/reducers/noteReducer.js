@@ -315,74 +315,13 @@ const loading = (state = false, action) => {
   }
 }
 
-const emptySearch = {term: '', filters: []};
-
-// Search/Filter reducer
-const search = (state = {}, action) => {
-  let newFilterList = [];
-
-  switch (action.type){
-    case noteConstants.RECEIVE_NOTES:
-      return emptySearch;
-
-    case noteConstants.SET_SEARCH_TERM:
-      return {...state, term: action.payload};
-
-    case noteConstants.ADD_SEARCH_FILTER:
-      newFilterList = state.filters.concat(action.payload);
-      return {...state, filters: newFilterList};
-
-    case noteConstants.REMOVE_SEARCH_FILTER:
-      newFilterList = state.filters.filter(filter => filter.name !== action.payload);
-      return {...state, filters: newFilterList};
-
-    default:
-      return state;
-  }
-}
-
 // Combines all the above reducers
 export default combineReducers({
   notes,
   notesById,
   currentNote,
-  loading,
-  search
+  loading
 });
 
 // Function to get a note by its id
 export const getNoteById = (state, id) => state.notesById[id];
-
-// Function to get notes by search term
-export const getNotesByTerm = (state) => state.notes.filter(note => {
-  let bodyText = note.body.replace(/\n/g, ' ');
-  let listBodyArray = [];
-  let listBodyText = '';
-  let searchTermArray = state.search.term.split(' ');
-  let colourArray = [];
-  let colourIncluded = true;
-
-  state.search.filters.forEach(filter => {
-    if (filter.type === 'colour'){
-      colourArray.push(filter.item);
-    }
-  });
-
-  if (colourArray.length !== 0){
-    colourIncluded = colourArray.includes(note.colour);
-  }
-
-  note.listBody.forEach(item => {
-    listBodyArray.push(item.text);
-    listBodyText = listBodyText.concat(item.text + ' ');
-  });
-  listBodyText = listBodyText.slice(0, (listBodyText.length - 1));
-
-  return(
-    ((note.title.includes(state.search.term)) // title comparison
-    || (bodyText.includes(state.search.term)) // body comparison
-    || (_.difference(searchTermArray, listBodyArray).length === 0) // list item comparison (when multiple search words)
-    || (listBodyText.includes(state.search.term))) // text comparison for each individual list item
-    && (colourIncluded) // colour comparison
-  )
-});

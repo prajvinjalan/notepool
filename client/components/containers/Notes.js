@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Button, Container, Dropdown, Grid, Icon, Input, Label, Modal } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
-import { getNotesByTerm } from '../../redux/reducers'
+import { getNotesBySearch } from '../../redux/reducers'
 
 import { Loading, Note } from '../presentation'
 import EditNote from './EditNote'
@@ -164,12 +164,11 @@ class Notes extends Component {
 
 // Maps state objects to props
 const stateToProps = (state) => ({
-  notes: state.note.notes,
   currentNote: state.note.currentNote,
   user: state.user,
   loading: state.note.loading,
-  searchDetails: state.note.search,
-  searchedNotes: getNotesByTerm(state)
+  searchDetails: state.search,
+  searchedNotes: getNotesBySearch(state)
 })
 
 // Maps dispatch functions to props
