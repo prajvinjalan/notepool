@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Container, Dropdown, Grid, Icon, Input, Label, Modal } from 'semantic-ui-react'
+import { Button, Container, Grid, Icon, Label } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
 import { getNotesBySearch } from '../../redux/reducers'
 
-import { Loading, Note } from '../presentation'
+import { Loading, Note, Search } from '../presentation'
 import EditNote from './EditNote'
 
 class Notes extends Component {
@@ -104,44 +104,7 @@ class Notes extends Component {
           :
           <Container style={{marginTop: '2rem'}}>
             <Grid columns='equal'>
-              <Grid.Row className='search'>
-                <Grid.Column style={{padding: '14px 0px'}}>
-                  <Input fluid icon='search' placeholder='Search...' onChange={this.handleInputChange} />
-                </Grid.Column>
-                <Grid.Column width={1} style={{padding: '15px'}}>
-                  <Dropdown icon='filter' floating button pointing className='icon teal top right'>
-                    <Dropdown.Menu>
-                      <Dropdown.Header content='Filter' />
-                      <Dropdown.Divider />
-                      <Dropdown.Item className='filter nested dropdown'>
-                        <Dropdown icon='paint brush' pointing className='left'>
-                          <Dropdown.Menu className='left'>
-                            <Dropdown.Header content='By colour' />
-                            <Dropdown.Divider />
-                            <Dropdown.Item label={{ className: 'white', empty: true, circular: true }} text='White' onClick={this.addSearchFilter} />
-                            <Dropdown.Item label={{ className: 'lightgreen', empty: true, circular: true }} text='Green' onClick={this.addSearchFilter} />
-                            <Dropdown.Item label={{ className: 'lightskyblue', empty: true, circular: true }} text='Blue' onClick={this.addSearchFilter} />
-                            <Dropdown.Item label={{ className: 'lightcoral', empty: true, circular: true }} text='Red' onClick={this.addSearchFilter} />
-                            <Dropdown.Item label={{ className: 'yellow', empty: true, circular: true }} text='Yellow' onClick={this.addSearchFilter} />
-                            <Dropdown.Item label={{ className: 'rosybrown', empty: true, circular: true }} text='Brown' onClick={this.addSearchFilter} />
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </Dropdown.Item>
-                      <Dropdown.Item className='filter nested dropdown'>
-                        <Dropdown icon='user' pointing className='left'>
-                          <Dropdown.Menu className='left'>
-                            <Dropdown.Header content='By my permissions' />
-                            <Dropdown.Divider />
-                            <Dropdown.Item text='Owner' onClick={this.addSearchFilter} />
-                            <Dropdown.Item text='Editor' onClick={this.addSearchFilter} />
-                            <Dropdown.Item text='Viewer' onClick={this.addSearchFilter} />
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Grid.Column>
-              </Grid.Row>
+              <Search setSearchTerm={this.props.setSearchTerm} addSearchFilter={this.props.addSearchFilter} />
               <Grid.Row className='search labels'>
                 {filterLabels}
               </Grid.Row>
