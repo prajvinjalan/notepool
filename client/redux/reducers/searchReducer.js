@@ -1,4 +1,4 @@
-import { searchConstants } from '../constants'
+import { noteConstants, searchConstants } from '../constants'
 
 const initialState = {
   term: '',
@@ -11,7 +11,7 @@ const search = (state = initialState, action) => {
   let addedFilter = false;
 
   switch (action.type){
-    case searchConstants.RECEIVE_NOTES:
+    case noteConstants.RECEIVE_NOTES:
       return initialState;
 
     case searchConstants.SET_SEARCH_TERM:

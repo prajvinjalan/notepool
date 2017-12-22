@@ -11,8 +11,10 @@ const Search = (props) => {
   const addSearchFilter = (event, { label, text }) => {
     if (label){
       props.addSearchFilter({name: text, item: label.className, type: 'colour'});
+    } else if (text === 'List' || text === 'Text'){
+      props.addSearchFilter({name: text, item: text.toLowerCase(), type: 'type'});
     } else {
-      props.addSearchFilter({name: text, item: text, type: 'permission'});
+      props.addSearchFilter({name: text, item: text, type: 'permissions'});
     }
   }
 
@@ -48,6 +50,16 @@ const Search = (props) => {
                   <Dropdown.Item text='Owner' onClick={addSearchFilter} />
                   <Dropdown.Item text='Editor' onClick={addSearchFilter} />
                   <Dropdown.Item text='Viewer' onClick={addSearchFilter} />
+                </Dropdown.Menu>
+              </Dropdown>
+            </Dropdown.Item>
+            <Dropdown.Item className='filter nested dropdown'>
+              <Dropdown icon='book' pointing className='left'>
+                <Dropdown.Menu className='left'>
+                  <Dropdown.Header content='By note type' />
+                  <Dropdown.Divider />
+                  <Dropdown.Item icon='list' text='List' onClick={addSearchFilter} />
+                  <Dropdown.Item icon='sticky note outline' text='Text' onClick={addSearchFilter} />
                 </Dropdown.Menu>
               </Dropdown>
             </Dropdown.Item>

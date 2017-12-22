@@ -56,20 +56,6 @@ class Notes extends Component {
     });
   }
 
-  // Handles input changes to search box
-  handleInputChange = (event) => {
-    this.props.setSearchTerm(event.target.value.toLowerCase());
-  }
-
-  // Adds a filter option
-  addSearchFilter = (event, { label, text }) => {
-    if (label){
-      this.props.addSearchFilter({name: text, item: label.className, type: 'colour'});
-    } else {
-      this.props.addSearchFilter({name: text, item: text, type: 'permission'});
-    }
-  }
-
   // Removes a filter option
   removeSearchFilter = (event) => {
     this.props.removeSearchFilter(event.target.id);

@@ -39,4 +39,4 @@ Specifying ```NODE_ENV=dev``` will apply the Redux Logger middleware.
 - [x] Notifications (e.g. for login/register confirmations and validations)
 - [ ] Home/Settings/Profile Details pages
 - [x] Search bar for notes
-- [ ] Filter options for notes (colour, permissions, collaborators?, type of note?)
+- [ ] Filter options for notes (colour &#10003;, permissions &#10003;, collaborators?, note type &#10003;)
