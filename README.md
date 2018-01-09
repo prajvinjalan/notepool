@@ -15,7 +15,7 @@ webpack
 ```
 npm start
 ```
-**App will be running on: http://localhost:3010** (can also specify port using ```PORT=<port> npm start```)
+**App will be running on: http://localhost:3010**
 
 ### Alternative Options:
 
@@ -24,6 +24,7 @@ To have the build refresh on code changes, run the following commands on separat
 webpack -w
 npm run devstart
 ```
+Specifying ```PORT=<port>``` will change the port that the app runs on.  
 Specifying ```DEBUG=notepool:server``` will enable the debug function for the server.  
 Specifying ```NODE_ENV=dev``` will apply the Redux Logger middleware.
 
@@ -39,4 +40,4 @@ Specifying ```NODE_ENV=dev``` will apply the Redux Logger middleware.
 - [x] Notifications (e.g. for login/register confirmations and validations)
 - [ ] Home/Settings/Profile Details pages
 - [x] Search bar for notes
-- [ ] Filter options for notes (colour &#10003;, permissions &#10003;, collaborators?, note type &#10003;)
+- [x] Filter options for notes (colour &#10003;, permissions &#10003;, note type &#10003;)
