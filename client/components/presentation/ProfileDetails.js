@@ -13,7 +13,7 @@ const ProfileDetails = (props) => {
           <Icon name='user circle outline' size='huge' />
           <Header size='small' className='name'>{props.user.name}</Header>
         </Grid.Column>
-        <Grid.Column width={1}>
+        <Grid.Column width={1} only='computer tablet'>
           <div className='details divider'></div>
         </Grid.Column>
         <Grid.Column>

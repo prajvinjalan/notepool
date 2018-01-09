@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Container, Grid, Modal } from 'semantic-ui-react'
+import { Button, Container, Grid, Icon, Label } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
+import { getNotesBySearch } from '../../redux/reducers'
 
-import { Loading, Note } from '../presentation'
+import { Loading, Note, Search } from '../presentation'
 import EditNote from './EditNote'
 
 class Notes extends Component {
@@ -55,18 +56,30 @@ class Notes extends Component {
     });
   }
 
-
+  // Removes a filter option
+  removeSearchFilter = (event) => {
+    this.props.removeSearchFilter(event.target.id);
+  }
 
   render(){
     // Creates a button to add notes
     const noteButton = <Button circular icon='plus' size='big' color='teal' className='right-aligned-button' onClick={this.addNote}></Button>
 
     // Creates a Grid Column item with each note
-    const listItems = this.props.notes.map((note, i) => {
+    const noteItems = this.props.searchedNotes.map((note, i) => {
       return(
-        <Grid.Column key={note.id} mobile={16} tablet={8} computer={5}>
+        <Grid.Column key={note.id} mobile={8} tablet={8} computer={5}>
           <Note show={this.show} currentNote={note} />
         </Grid.Column>
+      )
+    })
+
+    const filterLabels = this.props.searchDetails.filters.map((filter, i) => {
+      return(
+        <Label key={i} color='teal'>
+          {filter.name}
+          <Icon id={filter.name} name='delete' onClick={this.removeSearchFilter} />
+        </Label>
       )
     })
 
@@ -76,9 +89,13 @@ class Notes extends Component {
           <Loading />
           :
           <Container style={{marginTop: '2rem'}}>
-            <Grid columns='equal' stackable>
+            <Grid columns='equal'>
+              <Search setSearchTerm={this.props.setSearchTerm} addSearchFilter={this.props.addSearchFilter} />
+              <Grid.Row className='search labels'>
+                {filterLabels}
+              </Grid.Row>
               <Grid.Row>
-                {listItems}
+                {noteItems}
               </Grid.Row>
               <Grid.Row>
                 {noteButton}
@@ -96,17 +113,21 @@ class Notes extends Component {
 
 // Maps state objects to props
 const stateToProps = (state) => ({
-  notes: state.note.notes,
   currentNote: state.note.currentNote,
   user: state.user,
-  loading: state.note.loading
+  loading: state.note.loading,
+  searchDetails: state.search,
+  searchedNotes: getNotesBySearch(state)
 })
 
 // Maps dispatch functions to props
 const dispatchToProps = (dispatch) => ({
   fetchNotes: (params) => dispatch(actions.fetchNotes(params)),
   addNote: (params) => dispatch(actions.addNote(params)),
-  setCurrentNote: (params) => dispatch(actions.setCurrentNote(params))
+  setCurrentNote: (params) => dispatch(actions.setCurrentNote(params)),
+  setSearchTerm: (params) => dispatch(actions.setSearchTerm(params)),
+  addSearchFilter: (params) => dispatch(actions.addSearchFilter(params)),
+  removeSearchFilter: (params) => dispatch(actions.removeSearchFilter(params))
 })
 
 // Connects state and dispatch functions to this component

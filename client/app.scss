@@ -1,6 +1,6 @@
 @import '../node_modules/react-redux-toastr/src/styles/index';
 
-// Note attributes affected by colour -> cards, modals, options within modals
+// Note attributes affected by colour -> cards, modals, dropdown menu options
 
 @each $colour in white, lightgreen, lightskyblue, lightcoral, yellow, rosybrown {
   .ui.card.#{$colour} > .content {
@@ -49,6 +49,12 @@
     border-top: 1px solid #666;
     border-bottom: 1px solid #666;
   }
+
+  .ui.circular.empty.label.#{$colour} {
+    background-color: #{$colour} !important;
+    border: 1px solid #666 !important;
+    margin-bottom: -1px;
+  }
 }
 
 // Modal content (when editing notes)
@@ -88,6 +94,7 @@
   .menu > .item.with-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    cursor: default;
   }
 }
 
@@ -96,10 +103,6 @@
 }
 
 // Other modal content (when editing list notes)
-
-// .ui.input.list-item {
-//   width: 95%;
-// }
 
 .ui.input.list-item input.selected + i {
   display: inline-block;
@@ -121,6 +124,14 @@
 .list-items-button-container {
   display: grid;
   padding: 12px 25px 12px 0px;
+}
+
+#duplicate-popup, #duplicate-popup:before {
+  background: #ffa8a8;
+}
+
+#duplicate-popup.disabled {
+  display: none !important;
 }
 
 // Login, Register, Setting, Details Pages
@@ -218,6 +229,7 @@
 .ui.centered.card, .ui.centered.card:hover {
   box-shadow: none;
   border: 1px solid #d4d4d5;
+  min-height: 4rem;
 }
 
 .note-body {
@@ -284,6 +296,27 @@ span.subtitle {
   padding-top: 3px;
 }
 
+// Search bar
+
+.item.filter.nested.dropdown {
+  padding: 0 !important;
+
+  .ui.dropdown {
+    padding: .78571429rem 1.655rem;
+  }
+}
+
+.ui.grid {
+  .row.search {
+    padding-bottom: 0;
+  }
+
+  .row.search.labels {
+    padding: 0;
+    margin: -2.7rem 0 0 0;
+  }
+}
+
 // Overwriting some Semantic-UI-React CSS
 
 .ui.icon.input>i.icon:after, .ui.icon.input>i.icon:before {
@@ -298,4 +331,30 @@ span.subtitle {
 
 .ui.checkbox input:checked:focus~.box:after, .ui.checkbox input:checked:focus~label:after, .ui.checkbox input:not([type=radio]):indeterminate:focus~.box:after, .ui.checkbox input:not([type=radio]):indeterminate:focus~label:after {
   color: white;
+}
+
+// Responsiveness
+
+@media only screen and (max-width: 767px) and (min-width: 320px) {
+  .ui.grid {
+    .row.search {
+      margin: 0 2.5rem;
+    }
+
+    .row.search.labels {
+      margin: -2.7rem 2.5rem 0 2.5rem;
+    }
+  }
+
+  .ui.modal .content>.description {
+      padding: 0 !important;
+  }
+
+  .ui.container {
+    margin-right: 2rem !important;
+  }
+
+  .ui.card > .content.not.mobile {
+    display: none;
+  }
 }

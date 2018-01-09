@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Dropdown, Grid, Icon, Input, Modal } from 'semantic-ui-react'
+import { Button, Dropdown, Grid, Icon, Input, Modal, Popup } from 'semantic-ui-react'
 
 import * as actions from '../../redux/actions'
 
@@ -10,14 +10,15 @@ class EditCollaborators extends Component {
 
     this.state = {
       email: '',
-      value: 'Editor'
+      value: 'Editor',
+      popup: false
     }
   }
 
   // Closes the collaborator form
   close = (event) => {
-    // If block that contains conditions for (1. save unique email, 2. save but duplicate email, 3. discard)
-    if (event.currentTarget.id === 'save' && !this.isDuplicateCollaborator()){
+    // If block that contains conditions for (1. save unique email, 2. discard)
+    if (event.currentTarget.id === 'save'){
       this.props.addCollaborator({
         id: this.props.currentNote.id,
         collaborator: {
@@ -27,17 +28,15 @@ class EditCollaborators extends Component {
         note: this.props.currentNote
       });
       this.props.close();
-    } else if (event.currentTarget.id === 'save' && this.isDuplicateCollaborator()){
-      console.log('dupe');
     } else {
       this.props.close();
     }
   }
 
   // Determines whether the current email is already a collaborator
-  isDuplicateCollaborator = () => {
+  isDuplicateCollaborator = (email) => {
     for (let i = 0; i < this.props.currentNote.collaborators.length; i++){
-      if (this.state.email === this.props.currentNote.collaborators[i].email){
+      if (email === this.props.currentNote.collaborators[i].email){
         return true;
       }
     }
@@ -52,19 +51,27 @@ class EditCollaborators extends Component {
 
     let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-    // If block that contains conditions for (1. valid email, 2. empty input, 3. invalid email)
-    if (event.target.value.match(emailRegex)){
+    // If block that contains conditions for (1. valid email, 2. empty input, 3. duplicate email, 4. invalid email)
+    if (event.target.value.match(emailRegex) && !this.isDuplicateCollaborator(event.target.value)){
       document.getElementById('save').classList.remove('disabled');
       document.getElementById('email-input').classList.remove('error');
       document.getElementById('email-input').classList.add('success');
+      this.setState({ popup: false });
     } else if (event.target.value === ''){
       document.getElementById('save').classList.add('disabled');
       document.getElementById('email-input').classList.remove('error');
       document.getElementById('email-input').classList.remove('success');
+      this.setState({ popup: false });
+    } else if (this.isDuplicateCollaborator(event.target.value)){
+      document.getElementById('save').classList.add('disabled');
+      document.getElementById('email-input').classList.add('error');
+      document.getElementById('email-input').classList.remove('success');
+      this.setState({ popup: true });
     } else {
       document.getElementById('save').classList.add('disabled');
       document.getElementById('email-input').classList.add('error');
       document.getElementById('email-input').classList.remove('success');
+      this.setState({ popup: false });
     }
   }
 
@@ -95,7 +102,14 @@ class EditCollaborators extends Component {
           </Grid>
         </Modal.Content>
         <Modal.Actions>
-          <Button id='save' className='disabled' icon='check' onClick={this.close} />
+          <Popup
+            id='duplicate-popup'
+            trigger={<span><Button id='save' className='disabled' icon='check' onClick={this.close} /></span>}
+            content='This email address has already been added as a collaborator! Please try again.'
+            on='hover'
+            position='top right'
+            className={(this.state.popup ? '' : 'disabled')}
+          />
           <Button id='discard' icon='remove' onClick={this.close} />
         </Modal.Actions>
       </Modal>

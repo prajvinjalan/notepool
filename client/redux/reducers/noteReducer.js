@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import _ from 'lodash'
 
 import { noteConstants } from '../constants'
 import { userConstants } from '../constants'
@@ -109,14 +110,14 @@ const notes = (state = [], action) => {
             let newListBody = textBody.map(text => {
               return {text: text, checked: false};
             });
-            return {...note, listBody: newListBody};
+            return {...note, body: '', listBody: newListBody};
           } else { // switch from list to text
             let textBody = '';
             note.listBody.forEach(item => {
               textBody = textBody.concat(item.text + '\n');
             });
             let text = textBody.slice(0, (textBody.length - 1));
-            return {...note, body: text};
+            return {...note, body: text, listBody: []};
           }
         }
         return note;
@@ -195,14 +196,14 @@ const notesById = (state = {}, action) => {
         let newListBody = textBody.map(text => {
           return {text: text, checked: false};
         });
-        nextState[action.payload.id] = {...nextState[action.payload.id], listBody: newListBody};
+        nextState[action.payload.id] = {...nextState[action.payload.id], body: '', listBody: newListBody};
       } else { // switch from list to text
         let textBody = '';
         nextState[action.payload.id].listBody.forEach(item => {
           textBody = textBody.concat(item['text'] + '\n');
         });
         let text = textBody.slice(0, (textBody.length - 1));
-        nextState[action.payload.id] = {...nextState[action.payload.id], body: text};
+        nextState[action.payload.id] = {...nextState[action.payload.id], body: text, listBody: []};
       }
       return nextState;
 
@@ -283,14 +284,14 @@ const currentNote = (state = {}, action) => {
           let newListBody = textBody.map(text => {
             return {text: text, checked: false};
           });
-          return {...state, listBody: newListBody};
+          return {...state, body: '', listBody: newListBody};
         } else { // switch from list to text
           let textBody = '';
           state.listBody.forEach(item => {
             textBody = textBody.concat(item.text + '\n');
           });
           let text = textBody.slice(0, (textBody.length - 1));
-          return {...state, body: text};
+          return {...state, body: text, listBody: []};
         }
       }
       return state;
