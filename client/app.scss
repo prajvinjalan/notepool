@@ -346,6 +346,10 @@ span.subtitle {
     }
   }
 
+  .ui.modal .content>.description {
+      padding: 0 !important;
+  }
+
   .ui.container {
     margin-right: 2rem !important;
   }
