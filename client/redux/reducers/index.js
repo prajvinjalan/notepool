@@ -24,6 +24,7 @@ export const getNotesBySearch = (state) => state.note.notes.filter(note => {
   let bodyText = note.body.replace(/\n/g, ' ');
   let listBodyArray = [];
   let listBodyText = '';
+  let collaboratorArray = [];
   let searchTermArray = state.search.term.split(' ');
   let colourArray = [];
   let colourIncluded = true;
@@ -37,6 +38,7 @@ export const getNotesBySearch = (state) => state.note.notes.filter(note => {
     if (collaborator.email === state.user.email){
       permissions = collaborator.type;
     }
+    collaboratorArray.push(collaborator.email);
   });
 
   state.search.filters.forEach(filter => {
@@ -71,6 +73,7 @@ export const getNotesBySearch = (state) => state.note.notes.filter(note => {
     ((note.title.includes(state.search.term)) // title comparison
     || (bodyText.includes(state.search.term)) // body comparison
     || (_.difference(searchTermArray, listBodyArray).length === 0) // list item comparison (when multiple search words)
+    || (_.difference(searchTermArray, collaboratorArray).length === 0) // collaborators comparison
     || (listBodyText.includes(state.search.term))) // text comparison for each individual list item
     && (colourIncluded) // colour comparison
     && (permissionsIncluded) // permissions comparison
