@@ -6,8 +6,9 @@ module.exports = {
     app: './client/app.js'
   },
   output: {
-    filename: 'public/build/bundle.js',
-    sourceMapFilename: 'public/build/bundle.map'
+    filename: 'build/bundle.js',
+    sourceMapFilename: 'build/bundle.map',
+    path: path.resolve(__dirname, 'public/')
   },
   devtool: '#source-map',
   module: {
@@ -25,6 +26,19 @@ module.exports = {
         test: /\.scss$/,
         exclude: /(node_modules)/,
         loaders: [ 'style-loader', 'css-loader', 'sass-loader' ]
+      },
+      {
+        test: /\.(png|jp(e*)g|svg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8000,
+              name: '[name].[ext]',
+              outputPath: 'build/assets/'
+            }
+          }
+        ]
       }
     ]
   }

@@ -64,17 +64,17 @@ export const getNotesBySearch = (state) => state.note.notes.filter(note => {
   }
 
   note.listBody.forEach(item => {
-    listBodyArray.push(item.text);
+    listBodyArray.push(item.text.toLowerCase());
     listBodyText = listBodyText.concat(item.text + ' ');
   });
   listBodyText = listBodyText.slice(0, (listBodyText.length - 1));
 
   return(
-    ((note.title.includes(state.search.term)) // title comparison
-    || (bodyText.includes(state.search.term)) // body comparison
+    ((note.title.toLowerCase().includes(state.search.term)) // title comparison
+    || (bodyText.toLowerCase().includes(state.search.term)) // body comparison
     || (_.difference(searchTermArray, listBodyArray).length === 0) // list item comparison (when multiple search words)
     || (_.difference(searchTermArray, collaboratorArray).length === 0) // collaborators comparison
-    || (listBodyText.includes(state.search.term))) // text comparison for each individual list item
+    || (listBodyText.toLowerCase().includes(state.search.term))) // text comparison for each individual list item
     && (colourIncluded) // colour comparison
     && (permissionsIncluded) // permissions comparison
     && (typeIncluded) // type comparison

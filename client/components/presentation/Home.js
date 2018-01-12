@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Header, Icon } from 'semantic-ui-react'
+import RealTimeCollaboration1 from '../../assets/RealTimeCollaboration_1.gif'
+import RealTimeCollaboration2 from '../../assets/RealTimeCollaboration_2.gif'
 
 // Component for home page
 const Home = (props) => {
@@ -16,7 +18,15 @@ const Home = (props) => {
           </Header.Subheader>
         </Header>
       </div>
-      <div className='home section'>Second Box</div>
+      <div className='home section' style={{display: 'grid', gridTemplateColumns: '2fr 3fr'}}>
+        <div>
+          <h1>Real Time Collaboration</h1>
+        </div>
+        <div>
+          <img style={{height: '200px', margin: '3px'}} id='realTimeCollaboration' src={RealTimeCollaboration1}></img>
+          <img style={{height: '200px', margin: '3px'}} id='realTimeCollaboration' src={RealTimeCollaboration2}></img>
+        </div>
+      </div>
       <div className='home section'>Third Box</div>
       <div className='home section'>Fourth Box</div>
       <div className='home section'>
