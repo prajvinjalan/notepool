@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Header, Icon } from 'semantic-ui-react'
+import CustomizeNotes from '../../assets/CustomizeNotes.gif'
 import RealTimeCollaboration1 from '../../assets/RealTimeCollaboration_1.gif'
 import RealTimeCollaboration2 from '../../assets/RealTimeCollaboration_2.gif'
+import SearchNotes from '../../assets/SearchNotes.gif'
 
 // Component for home page
 const Home = (props) => {
@@ -18,16 +20,31 @@ const Home = (props) => {
           </Header.Subheader>
         </Header>
       </div>
-      <div className='home section' style={{display: 'grid', gridTemplateColumns: '2fr 3fr'}}>
+      <div className='home section image'>
         <div>
-          <h1>Real Time Collaboration</h1>
+          <h1>Customize your notes</h1>
         </div>
         <div>
-          <img style={{height: '200px', margin: '3px'}} id='realTimeCollaboration' src={RealTimeCollaboration1}></img>
-          <img style={{height: '200px', margin: '3px'}} id='realTimeCollaboration' src={RealTimeCollaboration2}></img>
+          <img id='customizeNotes' src={CustomizeNotes}></img>
         </div>
       </div>
-      <div className='home section'>Third Box</div>
+      <div className='home section image'>
+        <div className='left'>
+          <img id='realTimeCollaboration' src={RealTimeCollaboration1}></img>
+          <img id='realTimeCollaboration' src={RealTimeCollaboration2}></img>
+        </div>
+        <div>
+          <h1>Collaborate in real time</h1>
+        </div>
+      </div>
+      <div className='home section image'>
+        <div>
+          <h1>Find everything you need</h1>
+        </div>
+        <div>
+          <img id='searchNotes' src={SearchNotes}></img>
+        </div>
+      </div>
       <div className='home section'>Fourth Box</div>
       <div className='home section'>
         <Header size='small'>
