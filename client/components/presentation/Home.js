@@ -53,7 +53,7 @@ const Home = (props) => {
           <Header size='huge'>
             Find everything you need
             <Header.Subheader>
-              Easily search for notes by their content or collaborators, and add filters for attributes like colour and note type.
+              Easily search for notes by their content or collaborators, and add filters for attributes like colour and note type
             </Header.Subheader>
           </Header>
         </div>
@@ -75,7 +75,7 @@ const Home = (props) => {
         </div>
       </div>
       <div className='home section'>
-        <Header size='small'>
+        <Header size='huge'>
           Try Notepool for free today!
         </Header>
         <Button inverted color='green' size='huge' as={Link} to='/profile/register'>Register</Button>

@@ -3,8 +3,6 @@ import { Container, Divider, Grid, Header, Icon } from 'semantic-ui-react'
 
 // Component for user's profile details
 const ProfileDetails = (props) => {
-
-  console.log(props.user);
   return(
     <Container>
       <Header size='huge' className='details'>Details</Header>
