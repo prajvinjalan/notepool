@@ -195,32 +195,27 @@
   text-align: center;
 
   &:nth-child(even) {
-    background: #eee;
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid #ddd;
+    background: #fafafa;
   }
 }
 
 .home.section.image {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 3rem;
   align-items: center;
 
-  div:first-child {
-    justify-self: right;
-  }
-
-  div:nth-child(2) {
-    justify-self: left;
+  div.text {
+    max-width: 400px;
+    padding: 5px;
   }
 
   img {
     height: 200px;
-    margin: 3px;
+    margin: 5px;
     box-shadow: 0px 0px 10px 5px #ddd;
+  }
+
+  #devicesImage {
+    box-shadow: none;
   }
 }
 
@@ -373,6 +368,44 @@ span.subtitle {
 
 // Responsiveness
 
+@media only screen and (min-width: 1280px) {
+  .home.section.image {
+    img {
+      height: 280px !important;
+    }
+  }
+}
+
+@media only screen and (min-width: 870px) {
+  .home.section.image {
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 3rem;
+
+    div:first-child {
+      justify-self: right;
+    }
+
+    div:nth-child(2) {
+      justify-self: left;
+    }
+  }
+}
+
+@media only screen and (max-width: 870px) {
+  .home.section.image {
+    grid-template-rows: [rowStart] 1fr [rowMid] 2fr [rowEnd];
+    justify-content: center;
+
+    div.text {
+      grid-row: rowStart / rowMid;
+    }
+
+    img {
+      grid-row: rowMid / rowEnd;
+    }
+  }
+}
+
 @media only screen and (max-width: 767px) and (min-width: 320px) {
   .ui.grid {
     .row.search {
@@ -394,5 +427,13 @@ span.subtitle {
 
   .ui.card > .content.not.mobile {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .home.section.image {
+    div.double img {
+      height: 150px;
+    }
   }
 }
