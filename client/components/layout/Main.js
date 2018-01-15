@@ -15,7 +15,7 @@ const Main = () => (
     <Navbar />
     <main className='main-container'>
       <Switch>
-        <Route exact path='/' component={Home}/>
+        <PrivateRoute exact path='/' component={Home}/>
         <PrivateRoute exact path='/notes' component={Notes}/>
         <Route path='/profile' component={Profile}/>
         <Route path='/auth_success' component={AuthSuccess} />

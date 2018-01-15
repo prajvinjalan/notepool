@@ -36,7 +36,7 @@ class LogReg extends Component {
         <Container className='logreg container'>
           <Header size='huge' className='logreg header'>{this.props.title}</Header>
           <p className='logreg paragraph'>{this.props.description}</p>
-          <Grid columns='equal'>
+          <Grid columns='equal' stackable>
             <Grid.Column verticalAlign='middle'>
               {this.props.isRegister &&
                 <Input fluid id="name" icon='user' iconPosition='left' placeholder='Name' onChange={this.handleInputChange} className='logreg input' />

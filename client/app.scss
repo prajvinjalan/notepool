@@ -134,7 +134,7 @@
   display: none !important;
 }
 
-// Login, Register, Setting, Details Pages
+// Login, Register, Home, Setting, Details Pages
 
 .logreg.container, .logreg.container.bottom, .settings.container, .details.container {
   margin: 30px auto;
@@ -184,6 +184,39 @@
   border-right: 1px solid #ddd;
   width: 1rem;
   height: 20rem;
+}
+
+.home.container {
+  width: 100%;
+}
+
+.home.section {
+  padding: 1rem;
+  text-align: center;
+
+  &:nth-child(even) {
+    background: #fafafa;
+  }
+}
+
+.home.section.image {
+  display: grid;
+  align-items: center;
+
+  div.text {
+    max-width: 400px;
+    padding: 5px;
+  }
+
+  img {
+    height: 200px;
+    margin: 5px;
+    box-shadow: 0px 0px 10px 5px #ddd;
+  }
+
+  #devicesImage {
+    box-shadow: none;
+  }
 }
 
 // Navbar
@@ -335,6 +368,44 @@ span.subtitle {
 
 // Responsiveness
 
+@media only screen and (min-width: 1280px) {
+  .home.section.image {
+    img {
+      height: 280px !important;
+    }
+  }
+}
+
+@media only screen and (min-width: 870px) {
+  .home.section.image {
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 3rem;
+
+    div:first-child {
+      justify-self: right;
+    }
+
+    div:nth-child(2) {
+      justify-self: left;
+    }
+  }
+}
+
+@media only screen and (max-width: 870px) {
+  .home.section.image {
+    grid-template-rows: [rowStart] 1fr [rowMid] 2fr [rowEnd];
+    justify-content: center;
+
+    div.text {
+      grid-row: rowStart / rowMid;
+    }
+
+    img {
+      grid-row: rowMid / rowEnd;
+    }
+  }
+}
+
 @media only screen and (max-width: 767px) and (min-width: 320px) {
   .ui.grid {
     .row.search {
@@ -356,5 +427,17 @@ span.subtitle {
 
   .ui.card > .content.not.mobile {
     display: none;
+  }
+
+  .ui.secondary.menu .item {
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .home.section.image {
+    div.double img {
+      height: 150px;
+    }
   }
 }

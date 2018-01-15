@@ -18,12 +18,32 @@ export const CaptureRouteNotFound = withRouter(({children, location}) => {
 const PrivateRouteComponent = ({ component: Component, ...rest }) => {
   // Returns the custom component if the user is authenticated
   if (rest.authenticated) {
+    if (rest.path === '/') { // Returns the notes page if user tries to go to home page while authenticated
+      return (
+        <Route {...rest} render={props => (
+          <Redirect to={{
+            pathname: '/notes',
+            state: { from: props.location }
+          }}/>
+        )}/>
+      )
+    }
     return (
       <Route {...rest} render={props => (
         <Component {...props}/>
       )}/>
     )
   }
+
+  // Returns the home page custom component if user is not authenticated and goes to default '/' path
+  if (rest.path === '/') {
+    return (
+      <Route {...rest} render={props => (
+        <Component {...props}/>
+      )}/>
+    )
+  }
+
   // Redirects to login page if user is not authenticated
   return (
     <Route {...rest} render={props => (
