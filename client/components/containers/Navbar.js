@@ -25,10 +25,10 @@ class Navbar extends Component {
       return(
         <Menu.Menu>
           <Menu.Item name='register'>
-            <Button inverted color='green' as={Link} to='/profile/register'>Register</Button>
+            <Button color='teal' as={Link} to='/profile/register'>Register</Button>
           </Menu.Item>
           <Menu.Item name='login'>
-            <Button inverted color='green' as={Link} to='/profile/login'>Login</Button>
+            <Button color='teal' as={Link} to='/profile/login'>Login</Button>
           </Menu.Item>
         </Menu.Menu>
       )
