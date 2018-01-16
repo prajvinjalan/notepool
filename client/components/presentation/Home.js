@@ -78,7 +78,7 @@ const Home = (props) => {
         <Header size='huge'>
           Try Notepool for free today!
         </Header>
-        <Button inverted color='green' size='huge' as={Link} to='/profile/register'>Register</Button>
+        <Button color='teal' size='huge' as={Link} to='/profile/register'>Register</Button>
       </div>
     </div>
   )
