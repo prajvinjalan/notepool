@@ -12,7 +12,6 @@ export const localRegister = (newUser) => (dispatch) => {
   // Dispatches login action if registration was successful
   return APIManager.post('/auth/register', newUser)
   .then(response => {
-    console.log(response.message);
     dispatch(registerSuccessAction({id: response.user.id, email: response.user.local.email, name: response.user.local.name}));
     dispatch(localLogin({
       email: newUser.email,
@@ -33,7 +32,6 @@ export const localLogin = (user) => (dispatch) => {
 
   return APIManager.post('/auth/login', user)
   .then(response => {
-    console.log(response.message);
     //setTimeout(() => {dispatch(loginSuccessAction(response.user))}, 1000);
     dispatch(loginSuccess({
       id: response.user.id,
@@ -95,7 +93,6 @@ export const authSuccess = () => (dispatch) => {
 export const logout = () => (dispatch) => {
   return APIManager.get('/auth/logout', null)
   .then(response => {
-    console.log(response.message);
     dispatch(logoutUserAction());
   })
   .catch(error => {

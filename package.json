@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "babel-node ./bin/www",
-    "devstart": "nodemon ./bin/www --exec babel-node"
+    "devstart": "nodemon ./bin/www --exec babel-node",
+    "build": "NODE_ENV=production webpack"
   },
   "dependencies": {
     "axios": "^0.16.2",
