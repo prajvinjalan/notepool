@@ -24,9 +24,11 @@ To have the build refresh on code changes, run the following commands on separat
 webpack -w
 npm run devstart
 ```
-Specifying ```PORT=<port>``` will change the port that the app runs on.  
-Specifying ```DEBUG=notepool:server``` will enable the debug function for the server.  
-Specifying ```NODE_ENV=dev``` will apply the Redux Logger middleware.
+Specifying ```PORT=<port>``` for ```npm run devstart``` will change the port that the app runs on.  
+Specifying ```DEBUG=notepool:server``` for ```npm run devstart``` will enable the debug function for the server.  
+Specifying ```NODE_ENV=production``` for ```webpack``` will disable the Redux Logger middleware.
+
+***IMPORTANT NOTE:*** Google and Facebook authentication will not work in local mode.
 
 ## TODO
 - [x] Socket.io for real-time collaborating
