@@ -8,10 +8,10 @@ import passport from 'passport'
 import expressValidator from 'express-validator'
 import session from 'express-session'
 
-import dbconfig from './server/config/database'
+//import dbconfig from './server/config/database'
 
 // connect to DB
-mongoose.connect(dbconfig.database, {
+mongoose.connect(process.env.MONGODB_URI, {
   useMongoClient: true
 });
 let db = mongoose.connection;
