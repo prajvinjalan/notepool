@@ -6,10 +6,10 @@
 git clone https://github.com/jalanp/notepool.git
 cd notepool
 ```
-2. Install dependencies and bundle using webpack:
+2. Install dependencies and build the app:
 ```
 npm install
-webpack
+npm run build
 ```
 3. Start the app:
 ```
