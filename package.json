@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "babel-node ./bin/www",
-    "devstart": "nodemon ./bin/www --exec babel-node",
-    "build": "webpack"
+    "start": "node dist/bin/www.js",
+    "devstart": "nodemon dist/bin/www.js",
+    "buildClient": "NODE_ENV=production webpack",
+    "buildServer": "babel bin/www -d dist & babel app.js -d dist & babel server -d dist/server",
+    "build": "npm run buildClient && npm run buildServer"
   },
   "dependencies": {
     "axios": "^0.16.2",
